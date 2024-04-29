@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.todoc.web.dao.UserDao">
+
+
+	<resultMap type="User" id="userMap" >
+		<id property="userId" column="USER_ID" />
+	    <result property="userId" column="USER_ID" />
+	    <result property="userPwd" column="USER_PWD" />
+	    <result property="userPhone" column="USER_PHONE" />
+	    <result property="userEmail" column="USER_EMAIL" />
+	    <result property="userEmailFlag" column="USER_EMAIL_FLAG" />
+	    <result property="userName" column="USER_NAME" />
+	    <result property="userStatus" column="USER_STATUS" />
+	    <result property="userFlag" column="USER_FLAG" />
+	    <result property="userRegdate" column="USER_REGDATE" />
+	    <result property="userZipcode" column="USER_ZIPCODE" />
+	    <result property="userAddr1" column="USER_ADDR1" />
+	    <result property="userAddr2" column="USER_ADDR2" />
+	</resultMap>
+
+
+	<select id="read" resultMap="userMap">
+	
+				SELECT *
+				  FROM GIBONG_USER
+				 WHERE USER_ID = #{userId}
+	</select>
+	
+
+
+</mapper>

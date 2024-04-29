@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http//www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/layout}"
+>
+  <head>
+    <title>건강매거진 상세 페이지</title>
+    <style>
+      .megazine-detail-container {
+        max-width: 768px;
+        margin: auto;
+      }
+
+      #location-box{
+        gap: 16px;
+      }
+
+      #location-box a, #location-box p{
+        color: rgb(169, 174, 177);
+      }
+
+      #megazine-content{
+        white-space: normal;
+      }
+
+      .bottom-box{
+        padding: 8px 16px;
+        border: 1px solid #212529;
+        border-radius: 8px;
+      }
+  
+      .fa-solid:not(.not-active) {
+        color: red;
+      }
+
+      #like, #share{
+        cursor: pointer;
+      }
+
+      .untact-btn{
+        width: 80%;
+        margin: 0 auto;
+        color: #fff;
+        padding: 8px;
+        background-color: rgb(247, 103, 7);
+        text-align: center;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+      }
+
+    </style>
+    <script>
+       $(document).ready(function () {like
+        $("#like").click(function () {
+          $(".fa-heart").toggleClass("fa-solid");
+          $(".fa-heart").toggleClass("fa-regular");
+        });
+
+      });
+    </script>
+  </head>
+  <div layout:fragment="content" class="megazine-detail-container">
+    <div style="padding: 8px; width: 768px">
+      <div style="width: 100%">
+        <div class="d-flex" id="location-box">
+          <div><p><a href="">홈</a></p></div>
+          <div><p><i class="fa-solid fa-chevron-right not-active"></i></p></div>
+          <div><p><a href="">건강매거진</a></p></div>
+          <div><p><i class="fa-solid fa-chevron-right not-active"></i></p></div>
+          <div><p><a href="">아기 열 내리는데....</a></p></div>
+        </div>
+        <div class="spacing-height-16"></div>
+        <div class="spacing-height-16"></div>
+        <div><h2>아기 열 내리는 효과적인 "미온수 마사지" 잘하는 방법</h2></div>
+        <div class="spacing-height-16"></div>
+        <div><h4>해열제를 먹고도 열이 난다면, 미온수 마사지를 해주세요.</h2></div>
+        <div><h6>2024.03.25</h6></div>
+        <div class="spacing-height-16"></div>
+        <div style="width: 80%; margin: 0 auto;" id="megazine-content">
+          <div><img src="https://health.chosun.com/site/data/img_dir/2019/12/06/2019120601447_0.jpg" width=""/></div>
+          <div class="spacing-height-16"></div>
+          <div class="spacing-height-16"></div>
+          본격적인 겨울 추위가 시작되면서 면역력이 약한 아이들은 다양한 원인에 의해 열이 나기 쉽다. 실제 아이들은 체온 조절 능력이 완전히 발달하지 않아 가벼운 감기에도 열이 잘 난다. 특히 3세 미만의 아이는 다른 합병증을 동반하지 않는 단순 감기에도 고열이 며칠 지속될 수 있다. 아이에게 열이 났을 때 어떻게 대처해야 하는지 알아본다.
+          열 나도, 잘 먹고 잘 놀면 위험 가능성 적어
+          감기의 원인이 되는 바이러스, 세균 등에 감염되면 우리 몸은 체온을 높여 면역 기능을 활성화시켜 바이러스 사멸에 유리한 환경을 만든다. 열이 나는 것은 아이 몸이 면역체계와 반응해 바이러스나 세균 등 외부 이물질과 싸우고 있다는 증거이다. 부천신중동 함소아한의원 함선희 원장은 “단순 감기로 인한 열이라면 아이의 체온과 컨디션을 수시로 체크하면서 아이가 감기를 잘 이겨낼 수 있도록 도와줘야 한다”며 “하지만 감기 외에 중이염, 폐렴, 세균성 편도염 등 여러 감기합병증이나 다른 질환에 의해서도 열이 날 수 있어 열이 났을 때는 원인이 무엇인지 전문의에게 진료를 받는 것이 안전하다” 고 말했다.
+          보통 감기 바이러스 등에 의한 발열은 3~4일 이상 지속되며 1주일까지 이어지기도 한다. 하지만 아이가 비교적 잘 먹고 잘 놀며, 전신 상태가 양호해 보이면 3~4일은 열을 지켜볼 수 있다. 건강한 어린이는 대부분 열이 나도 예후가 나쁘지 않고, 대부분의 상황에서 발열이 뇌 손상을 일으키지도 않는다. 열이 질환을 악화한다는 증거도 없다. 열 자체만으로 치명적인 손상을 염려하는 경우는 42도를 넘을 때다. 평소 건강하던 상황에서 발생한 바이러스 감염증이라면, 열이 41~42도 이상으로 오르는 경우는 거의 없다. 열은 대개 열이 나는 최고 온도가 서서히 낮아지고, 열이 나는 간격이 점차 줄어들면서 떨어지는 경우가 많다. 따라서 체온을 기록하여 변화 양상을 살펴보는 것이 도움이 된다. 단, 중증의 증상이 있는 경우에는 병원을 방문해 심각한 세균 감염은 아닌지 검사받는 게 안전하다. 발열이 과도하게 오래 지속되거나, 아기가 처지고, 잘 먹지 못하며, 활동성이 급격히 줄어들고 많이 아파 보이고, 발열 이외의 증상이 심해질 때다. 이때는 가벼운 바이러스성 질환이 아닐 가능성이 있다.​
+          아이 힘들어하고 처질 때 해열제 복용 도움
+          아이의 적정 체온은 성인보다 조금 높은 36~37.2도이다. 체온이 38.5도를 넘으면서 아이가 힘들어하거나 처질 때는 해열제 복용을 권한다. 함선희 원장은 "별다르게 아픈 증상이 없어도 열이 39.5도를 넘을 때도 해열제를 복용시키는 게 좋다"고 말했다. 이후 아이의 상태와 열이 떨어지는 여부를 지켜보고 나아지지 않으면 진료를 받는다. 함 원장은 "예전에 아이가 열성경련(열 경기)을 경험한 적이 있다면 미열의 경우라도 해열제를 복용하는 것이 좋다"고 말했다.
+          열이 정상 체온보다 조금 높아도 아이가 평소처럼 잘 놀고 아프거나 힘들어하지 않으면 약 없이 경과를 지켜봐도 된다. 함 원장은 "아이가 열감기를 스스로 이겨내는 경험을 몇 차례 하다 보면 이후 감기에 대한 면역력이 생겨 훨씬 효율적으로 이겨낼 수 있게 되고, 또한 열 자체도 스스로 조절을 할 수 있게 된다"고 말했다.
+          아이가 열이 날 때 대처 방법
+          1. 휴식과 충분한 수면
+          열이 나는 것은 아이가 바이러스 혹은 세균과 싸우고 있다는 신호이므로, 잘 싸워 이길 수 있는 체력을 만들어줘야 한다. 따라서 충분히 휴식을 취하게 하고 아이가 노는 중간에도 휴식 시간을 주면서 피로하지 않게 한다. 잠도 평소보다 일찍 재워 수면을 충분히 보충하게 한다. 아이가 자는 침실이 건조하지 않도록 50~60% 정도의 습도를 유지하는 것도 중요하다. 공기가 건조하면 코와 기관지의 점막이 마르면서 감염에 대한 저항력이 떨어진다.
+          2. 수분 보충과 부드러운 음식 섭취
+          열이 날 때 가장 주의해야 하는 것은 '탈수 증상'이므로 물을 잘 마시게 하는 것이 중요하다. 차가운 물은 피하고 한 번에 많은 양을 먹지 않더라도 조금씩 자주 물을 마시게 한다. 감기로 인한 열에는 보리차, 결명자차, 도라지차, 오미자차 등이 도움이 될 수 있다. 열이 날 때는 소화 기능도 저하되므로 소화가 잘되는 부드러운 음식 위주로 식사를 챙겨준다. 과일, 주스 등 익히지 않은 생(生)음식은 삼가고 끓인 물이 좋다. 아이가 물이나 식사를 하지 않으려고 한다면 누룽지 끓인 물을 마시게 하는 것도 도움이 된다.
+          3. 목욕 대신 물수건으로 닦아주기
+        </div>
+             
+        <div class="spacing-height-16"></div>
+        <div class="d-flex justify-content-between" style="width: 80%; margin: 0 auto;">
+          <div class="bottom-box" id="like"><i class="fa-regular fa-heart"></i>&nbsp;좋아요 2 </div>
+          <div class="bottom-box d-flex justify-content-center align-items-center" id="share" style="gap: 4px">
+            <div><img src="image/kakao.png" style="width: 24px; height: 24px"/></div>
+            <div>공유하기</div>
+            </div>
+        </div>
+        <div class="spacing-height-16"></div>
+        <div class="spacing-height-16"></div>
+        <div class="untact-btn"     onclick="window.location.href='http://localhost:8080/select-clinic-page'">비대면 진료 받으러가기</div>
+        <div class="spacing-height-16"></div>
+        <div class="d-flex justify-content-between" style="width: 80%; margin: 0 auto;">
+          <div><i class="fa-solid fa-arrow-left not-active"></i>&nbsp;이전 글</div>
+          <div>다음 글&nbsp;<i class="fa-solid fa-arrow-right not-active"></i></div>
+        </div>        
+        <div class="silver-hr"></div>
+        <div class="spacing-height-16"></div>
+        <div class="spacing-height-16"></div>
+        <div style="width: 80%; margin: 0 auto; border: 1px solid #212529; border-radius: 8px; padding: 16px;">
+          <div style="font-weight: 700;">영양제 뭐 먹을까?</div>
+          <div style="color: rgb(169, 174, 177); cursor: pointer;">의사에게 추천 받기 <i class="fa-solid fa-chevron-right not-active"></i></div>
+        </div>
+        <div class="spacing-height-16"></div>
+        <div class="spacing-height-16"></div>
+      </div>
+    </div>
+  </div>
+</html>

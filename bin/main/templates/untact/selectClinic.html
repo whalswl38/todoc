@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http//www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/layout}"
+>
+  <head>
+    <title>증상 선택</title>
+    <style>
+      .select-item-container {
+        max-width: 768px;
+        margin: auto;
+        width: 100%;
+      }
+
+      #lnb-container {
+        width: 124px;
+      }
+
+      #lnb-container a:not(.lnb-active) {
+        color: black;
+        font-size: 18px;
+      }
+
+      .lnb-active {
+        color:royalblue;
+        font-size: 18px;
+      }
+
+      .lnb-item {
+        padding: 8px;
+      }
+
+      .row {
+        gap: 8px;
+        margin-bottom: 12px;
+        padding: 0px 8px;
+      }
+
+      .filter-sort {
+        background-color: rgb(247, 249, 250);
+        border-radius: 20px;
+        padding: 8px 12px;
+        font-size: 14px;
+        color: rgb(141, 146, 151);
+        font-weight: 500;
+      }
+
+      .filter-box {
+        background-color: rgb(247, 249, 250);
+        border-radius: 16px;
+        padding: 8px 16px;
+        font-size: 14px;
+        color: rgb(141, 146, 151);
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      .clicked-background {
+        color: rgb(247, 103, 7);
+        background-color: #fff4e6;
+        border: 1px solid rgb(247, 103, 7);
+      }
+
+      .clicked-filter-background {
+        color: rgb(247, 103, 7);
+        background-color: #fff4e6;
+        border: 1px solid rgb(247, 103, 7);
+        position: relative;
+      }
+
+      .card-box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+      .card-image-box {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+      .card-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .clinicItem {
+        padding: 4px 6px;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 13px;
+        margin-right: 4px;
+      }
+      .filter-cnts-style {
+        position: absolute;
+        top: -6px;
+        right: 0px;
+      }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $(".filter-box").click(function () {
+          $(this).toggleClass("clicked-background");
+          const count = $(".clicked-background").length;
+          if (count > 0) {
+            $("#filter-cnt").addClass("clicked-filter-background");
+            $(".filter-cnts").remove();
+            let span = document.createElement("div");
+            span.classList.add("filter-cnts-style");
+            span.innerHTML = `<span class="filter-cnts" style="border-radius: 50%; font-size: 8px;background: red; color: #fff; padding: 2px 4px;">${count}</span>`;
+            $("#filter-cnt")[0].appendChild(span);
+          } else {
+            $("#filter-cnt").removeClass("clicked-filter-background");
+            $(".filter-cnts").remove();
+          }
+        });
+      });
+
+      function goToDetail() {
+        window.location.href =
+          "http://localhost:8080/select-clinic-detail-page";
+      }
+    </script>
+  </head>
+  <div layout:fragment="content" class="select-item-container">
+    <div class="spacing-height-16"></div>
+    <div class="d-flex justify-content-between" style="gap: 32px">
+      <div id="lnb-container">
+        <ul class="lnb flex-column">
+          <li class="lnb-item">
+            <a
+              class="lnb-link"
+              aria-current="page"
+              th:href="@{/select-subject-page}"
+              >병원찾기</a
+            >
+          </li>
+          <li class="lnb-item">
+            <a class="lnb-link" th:href="@{/select-item-page}">증상찾기</a>
+          </li>
+          <li class="lnb-item">
+            <a class="lnb-link lnb-active" th:href="@{/select-clinic-page}"
+              >병원 리스트</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div style="padding: 8px; width: 100%">
+        <div>
+          <div class="">
+            <div class="d-flex" style="gap: 16px">
+              <button class="" style="border: 0; background-color: #fff">
+                <div width="24" class="">
+                  <span class="" size="24" color="#1C1D1F"
+                    ><i
+                      class="fa-solid fa-chevron-left"
+                      style="font-size: 24px"
+                    ></i
+                  ></span>
+                </div>
+              </button>
+              <div class="" style="position: relative; width: 100%">
+                <form>
+                  <input
+                    tabindex="0"
+                    placeholder="증상, 질병, 병원을 검색해보세요"
+                    class=""
+                    value=""
+                    style="
+                      background-color: rgb(247, 249, 250);
+                      height: 28px;
+                      border: 0px;
+                      border-radius: 16px;
+                      padding: 8px 8px 8px 16px;
+                      width: calc(100% - 16px);
+                    "
+                  />
+                  <div
+                    class=""
+                    style="position: absolute; top: 4px; right: 0px"
+                  >
+                    <button
+                      type="submit"
+                      class=""
+                      style="
+                        padding: 4px;
+                        border: 0;
+                        background-color: transparent;
+                        color: rgb(141, 146, 151);
+                      "
+                    >
+                      <div width="24" class="">
+                        <span class="" size="24" color="#565C65"
+                          ><i class="fa-solid fa-magnifying-glass"></i
+                        ></span>
+                      </div>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="spacing-height-16"></div>
+          <div class="d-flex" style="gap: 8px">
+            <div id="filter-cnt" class="filter-sort">
+              <i class="fa-solid fa-bars"></i>
+            </div>
+            <div
+              style="
+                height: 28px;
+                width: 1px;
+                background: silver;
+                margin-top: 4px;
+              "
+            ></div>
+            <div class="filter-sort">
+              가까운 순 &nbsp;<i
+                class="fa-solid fa-chevron-down"
+                style="font-size: 10px"
+              ></i>
+            </div>
+            <div class="filter-box">
+              <i
+                class="fa-solid fa-location-crosshairs"
+                style="font-size: 12px"
+              ></i
+              >&nbsp;서교동
+            </div>
+            <div class="filter-box">간편예약</div>
+            <div class="filter-box">진료중</div>
+            <div class="filter-box">야간진료</div>
+            <div class="filter-box">전문의</div>
+          </div>
+          <div class="spacing-height-16"></div>
+          <div class="spacing-height-16"></div>
+          <div id="root" class="row" th:each="clinic : ${clinicList}">
+            <div class="col card-box d-flex" onclick="goToDetail()">
+              <div style="width: 60%">
+                <div class="d-flex align-items-center" style="gap: 8px">
+                  <div
+                    class=""
+                    style="color: #212529; font-size: 20px; font-weight: 500"
+                    th:text="${clinic.doctor}"
+                  ></div>
+                  <div
+                    class=""
+                    style="color: rgb(141, 146, 151)"
+                    th:text="${clinic.name}"
+                  ></div>
+                </div>
+                <div class="row" style="margin-bottom: 4px">
+                  <div class="col" style="padding-left: 4px">
+                    <span
+                      ><i class="fa-solid fa-star" style="color: #ffd43b"></i
+                    ></span>
+                    <span th:text="${clinic.avgRate}"></span
+                    ><span style="color: rgb(141, 146, 151)">(</span
+                    ><span
+                      th:text="${clinic.reviewCnt}"
+                      style="color: rgb(141, 146, 151)"
+                    ></span
+                    ><span style="color: rgb(141, 146, 151)">)</span>
+                  </div>
+                </div>
+                <div class="d-flex" style="gap: 8px; margin-bottom: 4px">
+                  <div
+                    style="color: green"
+                    th:if="${clinic.possibleTodayReservation}"
+                  >
+                    오늘 예약
+                  </div>
+                  <div
+                    style="
+                      height: 13px;
+                      width: 1px;
+                      background: silver;
+                      margin-top: 5px;
+                    "
+                    th:if="${clinic.possibleTodayReservation}"
+                  ></div>
+                  <div
+                    th:text="${clinic.todayTime}"
+                    th:if="${clinic.possibleTodayReservation}"
+                    style="color: rgb(141, 146, 151)"
+                  ></div>
+                </div>
+                <div>
+                  <span
+                    class="clinicItem"
+                    th:text="${clinic.clinicItem}"
+                    th:if="${clinic.clinicItem}"
+                    style="
+                      color: rgb(34, 139, 230);
+                      background-color: rgb(231, 245, 255);
+                    "
+                  ></span>
+                  <span
+                    class="clinicItem"
+                    th:if="${clinic.videoDiagnosis}"
+                    style="
+                      color: rgb(169, 174, 177);
+                      background-color: rgb(245, 246, 247);
+                    "
+                    >영상진료</span
+                  >
+                </div>
+              </div>
+              <div class="card-image-box" style="background: #bdbdbd">
+                <img class="card-image" th:src="${clinic.profileImg}" />
+              </div>
+            </div>
+            <div
+              style="
+                width: calc(100% - 30px);
+                height: 1px;
+                background: rgb(169, 174, 177);
+                margin: 12px 0px;
+                opacity: 0.4;
+              "
+            ></div>
+          </div>
+        </div>
+        <div class="spacing-height-16"></div>
+        <div class="spacing-height-16"></div>
+      </div>
+    </div>
+  </div>
+  <!-- <script>
+    let currentPage = 1;
+    let isFetching = false;
+    let hasMore = true;
+
+    let root = document.getElementById("root");
+
+    async function fetchData() {
+      isFetching = true;
+      let response = await fetch(
+        `https://jsonplaceholder.typicode.com/posts?_page=${currentPage}`
+      );
+      let data = await response.json();
+      console.log(data);
+
+      isFetching = false;
+
+      if (data.length === 0) {
+        hasMore = false;
+        return;
+      }
+
+      for (let post of data) {
+        let div = document.createElement("div");
+        div.innerHTML = `<h2>${post.title}</h2><p>${post.body}</p>`;
+        root.appendChild(div);
+      }
+      currentPage++;
+    }
+
+    window.addEventListener("scroll", () => {
+      if (isFetching || !hasMore) {
+        return;
+      }
+
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        fetchData();
+      }
+    });
+
+    fetchData();
+  </script> -->
+</html>

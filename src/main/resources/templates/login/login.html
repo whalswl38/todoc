@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http//www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/layout}"
+>
+  <head>
+    <title>로그인</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+      }
+
+      .login-container {
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+        width: 300px;
+      }
+
+      h2 {
+        text-align: center;
+        color: #333;
+      }
+
+      .role-selection {
+        margin: 20px 0;
+        display: flex;
+        justify-content: space-between;
+
+        > div {
+          flex: 1;
+          text-align: center;
+          padding: 8px;
+        }
+      }
+
+      .role-selection button {
+        background: #efefef;
+        border: 1px solid #ddd;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .role-selection button.active {
+        background: #0056b3;
+        color: white;
+        border-color: #0056b3;
+      }
+
+      .input-group {
+        margin-bottom: 10px;
+      }
+
+      .input-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+
+      .form-group {
+        text-align: center;
+      }
+
+      .login-btn {
+        width: 100%;
+        height: 40px;
+        background: rgb(247, 103, 7);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .register-link,
+      .oauth-login {
+        text-align: center;
+        margin-top: 20px;
+        cursor: pointer;
+      }
+
+      .oauth-login img {
+        width: 36px;
+        height: 36px;
+        margin-right: 10px;
+        vertical-align: middle;
+      }
+
+      .find-register {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      button:hover,
+      .login-btn:hover {
+        opacity: 0.8;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .toggle-switch {
+        display: flex;
+      }
+
+      .toggle-option {
+        padding: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .selected {
+        border-bottom: 2px solid rgb(247, 103, 7);
+        color: rgb(247, 103, 7);
+        font-weight: 500;
+      }
+    </style>
+    <script>
+      function toggleSwitch(option) {
+        var leftOption = document.getElementById("normal-user");
+        var rightOption = document.getElementById("medical-user");
+
+        leftOption.classList.remove("selected");
+        rightOption.classList.remove("selected");
+
+        if (option === "left") {
+          leftOption.classList.add("selected");
+        } else {
+          rightOption.classList.add("selected");
+        }
+      }
+
+      function goToRegister() {
+        if ($("#normal-user").hasClass("selected")) {
+          window.location.href = "http://localhost:8080/register-page";
+        } else {
+          window.location.href = "http://localhost:8080/medical-register-page";
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <div layout:fragment="content" class="login-container">
+      <div class="role-selection">
+        <div
+          id="normal-user"
+          class="toggle-option selected"
+          onclick="toggleSwitch('left')"
+        >
+          개인회원
+        </div>
+        <div
+          id="medical-user"
+          class="toggle-option"
+          onclick="toggleSwitch('right')"
+        >
+          병원/약국회원
+        </div>
+      </div>
+
+      <form th:action="@{/login}" method="post">
+        <div class="input-group">
+          <input type="text" name="username" placeholder="아이디" required />
+        </div>
+        <div class="input-group">
+          <input
+            type="password"
+            name="password"
+            placeholder="비밀번호"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <button type="submit" class="login-btn">로그인</button>
+        </div>
+      </form>
+
+      <div class="find-register">
+        <div class="register-link">
+          <a href="/register">아이디 찾기</a>
+        </div>
+        <div class="register-link">
+          <a href="/register">비밀번호 찾기</a>
+        </div>
+        <div class="register-link" onClick="goToRegister()">회원가입</div>
+      </div>
+
+      <div class="oauth-login">
+        <div
+          style="display: flex; height: 36px; align-items: center; padding: 8px"
+        >
+          <div style="border: 1px solid silver; height: 0px; flex: 1"></div>
+          <div style="flex: 1">간편 로그인</div>
+          <div style="border: 1px solid silver; height: 0px; flex: 1"></div>
+        </div>
+
+        <a href="/oauth2/authorization/kakao"
+          ><img src="image/google.png" alt="Google"
+        /></a>
+        <a href="/oauth2/authorization/kakao"
+          ><img src="image/naver.png" alt="Naver"
+        /></a>
+        <a href="/oauth2/authorization/kakao"
+          ><img src="image/kakao.png" alt="Kakao"
+        /></a>
+      </div>
+    </div>
+  </body>
+</html>

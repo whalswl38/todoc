@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http//www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/layout}"
+>
+  <head>
+    <title>마이페이지</title>
+    <style>
+      .mypage-container {
+        max-width: 768px;
+        margin: auto;
+      }
+
+      .silver-hr {
+        width: 100%;
+        height: 1px;
+        background: #a9aeb1;
+        margin: 12px 0;
+        opacity: 0.4;
+      }
+
+      h2 {
+        margin-bottom: 0;
+      }
+
+      p {
+        font-weight: 500;
+        padding: 4px 0px;
+      }
+
+      .status-icon {
+        border-radius: 50%;
+        margin-bottom: 8px;
+        background-color: rgb(247, 249, 250);
+        font-size: 14px;
+      }
+
+      .status-process {
+        width: 54px;
+        height: 2px;
+        margin-top: 8px;
+        background-color: #a9aeb1;
+        position: absolute;
+        right: -51px;
+      }
+
+      .status {
+        display: flex;
+        align-items: center;
+        color: rgb(141, 146, 151);
+        font-weight: 500;
+        position: relative;
+      }
+
+      .status-icon-active {
+        color: royalblue;
+        border: 1px solid transparent;
+        background-color: lightblue;
+        padding: 2px 4px;
+        margin-bottom: 4px;
+      }
+
+      .status-active {
+        color: royalblue;
+      }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $(".tab").click(function () {
+          $(".clicked-background").removeClass("clicked-background");
+          $(this).addClass("clicked-background");
+        });
+      });
+    </script>
+  </head>
+  <div layout:fragment="content" class="mypage-container">
+    <div class="spacing-height-16"></div>
+    <div class="d-flex justify-content-between" style="gap: 32px">
+      <div style="padding: 8px; width: 450px">
+        <div class="mypage-details">
+          <div
+            style="
+              text-align: center;
+              background-color: rgb(255, 244, 230);
+              padding: 8px;
+            "
+          >
+            <h2>마이페이지</h2>
+          </div>
+          <div class="d-flex justify-content-between p-3">
+            <div
+              class="d-flex justify-content-center align-items-center"
+              style="flex: 1; flex-direction: column"
+            >
+              <div style="color: #ffe1c0; font-weight: 500">6</div>
+              <div style="cursor: pointer">나의 봉사활동</div>
+            </div>
+            <div
+              class="d-flex justify-content-center align-items-center"
+              style="flex: 1; flex-direction: column"
+            >
+              <div>0</div>
+              <div style="cursor: pointer">나의 진료내역</div>
+            </div>
+            <div
+              class="d-flex justify-content-center align-items-center"
+              style="flex: 1; flex-direction: column"
+            >
+              <div style="color: #ffe1c0; font-weight: 500">1</div>
+              <div style="cursor: pointer">나의 리뷰내역</div>
+            </div>
+          </div>
+          <div class="silver-hr"></div>
+          <div class="d-flex justify-content-between align-items-center">
+            <div><h4>진료 신청</h4></div>
+            <div>
+              <h6 style="color: dodgerblue; cursor: pointer">진료 취소</h6>
+            </div>
+          </div>
+
+          <div class="spacing-height-16"></div>
+          <div
+            class="status-container d-flex justify-content-center"
+            style="gap: 40px"
+          >
+            <div class="status" style="flex-direction: column">
+              <div class="status-icon">
+                <i
+                  class="fa-solid fa-circle"
+                  style="color: rgb(141, 146, 151)"
+                ></i>
+              </div>
+              <div>접수</div>
+              <div class="status-process"></div>
+            </div>
+
+            <div class="status" style="flex-direction: column">
+              <div class="status-icon status-icon-active">
+                <i class="fa-solid fa-circle"></i>
+              </div>
+              <div class="status-active">접수완료</div>
+              <div
+                class="status-process"
+                style="width: 76px; right: -64px"
+              ></div>
+            </div>
+
+            <div class="status" style="flex-direction: column">
+              <div class="status-icon">
+                <i
+                  class="fa-solid fa-circle"
+                  style="color: rgb(141, 146, 151)"
+                ></i>
+              </div>
+              <div>진료실 입장</div>
+              <div
+                class="status-process"
+                style="width: 68px; right: -44px"
+              ></div>
+            </div>
+            <div class="status" style="flex-direction: column">
+              <div class="status-icon">
+                <i
+                  class="fa-solid fa-circle"
+                  style="color: rgb(141, 146, 151)"
+                ></i>
+              </div>
+              <div>종료</div>
+            </div>
+          </div>
+          <div class="spacing-height-16"></div>
+          <div
+            style="
+              background-color: royalblue;
+              border-radius: 8px;
+              padding: 16px;
+            "
+          >
+            <div style="color: #fff">
+              <span style="font-weight: 700">최대 6분 이내</span> 진료가
+              시작되요
+            </div>
+            <div
+              class="d-flex align-items-center p-2"
+              style="gap: 16px; color: #fff"
+            >
+              <div>@@소아청소년과의원</div>
+              <div
+                style="width: 1px; height: 10px; background-color: #fff"
+              ></div>
+              <div>
+                김은희 의사&nbsp;<i
+                  class="fa-solid fa-circle-info"
+                  style="color: #ece9e9"
+                ></i>
+              </div>
+            </div>
+            <div
+              class="d-flex justify-content-center align-items-center p-3"
+              style="
+                background-color: cornflowerblue;
+                color: #fff;
+                border-radius: 16px;
+                opacity: 0.6;
+                cursor: pointer;
+              "
+            >
+              진료실 입장하기
+            </div>
+          </div>
+          <div class="silver-hr"></div>
+
+          <div class="p-2 d-flex align-items-center justify-content-between">
+            <div style="cursor: pointer">
+              <p>회원정보수정</p>
+            </div>
+            <div style="cursor: pointer">
+              <i
+                class="fa-solid fa-chevron-right"
+                style="color: rgb(141, 146, 151)"
+              ></i>
+            </div>
+          </div>
+          <div class="p-2 d-flex align-items-center justify-content-between">
+            <div style="cursor: pointer">
+              <p>나의 봉사활동</p>
+            </div>
+            <div style="cursor: pointer">
+              <i
+                class="fa-solid fa-chevron-right"
+                style="color: rgb(141, 146, 151)"
+              ></i>
+            </div>
+          </div>
+          <div class="p-2 d-flex align-items-center justify-content-between">
+            <div style="cursor: pointer">
+              <p>나의 봉사후기</p>
+            </div>
+            <div style="cursor: pointer">
+              <i
+                class="fa-solid fa-chevron-right"
+                style="color: rgb(141, 146, 151)"
+              ></i>
+            </div>
+          </div>
+          <div class="p-2 d-flex align-items-center justify-content-between">
+            <div style="cursor: pointer">
+              <p>나의 후원내역</p>
+            </div>
+            <div style="cursor: pointer">
+              <i
+                class="fa-solid fa-chevron-right"
+                style="color: rgb(141, 146, 151)"
+              ></i>
+            </div>
+          </div>
+        </div>
+        <div class="spacing-height-16"></div>
+        <div class="spacing-height-16"></div>
+      </div>
+    </div>
+  </div>
+</html>

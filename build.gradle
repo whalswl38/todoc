@@ -40,16 +40,8 @@ dependencies {
    testImplementation 'org.springframework.boot:spring-boot-starter-test'
    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.2.0'
    testImplementation 'org.springframework.security:spring-security-test'
-   
-   // json
-   implementation 'org.json:json:20210307'
-   
-   // sms
-   implementation group: 'net.nurigo', name: 'javaSDK', version: '2.2'
-   
-   // jwt
    implementation 'com.auth0:java-jwt:4.2.1'
-   //implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+   implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
 tasks.named('test') {

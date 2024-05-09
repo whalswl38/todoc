@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.todoc.web.dao.ClinicContactDao">
+	<resultMap type="ClinicContact" id="ClinicContactMap">
+		<id property="clinicEmail" column="CLINIC_EMAIL" />
+		<result property="clinicInstinum" column="CLINIC_INSTINUM" />
+		<result property="clinicRegnum" column="CLINIC_REGNUM" />
+		<result property="clinicPhone" column="CLINIC_PHONE" />
+		<result property="clinicName" column="CLINIC_NAME" />
+		<result property="clinicSubject" column="CLINIC_SUBJECT" />
+		<result property="clinicSymptom" column="CLINIC_SYMPTOM" />
+		<result property="userEmail" column="USER_EMAIL" />
+		<result property="userPwd" column="USER_PWD" />
+		<result property="clinicDay" column="CLINIC_DAY" />
+		<result property="clinicTime" column="CLINIC_TIME" />
+		<result property="clinicDayoff" column="CLINIC_DAYOFF" />
+		<result property="clinicZipcode" column="CLINIC_ZIPCODE" />
+		<result property="clinicAddr" column="CLINIC_ADDR" />
+		<result property="clinicNonBenefit" column="CLINIC_NON_BENEFIT" />
+		<result property="clinicContactFlag" column="CLINIC_CONTACT_FLAG" />
+		<result property="clinicDetail" column="CLINIC_DETAIL" />
+		<result property="clinicStatus" column="CLINIC_STATUS" />
+		<result property="clinicDoctor" column="CLINIC_DOCTOR" />
+		<result property="clinicRefreshToken" column="CLINIC_REFRESH_TOKEN" />
+		<result property="clinicFax" column="CLINIC_FAX" />
+		<result property="clinicCareer" column="CLINIC_CAREER" />
+		<result property="clinicBreak" column="CLINIC_BREAK" />
+		<result property="clinicNight" column="CLINIC_NIGHT" />
+		<result property="clinicWeekend" column="CLINIC_WEEKEND" />
+	
+	</resultMap>
+	
+	<select id="clinicList" resultMap="ClinicContactMap">
+		SELECT *
+		FROM TD_CLINIC
+		WHERE CLINIC_CONTACT_FLAG = 'C'
+	</select>
+	
+	<select id="clinicListTotal" parameterType="ClinicContact" resultMap="ClinicContactMap">
+		SELECT *
+		FROM TD_CLINIC
+		WHERE CLINIC_CONTACT_FLAG = 'C'
+		<if test='textSearch != "" and textSearch != null'>
+		AND CLINIC_SYMPTOM LIKE '%' || #{textSearch} || '%'
+		OR CLINIC_SUBJECT LIKE '%' || #{textSearch} || '%'
+		OR CLINIC_NAME LIKE '%' || #{textSearch} || '%'
+		</if>
+	</select>
+	
+	<select id="clinicListCategory" parameterType="com.todoc.web.dto.ClinicContact" resultMap="ClinicContactMap">
+		SELECT *
+		FROM TD_CLINIC
+		WHERE CLINIC_CONTACT_FLAG = 'C'
+		<if test='category != "" and category != null and searchValue != "" and searchValue != null'>
+			<choose>
+				<when test='category == "1"'>
+					AND CLINIC_SUBJECT LIKE '%' || #{searchValue} || '%'
+				</when>
+				<when test='category == "2"'>
+					AND CLINIC_SYMPTOM LIKE '%' || #{searchValue} || '%'
+				</when>
+			</choose>
+		</if>
+		<if test='clinicNight != "" and clinicNight != null'>
+					AND CLINIC_NIGHT='Y'
+		</if>
+		<if test='clinicWeekend != "" and clinicWeekend != null'>
+					AND CLINIC_WEEKEND='Y'
+		</if>
+		<if test='textSearch != "" and textSearch != null'>
+					AND CLINIC_NAME LIKE '%' || #{textSearch} || '%'
+		</if>
+		<if test='guValue != "" and guValue != null'>
+		
+					AND CLINIC_ADDR LIKE '%' || #{guValue} || '%'
+		</if>
+	</select>
+	
+	<select id="clinicTimeList"  resultMap="ClinicContactMap">
+		SELECT CLINIC_INSTINUM,CLINIC_TIME
+		FROM TD_CLINIC
+		WHERE CLINIC_CONTACT_FLAG = 'C'
+	</select>
+	
+	
+	<select id="clinicDetail" resultMap="ClinicContactMap">
+		SELECT *
+		FROM TD_CLINIC
+		WHERE CLINIC_INSTINUM=#{value}
+	</select>
+	
+
+	
+
+</mapper>

@@ -126,7 +126,7 @@ public class TestController {
     public String test23() {
         return "chat/chatMessageDetail";
     }
-
+/*
     @GetMapping("/clinic-list-page")
     public String test24(Model model) {
         List<ClinicList> list = new ArrayList<>();
@@ -143,11 +143,12 @@ public class TestController {
         list.add(item5);
         list.add(item6);
         model.addAttribute("clinicList", list);
-        return "clinic/clinicList";
+        return "contact/clinicList";
     }
-
+*/
     @GetMapping("/review-page")
     public String test25() {
         return "mypage/review";
     }
+
 }

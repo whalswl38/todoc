@@ -53,6 +53,17 @@
         gap: 8px;
         margin-bottom: 12px;
       }
+       .filter-sort {
+        background-color: rgb(247, 249, 250);
+        border-radius: 20px;
+        padding: 10px 20px 10px 20px ;
+        font-size: 14px;
+        color: rgb(141, 146, 151);
+        font-weight: 500;
+        min-width: 40px;
+        text-align: center;
+        cursor: pointer;
+      }
     </style>
     <script>
       $("#collaspe-btn").click;
@@ -62,6 +73,12 @@
           $(this).hide();
         });
       });
+      
+      function goToList(searchValue) {
+    	  window.location.href = 
+    		  "/clinic-contact-category-list?category=2&clinicNight=&searchValue="+searchValue+"&clinicNight=&clinicWeekend=&textSearch=";
+      }
+      
     </script>
   </head>
   <div layout:fragment="content" class="select-item-container">
@@ -73,47 +90,56 @@
             <a
               class="lnb-link"
               aria-current="page"
-              th:href="@{/select-subject-page}"
+              th:href="@{/clinic-contact-subject-page}"
               >병원찾기</a
             >
           </li>
           <li class="lnb-item">
-            <a class="lnb-link lnb-active" th:href="@{/select-item-page}"
+            <a class="lnb-link lnb-active" th:href="@{/clinic-contact-item-page}"
               >증상찾기</a
             >
           </li>
           <li class="lnb-item">
-            <a class="lnb-link" th:href="@{/select-clinic-page}">병원 리스트</a>
+            <a class="lnb-link" th:href="@{/clinic-contact-category-list}">병원 리스트</a>
           </li>
         </ul>
       </div>
       <div style="padding: 16px">
-        <div><h4>증상찾기</h4></div>
+      <div style="display: flex;">
+	    <div style="flex: 1;">
+	        <h4>증상찾기(대면)</h4>
+	    </div>
+	    <div class="filter-sort" style="color: royalblue; background-color: #e0ecff; border: 1px solid royalblue;">
+	        <a href="/select-item-page" style="text-decoration: none; color: inherit; ">
+	            비대면진료 찾으러가기
+	        </a>
+	    </div>
+	  </div>
         <div class="spacing-height-16"></div>
         <div>
           <div class="row">
-            <div class="col item-box">
+            <div class="col item-box" th:onclick="goToList(21)" >
               <div class="item-image">
                 <div>
 					<div>감기/몸살</div>
                 </div>
               </div>
             </div>
-            <div class="col item-box">
+            <div class="col item-box" th:onclick="goToList(22)">
               <div class="item-image">
                 <div>
  					<div>소화불량</div>
                 </div>
               </div>            
             </div>
-            <div class="col item-box">
+            <div class="col item-box" th:onclick="goToList(23)">
               <div class="item-image">
                 <div>
               		<div>소아과</div>
                 </div>
               </div>
             </div>
-            <div class="col item-box">
+            <div class="col item-box" th:onclick="goToList(24)">
               <div class="item-image">
                 <div>
 				  <div>비염</div>
@@ -122,28 +148,28 @@
             </div>
           </div>
           <div class="row">
-            <div class="col item-box">
+            <div class="col item-box" th:onclick="goToList(25)">
               <div class="item-image">
                 <div>
                  <div>여드름</div>
                 </div>
               </div>
             </div>
-            <div class="col item-box">
+            <div class="col item-box" th:onclick="goToList(26)">
               <div class="item-image">
                 <div>
 				  <div>탈모</div>
                 </div>
               </div>
             </div>
-            <div class="col item-box">
+            <div class="col item-box" th:onclick="goToList(27)">
               <div class="item-image">
                 <div>
                  <div>다이어트</div>
                 </div>
               </div>
             </div>
-            <div class="col item-box">
+            <div class="col item-box" th:onclick="goToList(28)">
               <div class="item-image">
                 <div>
                    <div>인공눈물</div>
@@ -171,62 +197,92 @@
           </div>
           <div class="collapse" id="collapse">
             <div class="row">
-              <div class="col item-box">
+              <div class="col item-box" th:onclick="goToList(29)">
                 <div class="item-image">
                   <div>
-				    <div>감기/몸살</div>
+				    <div>위염</div>
                   </div>
                 </div>
                 
               </div>
-              <div class="col item-box">
+              <div class="col item-box" th:onclick="goToList(30)">
                 <div class="item-image">
                   <div>
- 					<div>소화불량</div>
+ 					<div>장염</div>
                   </div>
                 </div>   
               </div>
-              <div class="col item-box">
+              <div class="col item-box" th:onclick="goToList(31)">
                 <div class="item-image">
                   <div>
-                   <div>소아과</div>
+                   <div>당뇨</div>
                   </div>
                 </div>
               </div>
-              <div class="col item-box">
+              <div class="col item-box" th:onclick="goToList(32)">
                 <div class="item-image">
                   <div>
-                    <div>비염</div>
+                    <div>고혈압</div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="row">
-              <div class="col item-box">
+              <div class="col item-box" th:onclick="goToList(33)">
                 <div class="item-image">
                   <div>
-					<div>여드름</div>
+					<div>여성질환</div>
                   </div>
                 </div>   
               </div>
-              <div class="col item-box">
+              <div class="col item-box" th:onclick="goToList(34)">
                 <div class="item-image">
                   <div>
-                   <div>탈모</div>
+                   <div>만성질환</div>
                   </div>
                 </div>
               </div>
-              <div class="col item-box">
+              <div class="col item-box" th:onclick="goToList(35)">
                 <div class="item-image">
                   <div>
-  					 <div>다이어트</div>
+  					 <div>복통</div>
                   </div>
                 </div>
               </div>
-              <div class="col item-box">
+              <div class="col item-box" th:onclick="goToList(36)">
                 <div class="item-image">
                   <div>
-					<div>인공눈물</div>
+					<div>두통</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col item-box" th:onclick="goToList(37)">
+                <div class="item-image">
+                  <div>
+					<div>주의력저하</div>
+                  </div>
+                </div>   
+              </div>
+              <div class="col item-box" th:onclick="goToList(38)">
+                <div class="item-image">
+                  <div>
+                   <div>우울증</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col item-box" th:onclick="goToList(39)">
+                <div class="item-image">
+                  <div>
+  					 <div>치아</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col item-box" th:onclick="goToList(40)">
+                <div class="item-image">
+                  <div>
+					<div>기력저하</div>
                   </div>
                 </div>
               </div>

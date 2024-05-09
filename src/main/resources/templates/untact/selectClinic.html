@@ -44,9 +44,11 @@
         font-size: 14px;
         color: rgb(141, 146, 151);
         font-weight: 500;
+        cursor: pointer;
       }
 
-      .filter-box {
+      .filter-box,
+      .filter-location {
         background-color: rgb(247, 249, 250);
         border-radius: 16px;
         padding: 8px 16px;
@@ -99,6 +101,30 @@
         top: -6px;
         right: 0px;
       }
+
+      /* 아래에서 위로 애니메이션 */
+      @keyframes fadeInUp {
+        0% {
+          opacity: 0;
+          transform: translate3d(0, 100%, 0);
+        }
+        to {
+          opacity: 1;
+          transform: translateZ(0);
+        }
+      }
+
+      .fade-up {
+        /* 속도 조절 */
+        animation: fadeInUp 0.3s;
+      }
+
+      .sort-box {
+        font-size: 18px;
+        font-weight: 500;
+        padding: 16px;
+        cursor: pointer;
+      }
     </style>
     <script>
       $(document).ready(function () {
@@ -122,6 +148,17 @@
       function goToDetail() {
         window.location.href =
           "http://localhost:8080/select-clinic-detail-page";
+      }
+
+      function setSort(sort) {
+        $("#sort").removeClass("clicked-background");
+        if (sort != null && sort != "") {
+          $("#sort-text").text(sort);
+          $("#sort").addClass("clicked-background");
+        } else {
+          $("#sort-text").text("가까운 순");
+          $("#sort").addClass("clicked-background");
+        }
       }
     </script>
   </head>
@@ -216,13 +253,23 @@
                 margin-top: 4px;
               "
             ></div>
-            <div class="filter-sort">
-              가까운 순 &nbsp;<i
+            <div
+              id="sort"
+              class="filter-sort"
+              data-bs-toggle="modal"
+              data-bs-target="#sortModal"
+            >
+              <span id="sort-text">가까운 순</span> &nbsp;<i
                 class="fa-solid fa-chevron-down"
                 style="font-size: 10px"
               ></i>
             </div>
-            <div class="filter-box">
+
+            <div
+              class="filter-location"
+              data-bs-toggle="modal"
+              data-bs-target="#locationModal"
+            >
               <i
                 class="fa-solid fa-location-crosshairs"
                 style="font-size: 12px"
@@ -325,6 +372,73 @@
         </div>
         <div class="spacing-height-16"></div>
         <div class="spacing-height-16"></div>
+      </div>
+    </div>
+
+    <!-- 정렬 모달 -->
+    <div
+      class="modal fade-up"
+      id="sortModal"
+      tabindex="-1"
+      aria-labelledby="sortModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog fixed-bottom">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="sortModalLabel">
+              어떤 기준으로 정렬할까요?
+            </h5>
+          </div>
+          <div class="modal-body">
+            <div
+              class="sort-box"
+              onclick="setSort('필터1')"
+              data-bs-dismiss="modal"
+            >
+              필터1
+            </div>
+            <div
+              class="sort-box"
+              onclick="setSort('필터2')"
+              data-bs-dismiss="modal"
+            >
+              필터2
+            </div>
+            <div
+              class="sort-box"
+              onclick="setSort('필터3')"
+              data-bs-dismiss="modal"
+            >
+              필터3
+            </div>
+            <div
+              class="sort-box"
+              onclick="setSort('필터4')"
+              data-bs-dismiss="modal"
+            >
+              필터4
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 위치 모달 -->
+    <div
+      class="modal fade-up modal-dialog-scrollable"
+      id="locationModal"
+      tabindex="-1"
+      aria-labelledby="locationModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog fixed-bottom">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="locationModalLabel">위치 선택</h5>
+          </div>
+          <div class="modal-body"></div>
+        </div>
       </div>
     </div>
   </div>

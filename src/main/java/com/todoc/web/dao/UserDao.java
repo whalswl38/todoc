@@ -8,4 +8,8 @@ import com.todoc.web.dto.User;
 public interface UserDao {
 	// 게시글 목록 조회
 	public User read (String userId) throws Exception;
+	
+	
+	
+	
 }

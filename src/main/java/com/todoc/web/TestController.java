@@ -11,23 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping
 public class TestController {
 
-    @GetMapping("/login-page")
-    public String test1( ) {
-        return "login/login";
-    }
-
     @GetMapping("/main-page")
     public String test2( ) {
         return "main/main";
-    }
-
-    @GetMapping("/register-page")
-    public String test3( ) {
-        return "login/register";
-    }
-    @GetMapping("/medical-register-page")
-    public String test4( ) {
-        return "login/medicalRegister";
     }
     @GetMapping("/select-subject-page")
     public String test5( ) {

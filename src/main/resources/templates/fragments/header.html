@@ -45,9 +45,12 @@
             <!-- <li sec:authorize="hasAuthority('ROLE_ADMIN')">
               <a href="/admin" th:href="@{/admin}">Admin</a>
             </li> -->
-            <!-- <li sec:authorize="hasAuthority('ROLE_USER')">
-              <a href="/user" th:href="@{/user}">User</a>
+			<!--<li sec:authorize="hasAuthority('ROLE_USER')">
+              <a href="/user" th:href="@{/mypage/**}">마이페이지</a>
             </li> -->
+            <li sec:authorize="hasAuthority('ROLE_USER')">
+              <a href="/user" th:href="@{/logout}">로그아웃</a>
+            </li>
             <li sec:authorize="!isAuthenticated()">
               <a href="../login/login.html" th:href="@{/login-page}">로그인</a>
             </li>

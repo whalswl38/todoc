@@ -23,7 +23,7 @@
       }
 
       .lnb-active {
-        color:royalblue;
+        color: red;
         font-size: 18px;
       }
 
@@ -44,9 +44,11 @@
         font-size: 14px;
         color: rgb(141, 146, 151);
         font-weight: 500;
+        cursor: pointer;
       }
 
-      .filter-box {
+      .filter-box,
+      .filter-location {
         background-color: rgb(247, 249, 250);
         border-radius: 16px;
         padding: 8px 16px;
@@ -99,6 +101,30 @@
         top: -6px;
         right: 0px;
       }
+
+      /* 아래에서 위로 애니메이션 */
+      @keyframes fadeInUp {
+        0% {
+          opacity: 0;
+          transform: translate3d(0, 100%, 0);
+        }
+        to {
+          opacity: 1;
+          transform: translateZ(0);
+        }
+      }
+
+      .fade-up {
+        /* 속도 조절 */
+        animation: fadeInUp 0.3s;
+      }
+
+      .sort-box {
+        font-size: 18px;
+        font-weight: 500;
+        padding: 16px;
+        cursor: pointer;
+      }
     </style>
     <script>
       $(document).ready(function () {
@@ -121,7 +147,18 @@
 
       function goToDetail() {
         window.location.href =
-          "http://localhost:8080/select-clinic-detail-page";
+          "http://localhost:8099/select-clinic-detail-page";
+      }
+
+      function setSort(sort) {
+        $("#sort").removeClass("clicked-background");
+        if (sort != null && sort != "") {
+          $("#sort-text").text(sort);
+          $("#sort").addClass("clicked-background");
+        } else {
+          $("#sort-text").text("가까운 순");
+          $("#sort").addClass("clicked-background");
+        }
       }
     </script>
   </head>
@@ -216,13 +253,23 @@
                 margin-top: 4px;
               "
             ></div>
-            <div class="filter-sort">
-              가까운 순 &nbsp;<i
+            <div
+              id="sort"
+              class="filter-sort"
+              data-bs-toggle="modal"
+              data-bs-target="#sortModal"
+            >
+              <span id="sort-text">가까운 순</span> &nbsp;<i
                 class="fa-solid fa-chevron-down"
                 style="font-size: 10px"
               ></i>
             </div>
-            <div class="filter-box">
+
+            <div
+              class="filter-location"
+              data-bs-toggle="modal"
+              data-bs-target="#locationModal"
+            >
               <i
                 class="fa-solid fa-location-crosshairs"
                 style="font-size: 12px"
@@ -232,23 +279,22 @@
             <div class="filter-box">간편예약</div>
             <div class="filter-box">진료중</div>
             <div class="filter-box">야간진료</div>
-            <div class="filter-box">전문의</div>
           </div>
           <div class="spacing-height-16"></div>
           <div class="spacing-height-16"></div>
-          <div id="root" class="row" th:each="clinic : ${clinicList}">
+          <div id="root" class="row" th:each="clinic : ${subject}">
             <div class="col card-box d-flex" onclick="goToDetail()">
               <div style="width: 60%">
                 <div class="d-flex align-items-center" style="gap: 8px">
                   <div
                     class=""
                     style="color: #212529; font-size: 20px; font-weight: 500"
-                    th:text="${clinic.doctor}"
+                    th:text="${clinic.clinicDoctor}"
                   ></div>
                   <div
                     class=""
                     style="color: rgb(141, 146, 151)"
-                    th:text="${clinic.name}"
+                    th:text="${clinic.clinicName}"
                   ></div>
                 </div>
                 <div class="row" style="margin-bottom: 4px">
@@ -256,10 +302,10 @@
                     <span
                       ><i class="fa-solid fa-star" style="color: #ffd43b"></i
                     ></span>
-                    <span th:text="${clinic.avgRate}"></span
+                    <span th:text="4.8"></span
                     ><span style="color: rgb(141, 146, 151)">(</span
                     ><span
-                      th:text="${clinic.reviewCnt}"
+                      th:text="5"
                       style="color: rgb(141, 146, 151)"
                     ></span
                     ><span style="color: rgb(141, 146, 151)">)</span>
@@ -268,9 +314,8 @@
                 <div class="d-flex" style="gap: 8px; margin-bottom: 4px">
                   <div
                     style="color: green"
-                    th:if="${clinic.possibleTodayReservation}"
                   >
-                    오늘 예약
+                    비대면 진료
                   </div>
                   <div
                     style="
@@ -279,27 +324,15 @@
                       background: silver;
                       margin-top: 5px;
                     "
-                    th:if="${clinic.possibleTodayReservation}"
                   ></div>
                   <div
-                    th:text="${clinic.todayTime}"
-                    th:if="${clinic.possibleTodayReservation}"
+                    th:text="${clinic.clinicTime}"
                     style="color: rgb(141, 146, 151)"
                   ></div>
                 </div>
                 <div>
                   <span
                     class="clinicItem"
-                    th:text="${clinic.clinicItem}"
-                    th:if="${clinic.clinicItem}"
-                    style="
-                      color: rgb(34, 139, 230);
-                      background-color: rgb(231, 245, 255);
-                    "
-                  ></span>
-                  <span
-                    class="clinicItem"
-                    th:if="${clinic.videoDiagnosis}"
                     style="
                       color: rgb(169, 174, 177);
                       background-color: rgb(245, 246, 247);
@@ -309,7 +342,7 @@
                 </div>
               </div>
               <div class="card-image-box" style="background: #bdbdbd">
-                <img class="card-image" th:src="${clinic.profileImg}" />
+               <!--  <img class="card-image" th:src="${clinic.profileImg}" /> -->
               </div>
             </div>
             <div
@@ -325,6 +358,65 @@
         </div>
         <div class="spacing-height-16"></div>
         <div class="spacing-height-16"></div>
+      </div>
+    </div>
+
+    <!-- 정렬 모달 -->
+    <div
+      class="modal fade-up"
+      id="sortModal"
+      tabindex="-1"
+      aria-labelledby="sortModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog fixed-bottom">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="sortModalLabel">
+              어떤 기준으로 정렬할까요?
+            </h5>
+          </div>
+          <div class="modal-body">
+            <div
+              class="sort-box"
+              onclick="setSort('가까운순')"
+              data-bs-dismiss="modal"
+            >
+              가까운순
+            </div>
+            <div
+              class="sort-box"
+              onclick="setSort('평점 높은 순')"
+              data-bs-dismiss="modal"
+            >
+              평점 높은 순
+            </div>
+            <div
+              class="sort-box"
+              onclick="setSort('리뷰 많은 순')"
+              data-bs-dismiss="modal"
+            >
+              리뷰 많은 순
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 위치 모달 -->
+    <div
+      class="modal fade-up modal-dialog-scrollable"
+      id="locationModal"
+      tabindex="-1"
+      aria-labelledby="locationModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog fixed-bottom">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="locationModalLabel">위치 선택</h5>
+          </div>
+          <div class="modal-body"></div>
+        </div>
       </div>
     </div>
   </div>

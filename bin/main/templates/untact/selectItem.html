@@ -43,7 +43,7 @@
         color: rgb(141, 146, 151);
         background-color: rgb(247, 249, 250);
         width: 80px;
-        height: 80px;
+        height: 50px;
         border-radius: 8px;
         display: flex;
         justify-content: center;
@@ -61,6 +61,11 @@
         $("#collaspe-btn").click(function () {
           $(this).hide();
         });
+        
+	    $(".item-box").click(function () {
+	        var symptom = $(this).attr("id");
+	        window.location.href = "/subject-list-page?symptom=" + symptom;
+	      });
       });
     </script>
   </head>
@@ -88,115 +93,67 @@
         </ul>
       </div>
       <div style="padding: 16px">
-        <div><h3>증상찾기</h3></div>
+        <div><h4>증상찾기</h4></div>
         <div class="spacing-height-16"></div>
         <div>
           <div class="row">
-            <div class="col item-box">
+            <div class="col item-box" id="a">
               <div class="item-image">
                 <div>
-                  <img
-                    alt="피부과"
-                    src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/피부과.svg"
-                    width="40"
-                    height="40"
-                  />
+               <div>감기/몸살</div>
                 </div>
               </div>
-              <div>감기/몸살</div>
             </div>
-            <div class="col item-box">
+            <div class="col item-box" id="b">
               <div class="item-image">
                 <div>
-                  <img
-                    alt="피부과"
-                    src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/피부과.svg"
-                    width="40"
-                    height="40"
-                  />
+                <div>소화불량</div>
                 </div>
-              </div>
-              <div>소화불량</div>
+              </div>            
             </div>
-            <div class="col item-box">
+            <div class="col item-box" id="c">
               <div class="item-image">
                 <div>
-                  <img
-                    alt="피부과"
-                    src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/피부과.svg"
-                    width="40"
-                    height="40"
-                  />
+                    <div>알러지</div>
                 </div>
               </div>
-              <div>소아과</div>
             </div>
-            <div class="col item-box">
+            <div class="col item-box" id="d">
               <div class="item-image">
                 <div>
-                  <img
-                    alt="피부과"
-                    src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/피부과.svg"
-                    width="40"
-                    height="40"
-                  />
-                </div>
-              </div>
               <div>비염</div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="row">
-            <div class="col item-box">
+            <div class="col item-box" id="e">
               <div class="item-image">
                 <div>
-                  <img
-                    alt="피부과"
-                    src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/피부과.svg"
-                    width="40"
-                    height="40"
-                  />
+                 <div>여드름</div>
                 </div>
               </div>
-              <div>여드름</div>
             </div>
-            <div class="col item-box">
+            <div class="col item-box" id="f">
               <div class="item-image">
                 <div>
-                  <img
-                    alt="피부과"
-                    src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/피부과.svg"
-                    width="40"
-                    height="40"
-                  />
-                </div>
-              </div>
               <div>탈모</div>
-            </div>
-            <div class="col item-box">
-              <div class="item-image">
-                <div>
-                  <img
-                    alt="피부과"
-                    src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/피부과.svg"
-                    width="40"
-                    height="40"
-                  />
                 </div>
               </div>
-              <div>다이어트</div>
             </div>
-            <div class="col item-box">
+            <div class="col item-box" id="g">
               <div class="item-image">
                 <div>
-                  <img
-                    alt="피부과"
-                    src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/피부과.svg"
-                    width="40"
-                    height="40"
-                  />
+                 <div>다이어트</div>
                 </div>
               </div>
-              <div>인공눈물</div>
+            </div>
+            <div class="col item-box" id="h">
+              <div class="item-image">
+                <div>
+                   <div>인공눈물</div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="row" style="margin: 0 auto">
@@ -219,111 +176,64 @@
           </div>
           <div class="collapse" id="collapse">
             <div class="row">
-              <div class="col item-box">
+              <div class="col item-box" id="i">
                 <div class="item-image">
                   <div>
-                    <img
-                      alt="피부과"
-                      src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/피부과.svg"
-                      width="40"
-                      height="40"
-                    />
+                <div>위염</div>
                   </div>
                 </div>
-                <div>감기/몸살</div>
+                
               </div>
               <div class="col item-box">
-                <div class="item-image">
+                <div class="item-image" id="j">
                   <div>
-                    <img
-                      alt="피부과"
-                      src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/피부과.svg"
-                      width="40"
-                      height="40"
-                    />
+                <div>장염</div>
                   </div>
-                </div>
-                <div>소화불량</div>
+                </div>   
               </div>
-              <div class="col item-box">
+              <div class="col item-box" id="k">
                 <div class="item-image">
                   <div>
-                    <img
-                      alt="피부과"
-                      src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/피부과.svg"
-                      width="40"
-                      height="40"
-                    />
+                   <div>당뇨</div>
                   </div>
                 </div>
-                <div>소아과</div>
               </div>
-              <div class="col item-box">
+              <div class="col item-box" id="l">
                 <div class="item-image">
                   <div>
-                    <img
-                      alt="피부과"
-                      src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/피부과.svg"
-                      width="40"
-                      height="40"
-                    />
+                    <div>고혈압</div>
                   </div>
                 </div>
-                <div>비염</div>
               </div>
             </div>
             <div class="row">
-              <div class="col item-box">
+              <div class="col item-box" id="m">
                 <div class="item-image">
                   <div>
-                    <img
-                      alt="피부과"
-                      src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/피부과.svg"
-                      width="40"
-                      height="40"
-                    />
+               <div>여성질환</div>
                   </div>
-                </div>
-                <div>여드름</div>
+                </div>   
               </div>
-              <div class="col item-box">
+              <div class="col item-box" id="n">
                 <div class="item-image">
                   <div>
-                    <img
-                      alt="피부과"
-                      src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/피부과.svg"
-                      width="40"
-                      height="40"
-                    />
+                   <div>만성질환</div>
                   </div>
                 </div>
-                <div>탈모</div>
               </div>
-              <div class="col item-box">
+              <div class="col item-box" id="o">
                 <div class="item-image">
                   <div>
-                    <img
-                      alt="피부과"
-                      src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/피부과.svg"
-                      width="40"
-                      height="40"
-                    />
+                  <div>복통</div>
                   </div>
                 </div>
-                <div>다이어트</div>
               </div>
-              <div class="col item-box">
+              <div class="col item-box" id="p">
                 <div class="item-image">
                   <div>
-                    <img
-                      alt="피부과"
-                      src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/피부과.svg"
-                      width="40"
-                      height="40"
-                    />
+               <div>두통</div>
                   </div>
                 </div>
-                <div>인공눈물</div>
               </div>
             </div>
           </div>

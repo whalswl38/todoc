@@ -7,7 +7,7 @@
   <head>
     <title>증상 선택</title>
     <style>
-      .select-item-container {
+     .select-item-container {
         max-width: 768px;
         margin: auto;
         width: 100%;
@@ -44,9 +44,11 @@
         font-size: 14px;
         color: rgb(141, 146, 151);
         font-weight: 500;
+        cursor: pointer;
       }
 
-      .filter-box {
+      .filter-box,
+      .filter-location {
         background-color: rgb(247, 249, 250);
         border-radius: 16px;
         padding: 8px 16px;
@@ -57,15 +59,15 @@
       }
 
       .clicked-background {
-        color: rgb(247, 103, 7);
-        background-color: #fff4e6;
-        border: 1px solid rgb(247, 103, 7);
+        color: royalblue;
+        background-color: #e5f4ff;;
+        border: 1px solid royalblue;
       }
 
       .clicked-filter-background {
-        color: rgb(247, 103, 7);
-        background-color: #fff4e6;
-        border: 1px solid rgb(247, 103, 7);
+        color: royalblue;
+        background-color: #e5f4ff;;
+        border: 1px solid royalblue;
         position: relative;
       }
 
@@ -99,6 +101,42 @@
         top: -6px;
         right: 0px;
       }
+
+      /* 아래에서 위로 애니메이션 */
+      @keyframes fadeInUp {
+        0% {
+          opacity: 0;
+          transform: translate3d(0, 100%, 0);
+        }
+        to {
+          opacity: 1;
+          transform: translateZ(0);
+        }
+      }
+
+      .fade-up {
+        /* 속도 조절 */
+        animation: fadeInUp 0.3s;
+      }
+
+      .sort-box {
+        font-size: 18px;
+        font-weight: 500;
+        padding: 16px;
+        cursor: pointer;
+      }
+      
+/*       .sort-box2 {
+        font-size: 13px;
+        font-weight: 200;
+        padding: 16px;
+        cursor: pointer;
+      } */
+      
+      .modal-body {
+    	overflow-y: auto; 
+    	max-height: 400px; 
+	 }
     </style>
     <script>
       $(document).ready(function () {
@@ -117,12 +155,41 @@
             $(".filter-cnts").remove();
           }
         });
+        
+        
       });
 
-      function goToDetail() {
-        window.location.href =
-          "http://localhost:8080/select-clinic-detail-page";
+/*       function goToDetail(data) {
+    	  alert(data);
+    	  var clinicInstinum = $('#clinicInstinumm').val();
+    	  window.location.href = "http://localhost:8099/select-clinic-detail-page?clinicInstinum="+clinicInstinum;
+      } */
+      
+      function goToDetail(clinicInstinum) {
+         // var clinicInstinummm = $('#clinicInstinummm').val();
+          window.location.href = "http://localhost:8099/select-clinic-detail-page?clinicInstinum=" + clinicInstinum;
       }
+      function setSort(sort) {
+        $("#sort").removeClass("clicked-background");
+        if (sort != null && sort != "") {
+          $("#sort-text").text(sort);
+          $("#sort").addClass("clicked-background");
+        } else {
+          $("#sort-text").text("가까운 순");
+          $("#sort").addClass("clicked-background");
+        }
+      } 
+      
+   function setLocation(location) {
+    	    $("#location").removeClass("clicked-background");
+    	    if (location != null && location != "") {
+    	      $("#location-text").text(location);
+    	      $("#location").addClass("clicked-background");
+    	    } else {
+    	      $("#location-text").text("현재위치");
+    	      $("#location").addClass("clicked-background");
+    	    }
+    	  } 
     </script>
   </head>
   <div layout:fragment="content" class="select-item-container">
@@ -216,39 +283,49 @@
                 margin-top: 4px;
               "
             ></div>
-            <div class="filter-sort">
-              가까운 순 &nbsp;<i
+            <div
+              id="sort"
+              class="filter-sort"
+              data-bs-toggle="modal"
+              data-bs-target="#sortModal"
+            >
+              <span id="sort-text">가까운 순</span> &nbsp;<i
                 class="fa-solid fa-chevron-down"
                 style="font-size: 10px"
               ></i>
             </div>
-            <div class="filter-box">
+
+            <div
+              id="location"
+              class="filter-location"
+              data-bs-toggle="modal"
+              data-bs-target="#locationModal"
+            >
               <i
                 class="fa-solid fa-location-crosshairs"
                 style="font-size: 12px"
-              ></i
-              >&nbsp;서교동
+              ></i>
+            <span id="sort-text">현재 내 위치</span>
             </div>
-            <div class="filter-box">간편예약</div>
             <div class="filter-box">진료중</div>
             <div class="filter-box">야간진료</div>
-            <div class="filter-box">전문의</div>
           </div>
           <div class="spacing-height-16"></div>
           <div class="spacing-height-16"></div>
-          <div id="root" class="row" th:each="clinic : ${clinicList}">
-            <div class="col card-box d-flex" onclick="goToDetail()">
+          <div id="root" class="row" th:each="clinic : ${subject}">
+            <div class="col card-box d-flex"  th:onclick="goToDetail(this.getAttribute('data-clinicInstinum'))" th:data-clinicInstinum="${clinic.clinicInstinum}">
               <div style="width: 60%">
                 <div class="d-flex align-items-center" style="gap: 8px">
                   <div
                     class=""
                     style="color: #212529; font-size: 20px; font-weight: 500"
-                    th:text="${clinic.doctor}"
+                    th:text="${clinic.clinicDoctor}"
                   ></div>
+				<input type="hidden" id="clinicInstinumm" name="clinicInstinumm" th:value="${clinic.clinicInstinum}">
                   <div
                     class=""
                     style="color: rgb(141, 146, 151)"
-                    th:text="${clinic.name}"
+                    th:text="${clinic.clinicName}"
                   ></div>
                 </div>
                 <div class="row" style="margin-bottom: 4px">
@@ -256,22 +333,19 @@
                     <span
                       ><i class="fa-solid fa-star" style="color: #ffd43b"></i
                     ></span>
-                    <span th:text="${clinic.avgRate}"></span
+                    <span th:text="4.8"></span
                     ><span style="color: rgb(141, 146, 151)">(</span
                     ><span
-                      th:text="${clinic.reviewCnt}"
+                      th:text="5"
                       style="color: rgb(141, 146, 151)"
                     ></span
                     ><span style="color: rgb(141, 146, 151)">)</span>
                   </div>
                 </div>
                 <div class="d-flex" style="gap: 8px; margin-bottom: 4px">
-                  <div
-                    style="color: green"
-                    th:if="${clinic.possibleTodayReservation}"
-                  >
-                    오늘 예약
-                  </div>
+				    <!-- 진료 상태에 따라 다른 텍스트를 표시 -->
+				    <div th:if="${clinic.clinicStatus == 'Y'}" style="color: green">진료중</div>
+					<div th:if="${clinic.clinicStatus == 'N'}" style="color: red">진료종료</div>
                   <div
                     style="
                       height: 13px;
@@ -279,27 +353,15 @@
                       background: silver;
                       margin-top: 5px;
                     "
-                    th:if="${clinic.possibleTodayReservation}"
                   ></div>
                   <div
-                    th:text="${clinic.todayTime}"
-                    th:if="${clinic.possibleTodayReservation}"
+                    th:text="${clinic.clinicTime}"
                     style="color: rgb(141, 146, 151)"
                   ></div>
                 </div>
                 <div>
                   <span
                     class="clinicItem"
-                    th:text="${clinic.clinicItem}"
-                    th:if="${clinic.clinicItem}"
-                    style="
-                      color: rgb(34, 139, 230);
-                      background-color: rgb(231, 245, 255);
-                    "
-                  ></span>
-                  <span
-                    class="clinicItem"
-                    th:if="${clinic.videoDiagnosis}"
                     style="
                       color: rgb(169, 174, 177);
                       background-color: rgb(245, 246, 247);
@@ -309,7 +371,7 @@
                 </div>
               </div>
               <div class="card-image-box" style="background: #bdbdbd">
-                <img class="card-image" th:src="${clinic.profileImg}" />
+                 <img class="card-image" th:src="@{/image/__${clinic.fileOrgName}__}" /> 
               </div>
             </div>
             <div
@@ -327,47 +389,289 @@
         <div class="spacing-height-16"></div>
       </div>
     </div>
+    <!-- 정렬 모달 -->
+    <div
+      class="modal fade-up"
+      id="sortModal"
+      tabindex="-1"
+      aria-labelledby="sortModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog fixed-bottom">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="sortModalLabel">
+              어떤 기준으로 정렬할까요?
+            </h5>
+          </div>
+          <div class="modal-body">
+            <div
+              class="sort-box"
+              onclick="setSort('가까운순')"
+              data-bs-dismiss="modal"
+            >
+              가까운순
+            </div>
+            <div
+              class="sort-box"
+              onclick="setSort('평점 높은 순')"
+              data-bs-dismiss="modal"
+            >
+              평점 높은 순
+            </div>
+            <div
+              class="sort-box"
+              onclick="setSort('리뷰 많은 순')"
+              data-bs-dismiss="modal"
+            >
+              리뷰 많은 순
+            </div>
+        </div>
+      </div>
+    </div>
+ </div>
+    <!-- 위치 모달 -->
+<!--     <div
+      class="modal fade-up modal-dialog-scrollable"
+      id="locationModal"
+      tabindex="-1"
+      aria-labelledby="locationModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog fixed-bottom">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="sortModalLabel">
+              위치선택
+            </h5>
+          </div>
+          <div class="modal-body">
+            <div
+              class="sort-box"
+              onclick="setLocation('현재위치')"
+              data-bs-dismiss="modal"
+            >
+              현재위치
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 강남구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 강남구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 강서구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 강서구
+            </div>
+        </div>
+        </div>
+      </div>
+    </div> -->
+        <div
+      class="modal fade-up"
+      id="locationModal"
+      tabindex="-1"
+      aria-labelledby="sortModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog fixed-bottom">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="sortModalLabel">위치 선택
+            </h5>
+          </div>
+          <div class="modal-body">
+           <div
+              class="sort-box"
+              onclick="setLocation('현재 내 위치')"
+              data-bs-dismiss="modal"
+            >               
+            <i class="fa-solid fa-location-crosshairs" style="font-size: 12px"></i>
+            현재 내 위치
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 강남구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 강남구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 강동구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 강동구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 강북구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 강북구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 강서구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 강서구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 관악구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 관악구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 광진구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 광진구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 구로구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 구로구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 금천구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 금천구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 노원구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 노원구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 도봉구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 도봉구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 동대문구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 동대문구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 동작구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 동작구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 마포구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 마포구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 서대문구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 서대문구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 서초구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 서초구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 성동구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 성동구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 성북구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 성북구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 송파구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 송파구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 양천구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 양천구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 영등포구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 영등포구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 용산구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 용산구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 은평구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 은평구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 종로구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 종로구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 중구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 중구
+            </div>
+            <div
+              class="sort-box"
+              onclick="setLocation('서울시 중랑구')"
+              data-bs-dismiss="modal"
+            >
+              서울시 중랑구
+            </div>
+
+        </div>
+      </div>
+    </div>
+ </div>
   </div>
-  <!-- <script>
-    let currentPage = 1;
-    let isFetching = false;
-    let hasMore = true;
-
-    let root = document.getElementById("root");
-
-    async function fetchData() {
-      isFetching = true;
-      let response = await fetch(
-        `https://jsonplaceholder.typicode.com/posts?_page=${currentPage}`
-      );
-      let data = await response.json();
-      console.log(data);
-
-      isFetching = false;
-
-      if (data.length === 0) {
-        hasMore = false;
-        return;
-      }
-
-      for (let post of data) {
-        let div = document.createElement("div");
-        div.innerHTML = `<h2>${post.title}</h2><p>${post.body}</p>`;
-        root.appendChild(div);
-      }
-      currentPage++;
-    }
-
-    window.addEventListener("scroll", () => {
-      if (isFetching || !hasMore) {
-        return;
-      }
-
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-        fetchData();
-      }
-    });
-
-    fetchData();
-  </script> -->
 </html>

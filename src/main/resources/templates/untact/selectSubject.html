@@ -53,9 +53,14 @@
       $("#collaspe-btn").click;
 
       $(document).ready(function () {
-        $("#collaspe-btn").click(function () {
+/*         $("#collaspe-btn").click(function () {
           $(this).hide();
-        });
+        }); */
+        
+    	    $(".subject-box").click(function () {
+    	        var subject = $(this).attr("id");
+    	        window.location.href = "/subject-list-page?subject=" + subject;
+    	      });
       });
     </script>
   </head>
@@ -81,7 +86,7 @@
         </ul>
       </div>
       <div style="padding: 16px">
-        <div><h4>병원찾기</h4></div>
+        <div><h4>병원찾기(비대면)</h4></div>
         <div class="spacing-height-16"></div>
         <div style="color: rgb(141, 146, 151)">
           <!-- <h6>병원 예약하고 편하게 방문하세요.</h6> -->
@@ -90,21 +95,21 @@
         <div class="spacing-height-16"></div>
         <div>
           <div class="row">
-            <div class="col subject-box">
+            <div class="col subject-box" id="01">
 				<div>
 					<img alt="피부과" src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/피부과.svg"
-						width="28" height="28" onclick="openDermatology()"/>
+						width="28" height="28"/>
 				</div>
               피부과
             </div>
-            <div class="col subject-box">
+            <div class="col subject-box" id="02">
 				<div>
 					<img alt="산부인과" src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/%E1%84%89%E1%85%A1%E1%86%AB%E1%84%87%E1%85%AE%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%80%E1%85%AA.svg"
-						width="28" height="28" onclick="openDermatology()"/>
+						width="28" height="28"/>
 				</div>
               산부인과
             </div>
-            <div class="col subject-box">
+            <div class="col subject-box" id="03">
               <div>
                 <img
                   alt="이비인후과"
@@ -115,7 +120,7 @@
               </div>
               이비인후과
             </div>
-            <div class="col subject-box">
+            <div class="col subject-box" id="04">
               <div>
                 <img
                   alt="내과"
@@ -126,7 +131,7 @@
               </div>
               내과
             </div>
-            <div class="col subject-box">
+            <div class="col subject-box" id="05">
               <div>
                 <img
                   alt="안과"
@@ -137,7 +142,7 @@
               </div>
               안과
             </div>
-            <div class="col subject-box">
+            <div class="col subject-box" id="06">
               <div>
                 <img
                   alt="가정의학과"
@@ -150,8 +155,8 @@
             </div>
           </div>
           <div class="row">
-            <div class="col subject-box">
-              <div>
+            <div class="col subject-box" id="07">
+              <div  >
                 <img
                   alt="소아과"
                   src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/%E1%84%89%E1%85%A9%E1%84%8B%E1%85%A1%E1%84%8E%E1%85%A5%E1%86%BC%E1%84%89%E1%85%A9%E1%84%82%E1%85%A7%E1%86%AB%E1%84%80%E1%85%AA.svg"
@@ -161,8 +166,8 @@
               </div>
               소아과
             </div>
-            <div class="col subject-box">
-              <div>
+            <div class="col subject-box" id="08">
+              <div  >
                 <img
                   alt="정형외과"
                   src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%92%E1%85%A7%E1%86%BC%E1%84%8B%E1%85%AC%E1%84%80%E1%85%AA.svg"
@@ -172,8 +177,8 @@
               </div>
               정형외과
             </div>
-            <div class="col subject-box">
-              <div>
+            <div class="col subject-box" id="09">
+              <div  >
                 <img
                   alt="정신건강의학과"
                   src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%89%E1%85%B5%E1%86%AB%E1%84%80%E1%85%A5%E1%86%AB%E1%84%80%E1%85%A1%E1%86%BC%E1%84%8B%E1%85%B4%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%AA.svg"
@@ -183,8 +188,8 @@
               </div>
               정신건강의학과
             </div>
-            <div class="col subject-box">
-              <div>
+            <div class="col subject-box" id="10">
+              <div  >
                 <img
                   alt="비뇨기과"
                   src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/%E1%84%87%E1%85%B5%E1%84%82%E1%85%AD%E1%84%80%E1%85%B5%E1%84%80%E1%85%AA.svg"
@@ -194,8 +199,8 @@
               </div>
               비뇨기과
             </div>
-            <div class="col subject-box">
-              <div>
+            <div class="col subject-box" id="11">
+              <div  >
                 <img
                   alt="치과"
                   src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/%E1%84%8E%E1%85%B5%E1%84%8B%E1%85%B4%E1%84%92%E1%85%A1%E1%86%A8.svg"
@@ -205,8 +210,8 @@
               </div>
               치과
             </div>
-            <div class="col subject-box">
-              <div>
+            <div class="col subject-box" id="12">
+              <div  >
                 <img
                   alt="신경외과"
                   src="https://d2m9duoqjhyhsq.cloudfront.net/face-to-face/department-group/%E1%84%89%E1%85%B5%E1%86%AB%E1%84%80%E1%85%A7%E1%86%BC%E1%84%8B%E1%85%AC%E1%84%80%E1%85%AA.svg"

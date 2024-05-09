@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html
-  xmlns:th="http//www.thymeleaf.org"
+  xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   layout:decorate="~{layouts/layout}"
 >
@@ -28,7 +28,7 @@
       }
 
       .lnb-active {
-        color: red;
+        color:royalblue;
       }
 
       .row,
@@ -142,6 +142,8 @@
         border: 1px solid rgb(247, 103, 7);
       }
     </style>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
       $(document).ready(function () {
         $(".tab").click(function () {
@@ -166,9 +168,16 @@
         $(".review-filter").click(function () {
           $(this).toggleClass("clicked-filter-background");
         });
+        
       });
+      
+        function goToClinicReservation() {
+        	window.location.href = "http://localhost:8099/clinic-reserve-page";
+        }
     </script>
+    
   </head>
+  <body>
   <div layout:fragment="content" class="select-item-container">
     <div class="spacing-height-16"></div>
     <div class="d-flex justify-content-between" style="gap: 32px">
@@ -192,8 +201,8 @@
           </li>
         </ul>
       </div>
-      <div style="padding: 8px; width: 500px">
-        <div id="doctor-detail-top">
+      <div style="padding: 8px; width: 500px" th:each="clinic : ${untact}">
+        <div id="doctor-detail-top" >
           <div class="row d-flex">
             <div class="col-md-1 d-flex">
               <button class="" style="border: 0; background-color: #fff">
@@ -210,8 +219,8 @@
             <div
               class="col-md-8 d-flex justify-content-center"
               style="color: #212529; font-size: 24px; font-weight: 500"
-            >
-              이현호 의사
+              >
+
             </div>
           </div>
           <div class="spacing-height-16"></div>
@@ -222,41 +231,26 @@
                   <div
                     class="d-flex align-items-center"
                     style="color: #212529; font-size: 24px; font-weight: 500"
+                    th:text="${clinic.clinicDoctor}"
                   >
-                    이현호 의사
-                    <span
-                      style="
-                        color: rgb(34, 139, 230);
-                        font-size: 16px;
-                        padding-left: 16px;
-                      "
-                      ><i
-                        class="fa-solid fa-lightbulb"
-                        style="color: #74c0fc"
-                      ></i
-                      >&nbsp;이비인후과 전문의</span
-                    >
                   </div>
                 </div>
                 <div
                   style="
                     color: rgb(141, 146, 151);
                     font-weight: 600;
-                    padding-bottom: 8px;
-                  "
+                    padding-bottom: 8px;"
+                  th:text="${clinic.clinicName}"
                 >
-                  일등이비인후과의원
                 </div>
                 <div>
-                  <span class="clinicItem">가정의학과</span>
-                  <span class="clinicItem">소아청소년과</span>
-                  <span class="clinicItem">내과</span>
-                </div>
+                  <span class="clinicItem" th:each="list : ${subjectList}" th:text="${list}"></span>
+                 </div>
               </div>
               <div class="card-image-box" style="background: #bdbdbd">
                 <img
                   class="card-image"
-                  src="https://cdn.pixabay.com/photo/2014/11/29/19/33/bald-eagle-550804_1280.jpg"
+                  th:src="@{/image/__${clinic.fileOrgName}__}"
                 />
               </div>
             </div>
@@ -272,14 +266,8 @@
             "
           >
             <h4>경력사항</h4>
-            <ul style="display: block; padding-left: 20px">
-              <li style="list-style-type: initial">
-                현 대한이비인후과의사회 정회원
-              </li>
-              <li style="list-style-type: initial">
-                현 일등이비인후과의원 대표원장
-              </li>
-              <li style="list-style-type: initial">현 이비인후과 전문의</li>
+            <ul style="display: block; padding-left: 20px" th:each="career : ${careerList}">
+              <li style="list-style-type: initial" th:text="${career}"></li>
             </ul>
           </div>
           <div class="spacing-height-16"></div>
@@ -288,7 +276,7 @@
               class="p-2 tab clicked-background doctor-detail-tab"
               style="font-size: 20px; cursor: pointer"
             >
-              의사상세
+              병원상세
             </div>
             <div
               class="p-2 tab review-tab"
@@ -296,16 +284,11 @@
             >
               후기
             </div>
-            <div class="p-2 tab" style="font-size: 20px; cursor: pointer">
-              무료 상담
-            </div>
           </div>
           <div class="silver-hr" style="margin: 1.4px 0px 8px 0px"></div>
           <div class="spacing-height-16"></div>
           <div>
-            <h4>일등이비인후과 진료센터</h4>
-            <div>
-              <p>안녕하세요</p>
+            <div th:text="${clinic.clinicDetail}">
             </div>
           </div>
           <div class="silver-hr"></div>
@@ -316,11 +299,6 @@
             >
               <div class="review-filter">전체</div>
               <div class="review-filter">감기/몸살 4</div>
-              <div class="review-filter">이비인후과</div>
-              <div class="review-filter">비염</div>
-              <div class="review-filter">이비인후과</div>
-              <div class="review-filter">비염</div>
-              <div class="review-filter">이비인후과</div>
               <div class="review-filter">비염</div>
             </div>
             <div class="spacing-height-16"></div>
@@ -373,15 +351,16 @@
             <div class="d-flex align-items-center justify-content-center">
               <h4>진료시간</h4>
             </div>
+            <div >
             <div
               class="d-flex justify-content-center"
               style="color: rgb(141, 146, 151); gap: 32px"
             >
-              <div class="p-2" style="width: 200px">
-                <span class="p-3">월요일</span> 09:00 ~ 19:00
+              <div class="p-2" style="width: 200px " >
+                <span class="p-3">월요일</span> <span th:text="${timeList[0]}"></span>
               </div>
-              <div class="p-2" style="width: 200px">
-                <span class="p-3">화요일</span> 09:00 ~ 19:00
+              <div class="p-2" style="width: 200px" >
+                <span class="p-3">화요일</span> <span th:text="${timeList[1]}" ></span>
               </div>
             </div>
             <div
@@ -389,10 +368,10 @@
               style="color: rgb(141, 146, 151); gap: 32px"
             >
               <div class="p-2" style="width: 200px">
-                <span class="p-3">수요일</span> 09:00 ~ 19:00
+                <span class="p-3">수요일</span> <span th:text="${timeList[2]}" ></span>
               </div>
               <div class="p-2" style="width: 200px">
-                <span class="p-3">목요일</span> 09:00 ~ 19:00
+                <span class="p-3">목요일</span> <span th:text="${timeList[3]}" ></span>
               </div>
             </div>
             <div
@@ -400,27 +379,28 @@
               style="color: rgb(141, 146, 151); gap: 32px"
             >
               <div class="p-2" style="width: 200px">
-                <span class="p-3">금요일</span> 09:00 ~ 19:00
+                <span class="p-3">금요일</span> <span th:text="${timeList[4]}" ></span>
               </div>
               <div class="p-2" style="width: 200px">
                 <span class="p-3" style="color: rgb(34, 139, 230)">토요일</span>
-                09:30 ~ 13:00
+                <span th:text="${timeList[5]}"></span>
+              </div>
               </div>
             </div>
             <div
               class="d-flex justify-content-center"
               style="color: rgb(141, 146, 151); gap: 32px"
             >
-              <div class="d-flex align-items-center" style="width: 200px">
-                <span class="p-2" style="color: red">일요일</span>
-                <div class="d-flex justify-content-center" style="width: 130px">
-                  휴무
-                </div>
+              <div class="p-2" style="width: 200px">
+                <span class="p-3" style="color: red">일요일</span>
+                  <span th:text="${timeList[6]}" ></span>
+<!--                 <div class="d-flex justify-content-center" style="width: 130px">
+                </div> -->
               </div>
-              <div class="d-flex align-items-center" style="width: 200px">
-                <span style="color: red; padding-left: 24px">공휴일</span>
-                <div class="d-flex justify-content-center" style="width: 123px">
-                  휴무
+              <div class="p-2" style="width: 200px">
+                <span class="p-3" style="color: red;">공휴일</span>
+                 <span>휴무</span>
+                <!-- <div class="d-flex justify-content-center" style="width: 123px"> -->
                 </div>
               </div>
             </div>
@@ -429,31 +409,76 @@
           <div class="silver-hr"></div>
           <div
             style="color: rgb(141, 146, 151); text-align: center; padding: 16px"
+            th:text="'점심시간 : '+ ${clinic.clinicBreak}"
           >
             휴식시간 13:00 ~ 13:30
           </div>
           <div class="silver-hr"></div>
           <div class="d-flex justify-content-between p-3">
             <div>
-              <div style="font-size: 20px; font-weight: 700">
-                일등이비인후과의원
+              <div style="font-size: 20px; font-weight: 700" th:text="${clinic.clinicName}">
               </div>
-              <div>서울 중구 퇴계로 452-1 3층 일등이비인후과의원</div>
+              <div th:text="${clinic.clinicAddr}"></div>
             </div>
             <div class="d-flex justify-content-center align-items-center">
               <i class="fa-solid fa-phone" style="font-size: 20px"></i>
             </div>
+            <!-- 지도 -->
           </div>
+          	<div align="center">
+				<div id="map" class="form-join d-flex justify-content-center" style="width:500px;height:400px;" align="center"></div>
+			</div><br/>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=db49e5d8b07a8b328167f31f905596dc&libraries=services"></script>
+  	<script th:inline="javascript">
+	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	    mapOption = {
+	        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+	        level: 3 // 지도의 확대 레벨
+	    };  
+	// 지도를 생성합니다    
+	var map = new kakao.maps.Map(mapContainer, mapOption); 
+	
+	// 주소-좌표 변환 객체를 생성합니다
+	var geocoder = new kakao.maps.services.Geocoder();
+	
+	// 주소로 좌표를 검색합니다
+	geocoder.addressSearch('[[${clinic.clinicAddr}]]', function(result, status) {
+	
+	    // 정상적으로 검색이 완료됐으면 
+	     if (status === kakao.maps.services.Status.OK) {
+	
+	        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+	
+	        // 결과값으로 받은 위치를 마커로 표시합니다
+	        var marker = new kakao.maps.Marker({
+	            map: map,
+	            position: coords
+	        });
+	
+	        // 인포윈도우로 장소에 대한 설명을 표시합니다
+	        var infowindow = new kakao.maps.InfoWindow({
+	            content: '<div style="width:150px;text-align:center;padding:6px 0;">[[${clinic.clinicName}]]</div>'
+	            
+	        });
+	        infowindow.open(map, marker);
+	
+	        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+	        map.setCenter(coords);
+	    } 
+	});    
+</script>
           <div
+          	id="clinicReservation"
             style="
               width: 100%;
-              background-color: rgb(247, 103, 7);
+              background-color:royalblue;
               color: #fff4e6;
               border-radius: 12px;
               padding: 12px 0px;
               text-align: center;
               font-size: 18px;
             "
+            onclick="goToClinicReservation()"
           >
             진료 신청
           </div>
@@ -462,5 +487,6 @@
         <div class="spacing-height-16"></div>
       </div>
     </div>
-  </div>
+	
+</body>
 </html>

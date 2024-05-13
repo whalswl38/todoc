@@ -2,18 +2,35 @@ package com.todoc.web;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.todoc.web.dto.User;
+import com.todoc.web.security.jwt.JwtAuthorizationFilter;
+import com.todoc.web.service.UserService;
+
 @Controller
 @RequestMapping
 public class TestController {
 
+	@Autowired
+	private UserService userService;
+	private final JwtAuthorizationFilter jwtFilter;
+	
+	public TestController(JwtAuthorizationFilter jwtFilter)
+	{
+		this.jwtFilter = jwtFilter;
+	}
+	
     @GetMapping("/main-page")
-    public String test2( ) {
-        return "main/main";
+    public String test2() {    	
+    	return "main/main";
     }
     @GetMapping("/select-subject-page")
     public String test5( ) {
@@ -78,9 +95,14 @@ public class TestController {
        return "megazines/megazineDetail";
    }
 
-    @GetMapping("/mypage-page")
-   public String test17() {
-       return "mypage/mypage";
+    @GetMapping("/user/mypage-page")
+   public String test17(HttpServletRequest request, Model model) {
+    	String token = jwtFilter.extractJwtFromCookie(request);
+    	String userEmail = jwtFilter.getUsernameFromToken(token);
+    	
+    	User user = userService.findByEmail(userEmail);
+    	model.addAttribute("user", user);
+    	return "/mypage/mypage";
    }
 
     @GetMapping("/medical-history-page")

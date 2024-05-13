@@ -36,7 +36,7 @@ public class SecurityConfig
     	{
     		"/", "/static/**", "/templates/**", "/js/**", "/image/**", "/css/**", "/RTCPeerConnection/**", "**/favicon.ico",
 	        "/layouts/**", "/fragments/**", "/main-page", "/login-page", "/register-page","/medical-register-page", "/medicalSign/**", 
-	        "/login/**", "/sign/**"
+	        "/login/**", "/sign/**", "/token/api"
     	};
     
     @Bean
@@ -80,6 +80,12 @@ public class SecurityConfig
     	}
     }
 
+    @Bean
+    public JwtAuthorizationFilter jwtAuthorizationFilter() 
+    {
+        return new JwtAuthorizationFilter(jwtTokenProvider, objectMapper);
+    }
+    
     @Bean
     public PasswordEncoder passwordEncoder() 
     {

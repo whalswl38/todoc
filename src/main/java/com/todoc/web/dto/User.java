@@ -15,8 +15,8 @@ public class User
 	private String userEmail;
 	
 	@NotEmpty(message="비밀번호는 필수 입력 값입니다.")
+	@Pattern(regexp="/^[0-9a-zA-Z]{4,20}$/", message="비밀번호 형식이 올바르지 않습니다.")
 	@Size(min=4, max=10)
-	@Pattern(regexp="^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d\\w\\W]{8,}$", message="비밀번호는 영문 대소문자, 숫자를 포함 8자리이상이어야 합니다.")
 	private String userPwd;
 	
 	@NotEmpty(message="이름은 필수 입력 값입니다.")

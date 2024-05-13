@@ -43,14 +43,33 @@ public interface UserDao
 	int checkEmail(String userEmail);
 	
 	// 병원 사진 등록
-	int insertClinicFile(ClinicFile clinicFile);
+	int insertClinicFile(ClinicFile clinicFile) throws Exception;
 	
 	// 인감 사진 등록
-	int insertStampFile(StampFile stampFile);
+	int insertStampFile(StampFile stampFile) throws Exception;
 	
 	// 약국 회원가입
 	int insertPharmacy(Pharmacy pharmacy);
 	
 	// 병원 회원가입
 	int insertClinic(Clinic clinic);
+	
+	// 일반 유저 아이디/비밀번호 찾기
+	User findUser(User user);
+	
+	// 병원 유저 아이디/비밀번호 찾기
+	String findClinic(Clinic clinic);
+	
+	// 약국 유저 아이디/비밀번호 찾기
+	String findPharmacy(Pharmacy pharmacy);
+	
+	// 비밀번호 수정
+	int updateUser(User user);
+	
+	int updatePharm(Pharmacy pharmacy);
+	
+	int updateClinic(Clinic clinic);
+	
+	// 소셜로그인 회원 정보 저장
+	int insertSocial(User user);
 }

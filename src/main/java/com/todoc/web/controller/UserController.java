@@ -1,14 +1,19 @@
 package com.todoc.web.controller;
 
+import java.io.IOException;
+
 import javax.validation.Valid;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.todoc.web.dto.Clinic;
 import com.todoc.web.dto.Pharmacy;
@@ -27,7 +32,21 @@ public class UserController
 {	
 	private final UserService userService;
     private final PasswordEncoder passwordEncoder;
-	
+    
+    // 아이디 찾기 페이지
+    @GetMapping("/login/findId")
+    public String findIdPage()
+    {
+    	return "login/findId";
+    }
+    
+    // 비밀번호 찾기 페이지
+    @GetMapping("/login/findPwd")
+    public String findPwdPage()
+    {
+    	return "login/findPwd";
+    }
+    
 	// 로그인 페이지
     @GetMapping("/login-page")
     public String loginPage( ) 
@@ -45,8 +64,9 @@ public class UserController
     }
     
     // 병원, 약국 회원 회원가입 기능
+    @Transactional
 	@PostMapping("/medicalSign")
-	public String medicalSign(@Valid SignUpDto signUpDto, BindingResult bindingResult, Model model)
+	public String medicalSign(@Valid SignUpDto signUpDto, BindingResult bindingResult, Model model,@ModelAttribute MultipartFile clinicFile,@ModelAttribute MultipartFile stampFile) throws IOException
 	{	
 		if(bindingResult.hasErrors())
 		{
@@ -101,12 +121,17 @@ public class UserController
 
 				if(userService.insertClinic(clinic) > 0)
 				{
-					return "redirect:/login-page";
+					if(userService.insertClinicFile(clinicFile, clinic) > 0)
+					{
+						if(userService.insertStampFile(stampFile, clinic) > 0)
+						{							
+							return "redirect:/login-page";
+						}
+					}
 				}
 				
 				model.addAttribute("signUpDto", signUpDto);
 				return "login/medicalRegister";
-			
 			}
 			catch(Exception e)
 			{
@@ -202,5 +227,11 @@ public class UserController
 	public String tesst()
 	{
 		return "메롱";
+	}
+	
+	@GetMapping("/login/resetPwd")
+	public String resetPwd()
+	{
+		return "login/resetPwd";
 	}
 }

@@ -115,27 +115,15 @@
   <div layout:fragment="content" class="medical-history-container d-flex">
     <div class="silver-hr-inline-short"></div>
     <div class="d-flex justify-content-between" style="gap: 32px">
-      <div style="padding: 8px 0px; width: 450px">
+      <div style="padding: 8px 0px; width: 800px">
         <div class="medical-history-details">
           <div class="spacing-height-16"></div>
           <div
             class="d-flex justify-content-center align-items-center"
             style="position: relative; font-weight: 700"
           >
-            <div
-              style="
-                position: absolute;
-                left: 20px;
-                font-size: 18px;
-                cursor: pointer;
-              "
-              onclick="history.back();"
-            >
-              <i class="fa-solid fa-arrow-left"></i>
-            </div>
-            <div>진료 내역</div>
+            <h2>진료 내역</h2>
           </div>
-          <div class="silver-hr"></div>
           <div
             class="d-flex align-items-center doctor-info-box"
             style="gap: 16px"
@@ -159,7 +147,7 @@
               </div>
               <div
                 class="review-btn"
-                onclick="window.location.href='http://localhost:8080/review-page'"
+                onclick="window.location.href='http://localhost:8099/review-page'"
               >
                 리뷰작성
               </div>
@@ -197,7 +185,6 @@
               </div>
             </div>
             <div class="spacing-height-16"></div>
-            <div class="silver-hr"></div>
             <div>
               <div style="font-weight: 500">진료비</div>
               <div><h5>6,300원</h5></div>

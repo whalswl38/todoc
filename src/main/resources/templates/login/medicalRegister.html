@@ -460,7 +460,7 @@
   <body>
   
     <div layout:fragment="content" class="container mt-5">
-    <form enctype="multipart/form-data" id="signForm" th:action="@{/medicalSign}" th:object="${signUpDto}" method="post" >
+    <form role="form" id="signForm" th:action="@{/medicalSign}" th:object="${signUpDto}" method="post" >
       <div class="row d-flex justify-content-between">
   		
   		 <div class="col-md-6" id="clinicImage" style="width: 150px; padding:15px;">

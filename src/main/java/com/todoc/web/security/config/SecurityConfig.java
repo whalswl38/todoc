@@ -13,9 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.todoc.web.security.jwt.JwtTokenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todoc.web.security.jwt.JwtAuthorizationFilter;
+import com.todoc.web.security.jwt.JwtTokenProvider;
 import com.todoc.web.security.jwt.UserPrincipalDetailsService;
 
 import lombok.RequiredArgsConstructor;
@@ -80,6 +80,12 @@ public class SecurityConfig
     	}
     }
 
+    @Bean
+    public JwtAuthorizationFilter jwtAuthorizationFilter() 
+    {
+        return new JwtAuthorizationFilter(jwtTokenProvider, objectMapper);
+    }
+    
     @Bean
     public PasswordEncoder passwordEncoder() 
     {

@@ -2,6 +2,7 @@ package com.todoc.web;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping
 public class TestController {
-
+	
     @GetMapping("/main-page")
     public String test2( ) {
         return "main/main";
@@ -82,6 +83,7 @@ public class TestController {
    public String test17() {
        return "mypage/mypage";
    }
+    
 
     @GetMapping("/medical-history-page")
     public String test18() {
@@ -93,24 +95,20 @@ public class TestController {
         return "mypage/medicalHistoryDetail";
     }
 
-    @GetMapping("/review-detail-page")
-    public String test20() {
-        return "mypage/reviewDetail";
-    }
 
      @GetMapping("/chat-home-page")
     public String test21() {
-        return "chat/chatHome";
+        return "chatbot/chatHome";
     }
 
       @GetMapping("/chat-message-page")
     public String test22() {
-        return "chat/chatMessage";
+        return "chatbot/chatMessage";
     }
 
       @GetMapping("/chat-detail-page")
     public String test23() {
-        return "chat/chatMessageDetail";
+        return "chatbot/chatMessageDetail";
     }
 
     @GetMapping("/clinic-list-page")
@@ -128,12 +126,23 @@ public class TestController {
         list.add(item4);
         list.add(item5);
         list.add(item6);
-        model.addAttribute("clinicList", list);
+        model.addAttribute("clinicList", list);	
         return "clinic/clinicList";
     }
 
     @GetMapping("/review-page")
     public String test25() {
         return "mypage/review";
+    }
+    
+    
+    @GetMapping("/infoUpdate-page")
+    public String test27() {
+        return "mypage/infoUpdate";
+    }
+    
+    @GetMapping("/mypage-page2")
+    public String test28() {
+        return "mypage/mypageMedical";
     }
 }

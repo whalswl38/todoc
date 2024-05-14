@@ -89,7 +89,15 @@
       }
     </style>
     <script>
-      $(document).ready(function () {});
+      $(document).ready(function () {
+	      $(".next-btn").on("click", function () {
+	        if ($("#kakao").is(":checked")) {
+	          window.location.href = "https://kakaopay.com"; // Replace with the actual Kakao Pay URL
+	        } else {
+	          alert("카카오페이를 선택해주세요.");
+	        }
+	      });
+      });
     </script>
   </head>
   <div

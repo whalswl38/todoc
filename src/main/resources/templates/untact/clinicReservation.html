@@ -91,11 +91,9 @@
             });
 
             const timeButtons = document.querySelectorAll('.timeBtn');
-         	// 각 버튼에 클릭 이벤트 리스너를 추가합니다.
             timeButtons.forEach(button => {
                 button.addEventListener('click', () => {
-                    // 선택된 버튼에 대한 처리를 수행합니다.
-                    const selectedTime = button.textContent; // 클릭된 버튼의 텍스트 콘텐츠(시간)를 가져옵니다.
+                    const selectedTime = button.textContent; 
             		console.log('Selected time:', selectedTime);
                 });
             });    
@@ -169,12 +167,12 @@
                                 <small id="commentsHelp" class="form-text text-muted">0/150</small>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-center align-items-center" style="width: 60px; height: 60px; border: 0.1px solid rgb(141, 146, 151); border-radius: 8px;">
+<!--                         <div class="d-flex justify-content-center align-items-center" style="width: 60px; height: 60px; border: 0.1px solid rgb(141, 146, 151); border-radius: 8px;">
                             <label for="photo" style="cursor: pointer; padding: 4px 18px"><i class="fa-solid fa-camera"></i>
                                 <div style="font-size: 14px">0/4</div>
                             </label>
                             <input id="photo" type="file" style="display: none" />
-                        </div>
+                        </div> -->
                         <div class="spacing-height-16"></div>
                         <div class="form-group d-flex justify-content-center">
                             <div>

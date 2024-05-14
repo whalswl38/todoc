@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
-
 <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <title>비대면 진료 상세</title>
     <style>
         .select-item-container {
@@ -140,118 +138,89 @@
             background-color: #e5f4ff;
             border: 1px solid royalblue;
         }
-
-        .page_wrap {
-            text-align: center;
-            font-size: 0;
-        }
-
-        .page_nation {
-            display: inline-block;
-        }
-
-        .page_nation .none {
-            display: none;
-        }
-
-        .page_nation a {
-            display: block;
-            margin: 0 3px;
-            float: left;
-            border: 1px solid #e6e6e6;
-            width: 28px;
-            height: 28px;
-            line-height: 28px;
-            text-align: center;
-            background-color: #fff;
-            font-size: 13px;
-            color: #999999;
-            text-decoration: none;
-        }
-
-        .page_nation .arrow {
-            border: 1px solid #ccc;
-        }
-
-        .page_nation .pprev {
-            margin-left: 0;
-        }
-
-        .page_nation .prev {
-            margin-right: 7px;
-        }
-
-        .page_nation .next {
-            margin-left: 7px;
-        }
-
-        .page_nation .nnext {
-            margin-right: 0;
-        }
-
-        .page_nation a.active {
-            background-color: #42454c;
-            color: #fff;
-            border: 1px solid #42454c;
-        }
-
-        .carousel {
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .carousel ul {
-            list-style-type: none;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            transition: transform 0.5s ease;
-            position: relative;
-        }
-
-        .carousel li {
-            flex: 0 0 100%;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .each-review {
-            padding: 10px;
-            box-sizing: border-box;
-        }
-
-        .carousel-buttons {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            position: absolute;
-            top: 40%;
-            transform: translateY(-50%);
-            z-index: 2;
-        }
-
-        .carousel-buttons .prev-button,
-        .carousel-buttons .next-button {
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            font-size: 24px;
-        }
-
-        .prev-button {
-            position: absolute;
-            left: 0;
-        }
-
-        .next-button {
-            position: absolute;
-            right: 0;
-        }
+        
+		.page_wrap {
+		   text-align:center;
+		   font-size:0;
+		 }
+		.page_nation {
+		   display:inline-block;
+		}
+		.page_nation .none {
+		   display:none;
+		}
+		.page_nation a {
+		   display:block;
+		   margin:0 3px;
+		   float:left;
+		   border:1px solid #e6e6e6;
+		   width:28px;
+		   height:28px;
+		   line-height:28px;
+		   text-align:center;
+		   background-color:#fff;
+		   font-size:13px;
+		   color:#999999;
+		   text-decoration:none;
+		}
+		.page_nation .arrow {
+		   border:1px solid #ccc;
+		}
+		.page_nation .pprev {
+		   margin-left:0;
+		}
+		.page_nation .prev {
+		   margin-right:7px;
+		}
+		.page_nation .next {
+		   margin-left:7px;
+		}
+		.page_nation .nnext {
+		   margin-right:0;
+		}
+		.page_nation a.active {
+		   background-color:#42454c;
+		   color:#fff;
+		   border:1px solid #42454c;
+		}
+		
+		.carousel {
+	        width: 500px;
+	        overflow: hidden;
+	        position: relative;
+	    }
+	    
+		.carousel ul {
+		  list-style-type: none;
+		  width: 100%;
+		  margin: 0;
+		  padding: 0;
+		  display: flex;
+		  transition: transform 0.5s ease;
+		}
+		
+		.carousel li {
+		  flex: 0 0 100%;
+		  width: 100%;
+		}
+		
+		.carousel-buttons {
+		  display: flex;
+		  justify-content: center;
+		  margin-top: 10px;
+		}
+		
+		.carousel-buttons button {
+		  background-color: #ddd;
+		  color: #333;
+		  padding: 8px 16px;
+		  border: none;
+		  cursor: pointer;
+		  width: 100px;
+		  height: 30px;
+		  z-index: 999;
+		  margin-left: 10px;
+		}
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -279,21 +248,21 @@
                 $(".paging-active").removeClass("paging-active");
                 $(this).addClass("paging-active");
             });
-
+            
             $(".review-filter").click(function() {
                 $(this).toggleClass("clicked-filter-background");
             });
         });
-
-        function setCurPage(data) {
-            $("#curPage").val(data);
-            $("#searchWord").submit();
+        
+        function setCurPage(data){
+        	$("#curPage").val(data);
+        	$("#searchWord").submit();
         }
-
+        
         function goToClinicReservation() {
-            window.location.href = "http://localhost:8099/clinic-reserve-page?clinicInstinum=" + $("#instinum").val();
+            window.location.href = "http://localhost:8099/clinic-reserve-page?clinicInstinum="+$("#instinum").val();
         }
-
+        
         function carousel() {
             const carouselContainer = document.querySelector(".carousel");
             const carouselList = carouselContainer.querySelector("ul");
@@ -309,16 +278,16 @@
 
             // 이전 버튼 클릭 시
             function prev() {
-                currentIndex = (currentIndex - 1 + totalItems) % totalItems;
-                carouselList.style.transform = `translateX(-${
+              currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+              carouselList.style.transform = `translateX(-${
                 currentIndex * carouselWidth
               }px)`;
             }
 
             // 다음 버튼 클릭 시
             function next() {
-                currentIndex = (currentIndex + 1) % totalItems;
-                carouselList.style.transform = `translateX(-${
+              currentIndex = (currentIndex + 1) % totalItems;
+              carouselList.style.transform = `translateX(-${
                 currentIndex * carouselWidth
               }px)`;
             }
@@ -329,10 +298,10 @@
 
             const nextButton = carouselContainer.querySelector(".next-button");
             nextButton.addEventListener("click", next);
-        }
+          }
 
-        // DOM이 로드된 후에 Carousel을 초기화합니다.
-        window.addEventListener("DOMContentLoaded", carousel);
+          // DOM이 로드된 후에 Carousel을 초기화합니다.
+          window.addEventListener("DOMContentLoaded", carousel);
     </script>
 </head>
 <body>
@@ -387,7 +356,7 @@
                     <div class="spacing-height-16"></div>
                     <div class="spacing-height-16"></div>
                     <div style="border: 0.1px solid rgb(141, 146, 151); border-radius: 16px; background-color: rgb(247, 249, 250); padding-top: 15px; padding-bottom: 15px; padding-left:10px;">
-                        <h4 style="padding-left: 23px">경력사항</h4>
+                        <h4 style="padding-left: 23px" >경력사항</h4>
                         <ul style="display: block; padding-left: 23px" th:each="career : ${careerList}">
                             <li style="list-style-type: initial" th:text="${career}"></li>
                         </ul>
@@ -408,34 +377,74 @@
                         </div>
                     </div>
                     <div class="silver-hr"></div>
-
-                    <!-- 캐러셀 -->
-                    <div class="carousel">
-                        <div class="carousel-buttons">
-                            <button class="prev-button"><i class="bi bi-arrow-left-square-fill"></i></button>
-                            <button class="next-button"><i class="bi bi-arrow-right-square-fill"></i></button>
-                        </div>
-                        <ul>
-                            <li th:each="reviewItem : ${reviewList}">
-                                <div class="each-review">
-                                    <div class="d-flex align-items-center">
-                                        <div style="font-weight: 600; font-size: 18px" th:text="${reviewItem.userName}"></div>
-                                        <div style="color: rgb(141, 146, 151); font-weight: 500" th:text="${reviewItem.reviewRegdate}"></div>
-                                    </div>
-                                    <div style="font-size: 14px">
-                                        <i th:each="i : ${#numbers.sequence(1, reviewItem.reviewGrade)}" class="fa-solid fa-star" style="color: #ffd43b"></i>
-                </div>
-                <div class="spacing-height-16"></div>
-                <div>
-                    <h5 style="font-weight: 600" th:text="${reviewItem.reviewTitle}"></h5>
-                    <div th:text="${reviewItem.reviewContent}"></div>
-                </div>
-                <div class="spacing-height-16"></div>
-            </div>
-        </li>
-    </ul>
-</div>
-					
+                    
+					<!-- 캐러셀 -->
+					<div class="carousel">
+					    <div>
+						    <th:block th:each="reviewItem, reviewIndex : ${reviewList}">
+						        <div th:classappend="${reviewIndex.index == 0} ? 'carousel-item active' : 'carousel-item'">
+						            <div class="each-review">
+						                <div class="d-flex align-items-center">
+						                    <div style="font-weight: 600; font-size: 18px" th:text="${reviewItem.userName}"></div>
+						                    <div style="color: rgb(141, 146, 151); font-weight: 500" th:text="${reviewItem.reviewRegdate}"></div>
+						                </div>
+					 	                <!-- <div style="font-size: 14px">
+						                    <i th:if="${reviewItem.reviewGrade > 0}" th:each="i : ${#numbers.sequence(1, reviewItem.reviewGrade)}" class="fa-solid fa-star" style="color: #ffd43b"></i>
+						                </div> -->
+										<div style="font-size: 14px">
+											<i th:each="i : ${#numbers.sequence(1, reviewItem.reviewGrade)}" class="fa-solid fa-star" style="color: #ffd43b"></i>
+										</div>
+						                <div class="spacing-height-16"></div>
+						                <div>
+						                    <h5 style="font-weight: 600" th:text="${reviewItem.reviewTitle}"></h5>
+						                    <div th:text="${reviewItem.reviewContent}"></div>
+						                </div>
+						                <div class="spacing-height-16"></div>
+						            </div>
+						        </div>
+						    </th:block>
+					    </div>
+					    <div class="carousel-buttons">
+					        <button class="prev-button">Prev</button>
+					        <button class="next-button">Next</button>
+					    </div>
+					</div>
+					<!-- <div id="carouselExampleIndicators" class="carousel slide">
+					    <div class="carousel-indicators">
+					        <th:block th:each="review, stat : ${reviewList}">
+					            <button type="button" th:attr="data-bs-target='#carouselExampleIndicators', data-bs-slide-to=${stat.index}, class=${stat.index == 0} ? 'active' : ''"></button>
+					        </th:block>
+					    </div>
+					    <div class="carousel-inner">
+					        <th:block th:each="reviewItem, reviewIndex : ${reviewList}">
+					            <div th:classappend="${reviewIndex.index == 0} ? 'carousel-item active' : 'carousel-item'">
+					                <div class="each-review">
+					                    <div class="d-flex align-items-center">
+					                        <div style="font-weight: 600; font-size: 18px" th:text="${reviewItem.userName}"></div>
+					                        <div style="color: rgb(141, 146, 151); font-weight: 500" th:text="${reviewItem.reviewRegdate}"></div>
+					                    </div>
+					                    <div style="font-size: 14px">
+					                        <i th:if="${reviewItem.reviewGrade > 0}" th:each="i : ${#numbers.sequence(1, reviewItem.reviewGrade)}" class="fa-solid fa-star" style="color: #ffd43b"></i>
+					                    </div>
+					                    <div class="spacing-height-16"></div>
+					                    <div>
+					                        <h5 style="font-weight: 600" th:text="${reviewItem.reviewTitle}"></h5>
+					                        <div th:text="${reviewItem.reviewContent}"></div>
+					                    </div>
+					                    <div class="spacing-height-16"></div>
+					                </div>
+					            </div>
+					        </th:block>
+					    </div>
+					    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+					        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					        <span class="visually-hidden">Previous</span>
+					    </button>
+					    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+					        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+					        <span class="visually-hidden">Next</span>
+					    </button>
+					</div>   -->
                     <!-- 리뷰 영역 시작 -->
 <!--                      <div class="review-container">
                         <div class="spacing-height-16"></div>

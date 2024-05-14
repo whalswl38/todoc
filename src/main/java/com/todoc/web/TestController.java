@@ -129,7 +129,7 @@ public class TestController {
         model.addAttribute("clinicList", list);	
         return "clinic/clinicList";
     }
-
+ 
     
     
     @GetMapping("/infoUpdate-page")

@@ -23,4 +23,10 @@ public class ReviewService {
 	{
 		return reviewDao.reviewListPlus(review);
 	}
+	
+	//후기 작성
+	public int reviewInsert(Review review)
+	{
+		return reviewDao.reviewInsert(review);
+	}
 }

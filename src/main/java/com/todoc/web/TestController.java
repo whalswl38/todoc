@@ -130,10 +130,6 @@ public class TestController {
         return "clinic/clinicList";
     }
 
-    @GetMapping("/review-page")
-    public String test25() {
-        return "mypage/review";
-    }
     
     
     @GetMapping("/infoUpdate-page")

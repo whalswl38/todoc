@@ -94,26 +94,21 @@
       }
     </style>
     <script>
-      $(document).ready(function () {});
-      
-    </script>
-    <script>
-    <script>
-    $("#collaspe-btn").click;
-
     $(document).ready(function () {
-      $("#collaspe-btn").click(function () {
+    	
+      $("#collaspe-btn").on("click", function () {
         document.bbsForm.endRow.value += 3;
         document.bbsForm.action ="/review-detail-page";
         document.bbsForm.submit;
       });
     });
+    
+    function rowPlus()
+    {
+    	
+    }
   </script>
   
-  <script>
-  
-  
-  </script>
   </head>
   
   <div layout:fragment="content" class="review-container d-flex " style="flex-wrap: wrap;" >
@@ -180,10 +175,11 @@
        </button>
       </div>  
       
+      
   </div>
   
   
   <form name="bbsForm" id="bbsForm" method="post">
-		<input type="hidden" name="endRow" th:value="${endRow}" />
+		<input type="text" name="endRow" id="endRow" th:value="${endRow}" />
   </form>
 </html>

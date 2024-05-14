@@ -73,5 +73,33 @@
 			 WHERE RNUM <![CDATA[>=]]> #{startRow}
 			   AND RNUM <![CDATA[<=]]> #{endRow}
 	</select>
+	
+	
+	<insert id="reviewInsert" parameterType="com.todoc.web.dto.Review">
+		<selectKey resultType="long" keyProperty="reviewSeq" order="BEFORE" >
+	  		SELECT SEQ_TD_REVIEW.NEXTVAL FROM DUAL
+	  	</selectKey>
+	  	
+	INSERT INTO td_review (
+		    USER_EMAIL,
+		    REVIEW_SEQ,
+		    REVIEW_TITLE,
+		    REVIEW_CONTENT,
+		    REVIEW_REGDATE,
+		    REVIEW_GRADE,
+		    USER_NAME,
+		    CLINIC_INSTINUM
+		) VALUES (
+		    #{userEmail},
+		    #{reviewSeq},
+		    #{reviewTitle},
+		    #{reviewContent},
+		    SYSDATE,
+		    #{reviewGrade},
+		    #{userName},
+		    #{clinicInstinum}
+		);
+	
+	</insert>
  
 </mapper>

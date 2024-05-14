@@ -215,6 +215,69 @@
             $("#submit-btn").attr("disabled", true);
           }
         }
+        
+        $("#submit-btn").on("click", function (){
+        	if($.trim($("#diagnosis-title").val()).length <= 0)
+			{
+				alert("받으신 진료를 입력하세요.");
+				$("#diagnosis-title").val("");
+				$("#diagnosis-title").focus();
+			
+				return;
+			}
+        	
+        	if($.trim($("#diagnosis-comments").val()).length <= 0)
+       		{
+       			alert("내용을 입력하세요.");
+       			$("#diagnosis-comments").val("");
+       			$("#diagnosis-comments").focus();
+       			
+       			return;
+       		}
+        	
+        	var reviewWrite = {
+        			reviewTitle : $("#diagnosis-title").val(),
+ 	        	 	reviewContent : $("#diagnosis-comments").val(),
+ 	        	 	reviewGrade : $("input[name=rating]:checked").val()
+        	}
+        	
+        	$.ajax({
+ 	           type: "POST",
+ 	           url: "/reviewWrite",
+ 	           contentType: 'application/json',
+ 	           data: JSON.stringify(reviewWrite),
+ 	           dataType: "json",
+	               success: function(response) 
+	               {
+	  	                if(response == 0) 
+	  	                {
+	    	                document.getElementById("invalid-feedback")[0].innerHTML = "가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.";
+	    	            } 
+	  	                else if(response == 1)
+	  	                {
+	    	                 // location.href = "/admin/main";
+	    	            } 
+	  	                else if(response == 2)
+	  	                {
+	    	                location.href = "/main-page"; // 얘는 소셜로그인이라서 회원정보 수정으로 이동
+	    	            }
+	  	                else if(response == 3)
+	  	                {
+	    	                location.href = "/main-page";
+	    	            }
+	  	                else if(response == 4)
+	  	                {
+	    	                location.href = "/main-page"; // 의사, 약사
+	    	            }
+	    	       },
+	    	       error: function(xhr,err)
+	    	       {
+	                  alert("관리자에게 문의하세요.");
+	    	       }
+	    	    });
+        });
+        
+        
       });
     </script>
   </head>

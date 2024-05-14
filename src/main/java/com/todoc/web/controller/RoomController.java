@@ -25,9 +25,8 @@ public class RoomController {
 	}
 	
 	 @GetMapping("/room-page")
-     public String roomStream(HttpServletRequest request, Model model) {
-	 
-		 
+     public String roomStream(HttpServletRequest request, Model model) 
+	 {
 		 String token = jwtFilter.extractJwtFromCookie(request);
 	     String userEmail = jwtFilter.getUsernameFromToken(token);
 	     

@@ -8,7 +8,12 @@ import com.todoc.web.dto.Untact;
 
 @Mapper
 public interface UntactDao {
-	List subjectList(Untact untact);
+	List<Untact> subjectList(Untact untact);
 	
 	Untact selectClinicDetail(Untact untact);
+	
+	List<Untact> reviewList(Untact untact);
+
+	int subjectListCount(Untact untact);
+
 }

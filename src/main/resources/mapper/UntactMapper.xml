@@ -10,8 +10,8 @@
         <result column="CLINIC_NAME" property="clinicName"/>
         <result column="CLINIC_SUBJECT" property="clinicSubject"/>
         <result column="CLINIC_SYMPTOM" property="clinicSymptom"/>
-        <result column="CLINIC_EMAIL" property="clinicEmail"/>
-        <result column="CLINIC_PWD" property="clinicPwd"/>
+        <result column="USER_EMAIL" property="userEmail"/>
+        <result column="USER_PWD" property="userPwd"/>
         <result column="CLINIC_DAY" property="clinicDay"/>
         <result column="CLINIC_TIME" property="clinicTime"/>
         <result column="CLINIC_DAYOFF" property="clinicDayoff"/>
@@ -32,22 +32,31 @@
         <result column="FILE_EXT" property="fileExt"/>
         <result column="FILE_SIZE" property="fileSize"/>
         <result column="FILE_REGDATE" property="fileRegDate"/>
-	</resultMap>	
-	
-<!-- 	<select id="subjectList" parameterType="com.todoc.web.dto.Untact" resultMap="untactResultMap">
-	    SELECT CLINIC_INSTINUM, CLINIC_DOCTOR, CLINIC_NAME, CLINIC_TIME, CLINIC_STATUS, CLINIC_NIGHT FROM TD_CLINIC
-	    WHERE 1=1
-	    <if test="clinicSubject != null and clinicSubject != ''">
-	        AND CLINIC_SUBJECT LIKE '%' || #{clinicSubject} || '%'
-	    </if>
-	    <if test="clinicSymptom != null and clinicSymptom != ''">
-	        AND CLINIC_SYMPTOM LIKE '%' || #{clinicSymptom} || '%'
-	    </if>
-	</select> -->
+        
+        <result column="REVIEW_SEQ" property="reviewSeq"/>
+        <result column="REVIEW_TITLE" property="reviewTitle"/>
+        <result column="REVIEW_CONTENT" property="reviewContent"/>
+        <result column="REVIEW_REGDATE" property="reviewRegdate"/>
+        <result column="REVIEW_GRADE" property="reviewGrade"/>
+        <result column="USER_NAME" property="userName"/>
+	</resultMap>
+		
+	<!-- 비대면 병원 리스트 -->
 	<select id="subjectList" parameterType="com.todoc.web.dto.Untact" resultMap="untactResultMap">
-		SELECT A.CLINIC_INSTINUM, A.CLINIC_DOCTOR, A.CLINIC_NAME, A.CLINIC_TIME, A.CLINIC_STATUS, A.CLINIC_NIGHT, B.FILE_ORG_NAME
+		SELECT * FROM  (
+			SELECT 
+			<choose>
+				 <when test='sortType == "review_grade"'>
+           			ROW_NUMBER() OVER(ORDER BY CASE WHEN C.REVIEW_GRADE IS NULL THEN 1 ELSE 0 END, C.REVIEW_GRADE DESC) AS RNUM,	
+				</when>
+				<otherwise>
+           			ROW_NUMBER() OVER(ORDER BY CASE WHEN C.REVIEW_SEQ IS NULL THEN 1 ELSE 0 END, C.REVIEW_SEQ DESC) AS RNUM,
+				</otherwise>
+			</choose>
+			ROUND(C.REVIEW_GRADE,1) AS REVIEW_GRADE, C.REVIEW_SEQ, A.CLINIC_INSTINUM, A.CLINIC_DOCTOR, A.CLINIC_NAME, A.CLINIC_TIME, A.CLINIC_STATUS, A.CLINIC_NIGHT, B.FILE_ORG_NAME
 		FROM TD_CLINIC A
-		LEFT JOIN TD_CLINIC_FILE B ON A.CLINIC_INSTINUM = B.CLINIC_INSTINUM
+		LEFT OUTER JOIN TD_CLINIC_FILE B ON A.CLINIC_INSTINUM = B.CLINIC_INSTINUM
+		LEFT OUTER JOIN (SELECT CLINIC_INSTINUM, AVG(REVIEW_GRADE) AS REVIEW_GRADE, COUNT(review_content) AS REVIEW_SEQ FROM TD_REVIEW GROUP BY CLINIC_INSTINUM) C ON A.CLINIC_INSTINUM = C.CLINIC_INSTINUM
 		WHERE 1=1
 		<if test="clinicSubject != null and clinicSubject != ''">     
 		AND A.CLINIC_SUBJECT LIKE '%' || #{clinicSubject} || '%'   
@@ -55,11 +64,18 @@
 		<if test="clinicSymptom != null and clinicSymptom != ''">     
 		AND A.CLINIC_SYMPTOM LIKE '%' || #{clinicSymptom} || '%'
 		</if>
+		<if test="searchWord != null and searchWord != ''">
+		AND (A.CLINIC_SUBJECT LIKE '%' || #{searchWord} ||'%' OR A.CLINIC_SYMPTOM LIKE '%' || #{searchWord} ||'%' OR A.CLINIC_NAME LIKE '%' || #{searchWord} ||'%')
+		</if>
+	) Z
+	WHERE RNUM <![CDATA[>=]]> #{startRow} 
+		  AND RNUM <![CDATA[<=]]> #{endRow} 
 	</select>
   
+	<!-- 비대면 병원 뷰 -->
   	<select id="selectClinicDetail" parameterType="com.todoc.web.dto.Untact" resultMap="untactResultMap">
         SELECT
-            A.CLINIC_INSTINUM as CLINIC_INSTINUM,
+            A.CLINIC_INSTINUM AS CLINIC_INSTINUM,
             NVL(A.CLINIC_DOCTOR, '') CLINIC_DOCTOR,
             NVL(A.CLINIC_NAME, '') CLINIC_NAME,
             NVL(A.CLINIC_SUBJECT, '') CLINIC_SUBJECT,
@@ -70,11 +86,46 @@
             NVL(A.CLINIC_DETAIL, '') CLINIC_DETAIL,
             NVL(A.CLINIC_CAREER, '') CLINIC_CAREER,
             NVL(A.CLINIC_BREAK, '') CLINIC_BREAK,
-            NVL(B.FILE_ORG_NAME, '') AS FILE_ORG_NAME
-        FROM
-            TD_CLINIC A, TD_CLINIC_FILE B
-		WHERE A.CLINIC_INSTINUM = B.CLINIC_INSTINUM
-        AND A.CLINIC_INSTINUM = #{clinicInstinum}
+            NVL(B.FILE_ORG_NAME, '') FILE_ORG_NAME
+        FROM TD_CLINIC A
+		LEFT OUTER JOIN TD_CLINIC_FILE B ON A.CLINIC_INSTINUM = B.CLINIC_INSTINUM
+        WHERE A.CLINIC_INSTINUM = #{clinicInstinum}
+	</select>
+	
+	<!-- 비대면 병원 뷰 - 리뷰 -->
+	<select id="reviewList" parameterType="com.todoc.web.dto.Untact" resultMap="untactResultMap">
+        SELECT
+        	USER_EMAIL, REVIEW_TITLE, REVIEW_CONTENT, TO_CHAR(REVIEW_REGDATE, 'YYYY-MM-DD') AS REVIEW_REGDATE, REVIEW_GRADE, USER_NAME, CLINIC_INSTINUM   
+		FROM TD_REVIEW 
+		WHERE CLINIC_INSTINUM = #{clinicInstinum}
 	</select>
 
+
+	<select id="subjectListCount" parameterType="com.todoc.web.dto.Untact" resultType="int">
+	SELECT COUNT(*) FROM  (
+			SELECT 
+			<choose>
+				 <when test='sortType == "review_grade"'>
+           			ROW_NUMBER() OVER(ORDER BY CASE WHEN C.REVIEW_GRADE IS NULL THEN 1 ELSE 0 END, C.REVIEW_GRADE DESC) AS RNUM,	
+				</when>
+				<otherwise>
+           			ROW_NUMBER() OVER(ORDER BY CASE WHEN C.REVIEW_SEQ IS NULL THEN 1 ELSE 0 END, C.REVIEW_SEQ DESC) AS RNUM,
+				</otherwise>
+			</choose>
+			ROUND(C.REVIEW_GRADE,1) AS REVIEW_GRADE, C.REVIEW_SEQ, A.CLINIC_INSTINUM, A.CLINIC_DOCTOR, A.CLINIC_NAME, A.CLINIC_TIME, A.CLINIC_STATUS, A.CLINIC_NIGHT, B.FILE_ORG_NAME
+		FROM TD_CLINIC A
+		LEFT OUTER JOIN TD_CLINIC_FILE B ON A.CLINIC_INSTINUM = B.CLINIC_INSTINUM
+		LEFT OUTER JOIN (SELECT CLINIC_INSTINUM, AVG(REVIEW_GRADE) AS REVIEW_GRADE, COUNT(review_content) AS REVIEW_SEQ FROM TD_REVIEW GROUP BY CLINIC_INSTINUM) C ON A.CLINIC_INSTINUM = C.CLINIC_INSTINUM
+		WHERE 1=1
+		<if test="clinicSubject != null and clinicSubject != ''">     
+		AND A.CLINIC_SUBJECT LIKE '%' || #{clinicSubject} || '%'   
+		</if>
+		<if test="clinicSymptom != null and clinicSymptom != ''">     
+		AND A.CLINIC_SYMPTOM LIKE '%' || #{clinicSymptom} || '%'
+		</if>
+		<if test="searchWord != null and searchWord != ''">
+		AND (A.CLINIC_SUBJECT LIKE '%' || #{searchWord} ||'%' OR A.CLINIC_SYMPTOM LIKE '%' || #{searchWord} ||'%' OR A.CLINIC_NAME LIKE '%' || #{searchWord} ||'%')
+		</if>
+	) Z
+	</select>
 </mapper>

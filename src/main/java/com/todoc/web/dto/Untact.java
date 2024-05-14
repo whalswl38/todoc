@@ -10,8 +10,8 @@ public class Untact {
 	private String clinicName;
 	private String clinicSubject;
 	private String clinicSymptom;
-	private String clinicEmail;
-	private String clinicPwd;
+	private String userEmail;
+	private String userPwd;
 	private String clinicDay;
 	private String clinicTime;
 	private String clinicDayoff;
@@ -25,12 +25,27 @@ public class Untact {
 	private String clinicCareer;
 	private String clinicBreak;
 	private String clinicNight;
+	
     private int fileSeq;
     private String fileOrgName;
     private String fileName;
     private String fileExt;
     private long fileSize;
     private String fileRegDate;
+    
+	private int reviewSeq;
+	private String reviewTitle;
+	private String reviewContent;
+	private String reviewRegdate;
+	private String reviewGrade;
+	private String userName;
+    
+    private String searchWord;
+
+    private long startRow;
+    private long endRow;
+    private String sortType;
+    
 }
 
 

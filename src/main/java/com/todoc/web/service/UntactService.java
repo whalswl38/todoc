@@ -13,7 +13,7 @@ public class UntactService {
 	@Autowired
 	private UntactDao untactDao;
 	
-	public List subjectList(Untact untact) {
+	public List<Untact> subjectList(Untact untact) {
 		//과목
 		if(untact.getClinicSubject() != null)
 		switch (untact.getClinicSubject()) {
@@ -121,5 +121,13 @@ public class UntactService {
 		 */
 		 return untactDao.selectClinicDetail(untact);
 
+	}
+	
+	public List<Untact> reviewList(Untact untact) {
+		return untactDao.reviewList(untact);
+	}
+
+	public int subjectListCount(Untact untact) {
+		return untactDao.subjectListCount(untact);
 	}
 }

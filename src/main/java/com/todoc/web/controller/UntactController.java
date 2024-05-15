@@ -77,6 +77,7 @@ public class UntactController {
     	String subject = request.getParameter("subject");
     	String symptom = request.getParameter("symptom");
     	String searchWord = request.getParameter("searchWord");
+    	String sortType = request.getParameter("sortType");
 
     	long curPage = 1; 
     	if(request.getParameter("curPage") != null)
@@ -91,9 +92,10 @@ public class UntactController {
     	if(searchWord != null)
     	untact.setSearchWord(searchWord);
     	
-    	// 정렬 버튼용 파라미터
-    	untact.setSortType(request.getParameter("sortType"));
-		
+    	if(sortType != null) {
+    		untact.setSortType(request.getParameter("sortType"));
+    	} 
+    	
 		int totalCount = untactService.subjectListCount(untact);
 		if (totalCount > 0) {
 			paging = new Paging("/select-clinic-page", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
@@ -238,7 +240,8 @@ public class UntactController {
     public String test10() {
         return "untact/clinicReservationPayment";
     }
-
+    
+    //비대면-진료예약
     @PostMapping("/clinic-reserve-page")
     @ResponseBody
     public String test11(HttpServletRequest request, HttpServletResponse response) {

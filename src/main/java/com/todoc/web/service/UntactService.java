@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.todoc.web.dao.UntactDao;
+import com.todoc.web.dto.Reserve;
 import com.todoc.web.dto.Untact;
 
 @Service
@@ -129,5 +130,9 @@ public class UntactService {
 
 	public int subjectListCount(Untact untact) {
 		return untactDao.subjectListCount(untact);
+	}
+
+	public int insertReservation(Reserve rsve) {
+		return untactDao.insertReservation(rsve);
 	}
 }

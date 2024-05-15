@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-
 <mapper namespace="com.todoc.web.dao.UntactDao">
 	<resultMap type="com.todoc.web.dto.Untact" id="untactResultMap">
 		<result column ="CLINIC_INSTINUM" property="clinicInstinum"/>
@@ -25,14 +23,14 @@
         <result column="CLINIC_CAREER" property="clinicCareer"/>
         <result column="CLINIC_BREAK" property="clinicBreak"/>
         <result column="CLINIC_NIGHT" property="clinicNight"/>
-		<!-- 첨부파일 resultMap -->
+		<!-- 첨부파일 -->
         <result column="FILE_SEQ" property="fileSeq"/>
         <result column="FILE_ORG_NAME" property="fileOrgName"/>
         <result column="FILE_NAME" property="fileName"/>
         <result column="FILE_EXT" property="fileExt"/>
         <result column="FILE_SIZE" property="fileSize"/>
         <result column="FILE_REGDATE" property="fileRegDate"/>
-        
+        <!-- 리뷰 -->
         <result column="REVIEW_SEQ" property="reviewSeq"/>
         <result column="REVIEW_TITLE" property="reviewTitle"/>
         <result column="REVIEW_CONTENT" property="reviewContent"/>
@@ -100,7 +98,7 @@
 		WHERE CLINIC_INSTINUM = #{clinicInstinum}
 	</select>
 
-
+	<!-- 페이징 -->
 	<select id="subjectListCount" parameterType="com.todoc.web.dto.Untact" resultType="int">
 	SELECT COUNT(*) FROM  (
 			SELECT 
@@ -128,4 +126,20 @@
 		</if>
 	) Z
 	</select>
+	
+	<insert id="insertReservation" parameterType="com.todoc.web.dto.Reserve">
+	INSERT INTO TD_RESERVATION (
+    	RESERVATION_SEQ, USER_EMAIL, CLINIC_INSTINUM, RESERVATION_DATE, RESERVATION_TIME, RESERVATION_SYMPTOM, RESERVATION_FLAG, REGDATE, RESERVATION_STATUS
+	) VALUES (
+	    (SELECT MAX(RESERVATION_SEQ)+1 FROM TD_RESERVATION),
+	    #{userEmail},
+	    #{clinicInstinum},
+	    #{reservationDate},
+	    #{reservationTime},
+	    #{reservationSymptom},
+	    'U',
+	    SYSDATE,
+	    '예약확인'
+	)
+	</insert>
 </mapper>

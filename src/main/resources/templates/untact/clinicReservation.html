@@ -65,46 +65,75 @@
         }
     </style>
     <script>
-        $(document).ready(function() {
-            $("#comments").on("input", function() {
-                let textInput = $(this).val();
-                let text_length = textInput.length;
-                if (text_length > 150) {
-                    textInput = textInput.substring(0, 150);
-                    $(this).val(textInput);
+    $(document).ready(function() {
+        $("#comments").on("input", function() {
+            let textInput = $(this).val();
+            let text_length = textInput.length;
+            if (text_length > 150) {
+                textInput = textInput.substring(0, 150);
+                $(this).val(textInput);
+            }
+            text_length = textInput.length;
+            $("#commentsHelp").text(text_length + "/150");
+        });
+
+        const dateSlots = ["오늘", "내일"];
+        var $dateSlotsDiv = $("#dateSlots");
+        $.each(dateSlots, function(index, time) {
+            var $button = $("<button>")
+                .addClass("dateBtn btn btn-outline-secondary m-1")
+                .text(time);
+            $button.on("click", function() {
+                $(".dateBtn.active").removeClass("active");
+                $(this).addClass("active");
+            });
+            $dateSlotsDiv.append($button);
+        });
+
+        const timeButtons = document.querySelectorAll('.timeBtn');
+        timeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const selectedTime = button.textContent; 
+                console.log('Selected time:', selectedTime);
+
+                // 클릭된 버튼에만 active 클래스를 추가하고 나머지 버튼들에서는 active 클래스를 제거합니다.
+                timeButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+            });
+        });
+        
+        <!--예약하기-->
+        $("#reserveBtn").on("click", function() {
+            const date = $(".dateBtn.active").text(); 
+            const time = $(".timeBtn.active").text(); 
+            const symptoms = $("#comments").val();
+            const clinicInstinum = $("#clinicInstinum").val();
+         
+            const formData = new FormData();
+            formData.append('date', date);
+            formData.append('time', time);
+            formData.append('symptoms', symptoms)
+            formData.append('clinicInstinum', clinicInstinum);
+
+            $.ajax({
+                url: '/clinic-reserve-page', 
+                type: 'POST', 
+                data: formData, 
+                processData: false,
+                contentType: false, 
+                success: function(response) {
+                	if(response >= 1){
+	                    alert('예약이 성공적으로 완료되었습니다.');
+	                    window.location.href = "http://localhost:8099/clinic-reserve-user-page";
+                	} else {
+                		console.log('예약실패');
+                	}
+                },
+                error: function(error) {
+                    console.error('예약을 처리하는 도중 오류가 발생했습니다.');
                 }
-                text_length = textInput.length;
-                $("#commentsHelp").text(text_length + "/150");
             });
-
-            const dateSlots = ["오늘", "내일"];
-            var $dateSlotsDiv = $("#dateSlots");
-            $.each(dateSlots, function(index, time) {
-                var $button = $("<button>")
-                    .addClass("dateBtn btn btn-outline-secondary m-1")
-                    .text(time);
-                $button.on("click", function() {
-                    $(".dateBtn.active").removeClass("active");
-                    $(this).addClass("active");
-                });
-                $dateSlotsDiv.append($button);
-            });
-
-            const timeButtons = document.querySelectorAll('.timeBtn');
-            timeButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const selectedTime = button.textContent; 
-            		console.log('Selected time:', selectedTime);
-                });
-            });    
-         	
-/*             const timeSlots = [
-                "09:00", "10:00", "10:20", "10:40", "11:00",
-                "11:20", "11:40", "12:00", "12:20", "12:40", "13:00", "13:20",
-                "13:40", "14:00", "14:20", "14:40", "15:00", "15:20", "15:40",
-                "16:00", "16:20", "16:40", "17:00", "17:20", "17:40", "18:00",
-            ]; */
-
+        });
 
            /*  var $timeSlotsDiv = $("#timeSlots");
             $.each(timeSlots, function(index, time) {
@@ -117,7 +146,7 @@
                 });
                 $timeSlotsDiv.append($button);
             }); */
-        });
+	});
     </script>
 </head>
 <body>
@@ -155,7 +184,6 @@
                             <div th:if="${message == null}" id="timeSlots" class="d-flex">
                                 <div th:each="timeSlot : ${timeSlots}">
 								    <button class="timeBtn btn btn-outline-secondary m-1" th:text="${#temporals.format(timeSlot, 'HH:mm')}"></button>
-								    <!-- <button class="timeBtn btn btn-outline-secondary m-1" th:text="${#temporals.format(timeSlot, 'HH:mm')}"></button> -->
 								</div>
 							</div>
 						</div>
@@ -167,7 +195,7 @@
                                 <small id="commentsHelp" class="form-text text-muted">0/150</small>
                             </div>
                         </div>
-<!--                         <div class="d-flex justify-content-center align-items-center" style="width: 60px; height: 60px; border: 0.1px solid rgb(141, 146, 151); border-radius: 8px;">
+                        <!--<div class="d-flex justify-content-center align-items-center" style="width: 60px; height: 60px; border: 0.1px solid rgb(141, 146, 151); border-radius: 8px;">
                             <label for="photo" style="cursor: pointer; padding: 4px 18px"><i class="fa-solid fa-camera"></i>
                                 <div style="font-size: 14px">0/4</div>
                             </label>
@@ -176,11 +204,12 @@
                         <div class="spacing-height-16"></div>
                         <div class="form-group d-flex justify-content-center">
                             <div>
-                                <button id="reserveBtn" class="btn btn-primary p-2" style="width: 160px">에약하기</button>
+                                <button id="reserveBtn" class="btn btn-primary p-2" style="width: 160px">예약하기</button>
                             </div>
                         </div>
                     </div>
                 </div>
+                <input id="clinicInstinum" type="hidden" th:value="${clinic.clinicInstinum}">
                 <div class="spacing-height-16"></div>
                 <div class="spacing-height-16"></div>
             </div>

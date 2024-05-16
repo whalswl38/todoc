@@ -359,4 +359,10 @@ public class UserService
 		return true;
 	}
 	
+	
+	//회원정보 수정
+	public int userUpdate(User user)
+	{
+		return userDao.userUpdate(user);
+	}
 }

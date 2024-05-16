@@ -315,4 +315,13 @@
 		INSERT INTO TD_USER (USER_EMAIL, USER_NAME, USER_TYPE, SOCIAL_TYPE, USER_REGDATE, USER_STATUS) 
 		VALUES (#{userEmail}, #{userName}, 'GUEST', #{socialType}, SYSDATE, 'Y')
 	</insert>
+	
+	
+	<!-- 회원정보 수정 -->
+	<update id="userUpdate" parameterType="com.todoc.web.dto.User">
+		 UPDATE TD_USER
+		    SET USER_NAME = #{userName},
+		        USER_IDENTITY = #{userIdentity}
+		  WHERE USER_EMAIL = #{userEmail}
+	</update>
 </mapper>

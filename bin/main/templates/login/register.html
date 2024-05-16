@@ -139,6 +139,15 @@
      	 color:red;
      	 font-size: 12px;
       }
+      #emailC {
+        width: 15%;
+        height: 40px;
+        background:  #3296D7;	
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+      }
     </style>
     
     <!-- 사용자 스크립트 추가 -->
@@ -404,7 +413,7 @@
             <input type="email" placeholder="이메일" th:field="*{userEmail}" class="form-control" />
         </div>
         <div role="presentation" style="padding-right: 8px">
-            <button type="button" style="width: 96px; font-size: 14px; border-radius: 8px;" onclick="checkDuplicateEmail()">이메일 중복검색</button>
+            <button id="emailC" type="button" style="width: 96px; font-size: 14px; border-radius: 8px;" onclick="checkDuplicateEmail()">이메일 중복검색</button>
         </div>
       </div>
       <p th:if="${#fields.hasErrors('userEmail')}" th:errors="*{userEmail}" id="error">Incorrect date</p>

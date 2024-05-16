@@ -42,7 +42,7 @@
       }
 
       .role-selection button {
-        background: #efefef;
+        background:  #007bff;
         border: 1px solid #ddd;
         padding: 10px 20px;
         border-radius: 5px;
@@ -74,7 +74,7 @@
       .login-btn {
         width: 100%;
         height: 40px;
-        background: rgb(247, 103, 7);
+        background:  #007bff;
         color: white;
         border: none;
         border-radius: 5px;
@@ -121,8 +121,8 @@
       }
 
       .selected {
-        border-bottom: 2px solid rgb(247, 103, 7);
-        color: rgb(247, 103, 7);
+        border-bottom: 2px solid  #007bff;
+        color:  #007bff;
         font-weight: 500;
       }
       #invalid-feedback{
@@ -131,6 +131,7 @@
       }
     </style>
     <script>
+     
      function toggleSwitch(option) 
      {
         var leftOption = document.getElementById("normal-user");
@@ -177,7 +178,7 @@
     	        
     		  if($.trim($("#userEmail").val()).length <= 0)
     		  {
-    			  document.getElementById("invalid-feedback").innerHTML = "이메일을 작성해주세요.";
+    			  document.getElementById("invalid-feedback").innerHTML = "아이디를 작성해주세요.";
     			  return;
     		  }
     		  
@@ -195,24 +196,19 @@
     	           dataType: "json",
 	               success: function(response) 
 	               {
-	            	   alert(response);
 	  	                if(response == 0) 
 	  	                {
 	    	                document.getElementById("invalid-feedback")[0].innerHTML = "가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.";
 	    	            } 
 	  	                else if(response == 1)
 	  	                {
-	    	                 // location.href = "/admin/main";
-	    	            } 
+	    	                 // location.href = "/admin/main"; // 관리자
+	    	            }
 	  	                else if(response == 2)
 	  	                {
-	    	                location.href = "/main-page"; // 얘는 소셜로그인이라서 회원정보 수정으로 이동
+	    	                location.href = "/main-page"; // 일반 유저
 	    	            }
 	  	                else if(response == 3)
-	  	                {
-	    	                location.href = "/main-page";
-	    	            }
-	  	                else if(response == 4)
 	  	                {
 	    	                location.href = "/main-page"; // 의사, 약사
 	    	            }
@@ -224,6 +220,14 @@
 	    	    });
     	  });
       });
+      
+      function submitName(e)
+      {
+    	  if(e.code == 'Enter')
+    	  {
+    		  document.getElementById('login-btn').click();
+    	  }
+      }
     </script>
   </head>
 
@@ -248,13 +252,14 @@
 
       <form id="loginForm" method="post">
         <div class="input-group">
-          <input type="text" name="email" id="userEmail" placeholder="이메일" required />
+          <input type="text" name="email" id="userEmail" onkeyup="return submitName(event);" placeholder="아이디" required />
         </div>
         <div class="input-group">
           <input
             type="password"
             name="password"
             id="userPwd"
+            onkeyup="return submitName(event);"
             placeholder="비밀번호"
             required
           />
@@ -268,10 +273,10 @@
 
       <div class="find-register">
         <div class="register-link">
-          <a href="/register">아이디 찾기</a>
+          <a href="/login/findId">아이디 찾기</a>
         </div>
         <div class="register-link">
-          <a href="/register">비밀번호 찾기</a>
+          <a href="/login/findPwd">비밀번호 찾기</a>
         </div>
         <div class="register-link" onClick="goToRegister()">회원가입</div>
       </div>

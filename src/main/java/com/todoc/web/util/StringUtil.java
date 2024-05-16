@@ -3,13 +3,8 @@
  * 프로젝트명 : common
  * 패키지명   : com.icia.common.util
  * 파일명     : StringUtil.java
-<<<<<<< HEAD
  * 작성일     :  
  * 작성자     :  
-=======
- * 작성일     : 2020. 12. 29.
- * 작성자     : daekk
->>>>>>> seungjun
  * </pre>
  */
 package com.todoc.web.util;
@@ -28,13 +23,8 @@ import java.util.regex.Pattern;
  * <pre>
  * 패키지명   : com.icia.common.util
  * 파일명     : StringUtil.java
-<<<<<<< HEAD
  * 작성일     :  
  * 작성자     :  
-=======
- * 작성일     : 2020. 12. 29.
- * 작성자     : daekk
->>>>>>> seungjun
  * 설명       : 문자열 관련 유틸리티
  * </pre>
  */
@@ -45,13 +35,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : nvl
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열이 null이면 공백 문자열로 변환
 	 * </pre>
 	 * @param str 문자열
@@ -65,13 +50,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : nvl
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열이 null이거나 비어있으면 기본값 적용
 	 * </pre>
 	 * @param str 문자열
@@ -93,13 +73,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : isNull
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : null 체크
 	 * </pre>
 	 * @param str 문자열
@@ -113,13 +88,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : isNull
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : null 체크
 	 * </pre>
 	 * @param obj 객체
@@ -140,13 +110,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : isEmpty
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열이 null이거나 비어있는지 체크
 	 * </pre>
 	 * @param str 문자열
@@ -167,13 +132,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : isEmpty
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : object null 인지 체크
 	 * </pre>
 	 * @param obj Object
@@ -187,13 +147,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : isEmpty
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : object 배열이 null 이거나 비어있는지 체크
 	 * </pre>
 	 * @param array Object[]
@@ -207,13 +162,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : isNumeric
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열 숫자인지 체크(음수, 양수, 부동소수도 체크)
 	 * </pre>
 	 * @param str 문자열
@@ -257,13 +207,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : isNumber
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열이 숫자로 구성되어 있는지 체크
 	 * </pre>
 	 * @param str 문자열
@@ -292,13 +237,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : stringToShort
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열을 short형으로 변경한다.
 	 * </pre>
 	 * @param str 문자열
@@ -331,13 +271,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : isShort
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열이 Short 형으로 변환 되는지 체크
 	 * </pre>
 	 * @param str 문자열
@@ -365,13 +300,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : stringToInteger
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열을 int형으로 변경한다.
 	 * </pre>
 	 * @param str 문자열
@@ -404,13 +334,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : isInteger
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열이 Integer 형으로 변환 되는지 체크
 	 * </pre>
 	 * @param str 문자열
@@ -438,13 +363,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : stringToLong
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열을 long형으로 변경한다.
 	 * </pre>
 	 * @param str 문자열
@@ -477,13 +397,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : isLong
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열이 Long 형으로 변환 되는지 체크
 	 * </pre>
 	 * @param str 문자열
@@ -511,13 +426,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : stringToFloat
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열을 float형으로 변경한다.
 	 * </pre>
 	 * @param str 문자열
@@ -550,13 +460,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : isFloat
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열이 Float 형으로 변환 되는지 체크
 	 * </pre>
 	 * @param str 문자열
@@ -584,13 +489,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : stringToDouble
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열을 double형으로 변경한다.
 	 * </pre>
 	 * @param str 문자열
@@ -623,13 +523,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : isDouble
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열이 Double 형으로 변환 되는지 체크
 	 * </pre>
 	 * @param str 문자열
@@ -657,13 +552,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : equals
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열을 비교한다.
 	 * </pre>
 	 * @param strTarget 문자열
@@ -683,13 +573,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : equalsIgnoreCase
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열을 비교한다. (대소문자 구분안함)
 	 * </pre>
 	 * @param strTarget 문자열
@@ -709,13 +594,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : isRegexPatternMatch
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 정규식 패턴 검사
 	 * </pre>
 	 * @param str 문자열
@@ -733,13 +613,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : rightPad
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열 길이가 len보다 작다면 우측에 (문자열 길이 - len) padStr을 붙인다.
 	 * </pre>
 	 * @param str 문자열
@@ -755,13 +630,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : leftPad
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열 길이가 len보다 작다면 좌측에 (문자열 길이 - len) padStr을 붙인다.
 	 * </pre>
 	 * @param str 문자열
@@ -777,13 +647,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : padString
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2020. 12. 29.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열 길이가 len보다 작다면 좌측 또는 우측에 (문자열 길이 - len) padStr을 붙인다.
 	 * </pre>
 	 * @param str    문자열
@@ -845,13 +710,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : trim
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2016. 11. 24.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열 좌측,우측 공백 제거
 	 * </pre>
 	 * @param str 문자열
@@ -873,13 +733,8 @@ public final class StringUtil
 	 * 
 	 * <pre>
 	 * 메소드명   : leftTrim
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2016. 11. 24.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 좌측 공백 제거
 	 * </pre>
 	 * @param str 문자열
@@ -907,13 +762,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : rightTrim
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2016. 11. 24.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 우측 공백 제거
 	 * </pre>
 	 * @param str 문자열
@@ -941,13 +791,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : left
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2016. 11. 24.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 좌측에서 len 만큼 자른다.
 	 * </pre>
 	 * @param str 문자열
@@ -973,13 +818,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : right
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2016. 11. 24.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 우측에서 len 만큼 자른다.
 	 * </pre>
 	 * @param str 문자열
@@ -1005,13 +845,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : substring
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2016. 11. 24.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열을 좌측 start위치 부터 자른다.
 	 * </pre>
 	 * @param str 문자열
@@ -1033,13 +868,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : substring
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2016. 11. 24.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열을 좌측 start위치 부터 end위치까지 자른다.
 	 * </pre>
 	 * @param str 문자열
@@ -1062,13 +892,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : uniqueValue
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2016. 11. 24.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : unique 문자열 값을 얻는다.
 	 * </pre>
 	 * @return String
@@ -1081,13 +906,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : replace
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2016. 11. 24.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : str 문자열에서 oldPattern 문자열을 newPattern 문자열로 변환한다.
 	 * </pre>
 	 * @param str 문자열
@@ -1127,11 +947,7 @@ public final class StringUtil
 	 * <pre>
 	 * 메소드명   : crlfClear
 	 * 작성일     : 2018. 4. 25.
-<<<<<<< HEAD
 	 * 작성자     :  
-=======
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 개행 문자를 지운다.
 	 * </pre>
 	 * @param value 문자열
@@ -1145,13 +961,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : tokenizeToStringArray
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2016. 11. 24.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 문자열을 delimiter로 구분하여 문자열 배열을 만든다.
 	 * </pre>
 	 * @param str 문자열
@@ -1200,13 +1011,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : toStringArray
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2016. 11. 24.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : Collection 값을 문자열 배열로 생성한다.
 	 * </pre>
 	 * @param collection java.util.Collection<String>
@@ -1225,13 +1031,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : encoding
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2021. 1. 7.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 입력 받은 문자열(str)을 charset으로 인코딩 한다.
 	 * </pre>
 	 * @param str     문자열
@@ -1246,13 +1047,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : encoding
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2021. 1. 7.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 입력 받은 바이트 배열을(bytes)을 charset으로 인코딩 한다.
 	 * </pre>
 	 * @param bytes 바이트 배열
@@ -1274,13 +1070,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : toNumberFormat
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2021. 1. 7.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 숫자형(short) 포멧을 얻는다.
 	 * </pre>
 	 * @param value 값
@@ -1294,13 +1085,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : toNumberFormat
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2021. 1. 7.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 숫자형(int) 포멧을 얻는다.
 	 * </pre>
 	 * @param value 값
@@ -1314,13 +1100,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : toNumberFormat
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2021. 1. 7.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 숫자형(long) 포멧을 얻는다.
 	 * </pre>
 	 * @param value 값
@@ -1334,13 +1115,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : toNumberFormat
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2021. 1. 7.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 숫자형(short) 포멧을 얻는다.
 	 * </pre>
 	 * @param value   값
@@ -1355,13 +1131,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : toNumberFormat
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2021. 1. 7.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 숫자형(int) 포멧을 얻는다.
 	 * </pre>
 	 * @param value   값
@@ -1376,13 +1147,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : toNumberFormat
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2021. 1. 7.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 숫자형(long) 포멧을 얻는다.
 	 * </pre>
 	 * @param value   값
@@ -1415,13 +1181,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : toNumberFormat
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2021. 1. 7.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 숫자형(float) 포멧을 얻는다.
 	 * </pre>
 	 * @param value 값
@@ -1435,13 +1196,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : toNumberFormat
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2021. 1. 7.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 숫자형(double) 포멧을 얻는다.
 	 * </pre>
 	 * @param value 값
@@ -1455,13 +1211,8 @@ public final class StringUtil
 	/**
 	 * <pre>
 	 * 메소드명   : toNumberFormat
-<<<<<<< HEAD
 	 * 작성일     :  
 	 * 작성자     :  
-=======
-	 * 작성일     : 2021. 1. 7.
-	 * 작성자     : daekk
->>>>>>> seungjun
 	 * 설명       : 숫자형(double) 포멧을 얻는다.
 	 * </pre>
 	 * @param value   값

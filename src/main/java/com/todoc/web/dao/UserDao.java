@@ -12,9 +12,6 @@ import com.todoc.web.dto.User;
 @Mapper
 public interface UserDao 
 {	
-	// 리프레쉬 토큰으로 회원 조회
-	User findByRefreshToken(String userRefreshToken);
-	
 	// 리프레쉬 토큰 업데이트
 	void refreshTokenUpdate(User user);
 	

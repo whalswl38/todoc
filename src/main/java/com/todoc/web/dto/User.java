@@ -39,7 +39,7 @@ public class User
 	private String socialType;
 	
 	private String userRefreshToken;
-	
+		
 	public User encodePassword(PasswordEncoder passwordEncoder) 
 	{
 		this.userPwd = passwordEncoder.encode(this.userPwd);

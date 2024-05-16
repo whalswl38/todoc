@@ -32,51 +32,6 @@ public class TestController {
     public String test2() {    	
     	return "main/main";
     }
-    @GetMapping("/select-subject-page")
-    public String test5( ) {
-        return "untact/selectSubject";
-    }
-
-    @GetMapping("/select-item-page")
-    public String test6( ) {
-        return "untact/selectItem";
-    }
-
-    @GetMapping("/select-clinic-page")
-    public String test7(Model model) {
-        List<SelectClinic> list = new ArrayList<>();
-        SelectClinic item1 = new SelectClinic("이현호 의사", "일등이비인후의원", 5.0, 8, true, "(금) 09:00 ~ 19:00", "이비인후과전문의", true,"https://d2m9duoqjhyhsq.cloudfront.net/marketingContents/article/article996-01.jpg");
-        SelectClinic item2 = new SelectClinic("민현홍 의사", "둔산싱싱튼튼의원", 4.8, 120, true, "(금) 10:00 ~ 23:50", null, true,"https://d2m9duoqjhyhsq.cloudfront.net/marketingContents/article/article996-01.jpg");
-        list.add(item1);
-        list.add(item2);
-        model.addAttribute("clinicList", list);
-        return "untact/selectClinic";
-    }
-
-    @GetMapping("/select-clinic-detail-page")
-    public String test8() {
-        return "untact/selectClinicDetail";
-    }
-
-    @GetMapping("/clinic-reserve-page")
-    public String test9() {
-        return "untact/clinicReservation";
-    }
-
-    @GetMapping("/clinic-reserve-payment-page")
-    public String test10() {
-        return "untact/clinicReservationPayment";
-    }
-
-    @GetMapping("/clinic-reserve-user-page")
-    public String test11() {
-        return "untact/reservationUserView";
-    }
-
-    @GetMapping("/clinic-reserve-doctor-page")
-    public String test12() {
-        return "untact/reservationDoctorView";
-    }
 
     @GetMapping("/nutrients-list-page")
     public String test13() {

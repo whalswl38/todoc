@@ -132,6 +132,7 @@ public class UntactController {
 	    	model.addAttribute("subject", dtmList);
 		}
 		
+		model.addAttribute("untact", untact);
     	model.addAttribute("curPage", curPage);
 		model.addAttribute("paging", paging);
         return "untact/selectClinic";
@@ -235,12 +236,6 @@ public class UntactController {
         return "untact/clinicReservation";
     }
     
-    //비대면-결제
-    @GetMapping("/clinic-reserve-payment-page")
-    public String test10() {
-        return "untact/clinicReservationPayment";
-    }
-    
     //비대면-진료예약
     @PostMapping("/clinic-reserve-page")
     @ResponseBody
@@ -290,6 +285,13 @@ public class UntactController {
     	return  Integer.toString(res);
     }
 
+    //비대면-결제
+    @GetMapping("/clinic-reserve-payment-page")
+    public String test10() {
+    	return "untact/clinicReservationPayment";
+    }
+    
+    
     @GetMapping("/clinic-reserve-user-page")
     public String test12() {
     	return "untact/reservationUserView";

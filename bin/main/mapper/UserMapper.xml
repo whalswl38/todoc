@@ -262,4 +262,75 @@
 			    #{clinicBreak}, #{clinicNight}, #{clinicWeekend})
 	</insert>	
 	
+<<<<<<< HEAD
+=======
+	<!-- 아이디 찾기(일반 회원) -->
+	<select id="findUser" parameterType="com.todoc.web.dto.User" resultMap="userMap" >
+		SELECT NVL(USER_EMAIL,'') USER_EMAIL, NVL(USER_STATUS, 'N') USER_STATUS
+		  FROM TD_USER
+		 WHERE USER_NAME = #{userName}
+		<if test="userIdentity != null and userIdentity != '' ">
+		   AND USER_IDENTITY LIKE '%'||#{userIdentity}||'%'</if>
+		<if test="userPhone != null and userPhone != '' ">    
+	       AND USER_PHONE = #{userPhone}</if>
+	</select>
+	
+	<!-- 아이디 찾기(병원 회원) -->
+	<select id="findClinic" parameterType="com.todoc.web.dto.Clinic" resultType="String" >	     
+		SELECT USER_EMAIL
+		  FROM TD_CLINIC
+		 WHERE CLINIC_DOCTOR = #{clinicDoctor}
+		<if test="clinicRegnum != null and clinicRegnum != '' ">
+		   AND CLINIC_REGNUM = #{clinicRegnum}</if>
+		<if test="clinicPhone != null and clinicPhone != '' ">     
+		   AND CLINIC_PHONE = #{clinicPhone}</if>
+	</select>
+	
+	<!-- 아이디 찾기(약국 회원) -->
+	<select id="findPharmacy" parameterType="com.todoc.web.dto.Pharmacy" resultType="String" >	     
+		SELECT USER_EMAIL
+		 FROM TD_PHARMACY
+		 WHERE PHARMACIST_NAME = #{pharmacyName}
+		<if test="pharmacyRegnum != null and pharmacyRegnum != '' "> 
+		   AND PHARMACY_REGNUM = #{pharmacyRegnum}</if>
+		<if test="pharmacyPhone != null and pharmacyPhone != '' ">     
+		   AND PHARMACY_PHONE = #{pharmacyPhone}</if>
+	</select>
+	
+	<update id="updateUser" parameterType="com.todoc.web.dto.User" >
+	 UPDATE TD_USER
+		SET  USER_PWD = #{userPwd}
+	  WHERE  USER_EMAIL = #{userEmail}
+	    AND  USER_NAME = #{userName}
+	</update>
+	
+	<update id="updatePharm" parameterType="com.todoc.web.dto.Pharmacy" >	     
+	 UPDATE TD_PHARMACY
+	    SET  USER_PWD = #{userPwd}
+	  WHERE  USER_EMAIL = #{userEmail}
+	    AND  PHARMACIST_NAME = #{pharmacistName}
+	</update>	
+	
+	<update id="updateClinic" parameterType="com.todoc.web.dto.Clinic" >
+	  UPDATE TD_CLINIC
+	     SET USER_PWD = #{userPwd}
+	  WHERE USER_EMAIL = #{userEmail}
+	    AND CLINIC_DOCTOR = #{clinicDoctor}
+	</update>
+	
+	<!-- 소셜로그인 정보 저장 -->
+	<insert id="insertSocial" parameterType="com.todoc.web.dto.User" >
+		INSERT INTO TD_USER (USER_EMAIL, USER_NAME, USER_TYPE, SOCIAL_TYPE, USER_REGDATE, USER_STATUS) 
+		VALUES (#{userEmail}, #{userName}, 'GUEST', #{socialType}, SYSDATE, 'Y')
+	</insert>
+	
+	
+	<!-- 회원정보 수정 -->
+	<update id="userUpdate" parameterType="com.todoc.web.dto.User">
+		 UPDATE TD_USER
+		    SET USER_NAME = #{userName},
+		        USER_IDENTITY = #{userIdentity}
+		  WHERE USER_EMAIL = #{userEmail}
+	</update>
+>>>>>>> seungjun
 </mapper>

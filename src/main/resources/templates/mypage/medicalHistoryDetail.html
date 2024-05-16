@@ -115,27 +115,15 @@
   <div layout:fragment="content" class="medical-history-container d-flex">
     <div class="silver-hr-inline-short"></div>
     <div class="d-flex justify-content-between" style="gap: 32px">
-      <div style="padding: 8px 0px; width: 450px">
+      <div style="padding: 8px 0px; width: 800px">
         <div class="medical-history-details">
           <div class="spacing-height-16"></div>
           <div
             class="d-flex justify-content-center align-items-center"
             style="position: relative; font-weight: 700"
           >
-            <div
-              style="
-                position: absolute;
-                left: 20px;
-                font-size: 18px;
-                cursor: pointer;
-              "
-              onclick="history.back();"
-            >
-              <i class="fa-solid fa-arrow-left"></i>
-            </div>
-            <div>진료 내역</div>
+            <h2>진료 내역</h2>
           </div>
-          <div class="silver-hr"></div>
           <div
             class="d-flex align-items-center doctor-info-box"
             style="gap: 16px"
@@ -147,9 +135,9 @@
               />
             </div>
             <div class="doctor-info d-flex" style="flex-direction: column">
-              <div class="doctor-name"><h5>김도지 의사</h5></div>
-              <div class="clinic-name">소망소아과의원</div>
-              <div class="diagnosis-date">진료일시 : 2022.07.03 (일) 08:43</div>
+              <div class="doctor-name" ><h5 th:text="${contactLog.clinicDoctor}"></h5></div>
+              <div class="clinic-name" th:text="${contactLog.clinicName}">소망소아과의원</div>
+              <div class="diagnosis-date" th:text="|진료일시 ${contactLog.contactDate}|"></div>
             </div>
           </div>
           <div class="medical-history-info">
@@ -159,7 +147,7 @@
               </div>
               <div
                 class="review-btn"
-                onclick="window.location.href='http://localhost:8080/review-page'"
+                th:onclick="|location.href='@{review-page(contactSeq=${contactLog.contactSeq})}'|"
               >
                 리뷰작성
               </div>
@@ -167,20 +155,18 @@
             <div class="spacing-height-8"></div>
             <div style="color: rgb(141, 146, 151)">
               <div><p style="padding: 0">진료번호</p></div>
-              <div><p style="padding: 0">D1414-4242-4411</p></div>
+              <div><p style="padding: 0" th:text="${contactLog.contactSeq}"></p></div>
             </div>
             <div class="spacing-height-16"></div>
             <div style="font-weight: 600">
               증상
               <span style="font-size: 14px; color: rgb(141, 146, 151)"
-                >구루미(본인)</span
+                >(본인)</span
               >
             </div>
             <div style="color: rgb(141, 146, 151)">
-              <p>
-                가래떔에 목이 간지럽습니다. <br />
-                기침이 나옵니다. <br />
-                열이 좀 나서 몸이 무겁습니다.
+              <p th:text="${contactLog.reservationSymptom}">
+                
               </p>
             </div>
             <div class="spacing-height-16"></div>
@@ -189,25 +175,21 @@
               <div
                 class="advice d-flex justify-content-between align-items-center"
               >
-                <div>
-                  <i class="fa-solid fa-mug-hot" style="color: #63e6be"></i
-                  >&nbsp;&nbsp;따뜻한 물 마시기
+                <div>&nbsp;&nbsp;
+                  <a th:text="${contactLog.advice}"></a>
                 </div>
                 <div>4일</div>
               </div>
             </div>
             <div class="spacing-height-16"></div>
-            <div class="silver-hr"></div>
             <div>
               <div style="font-weight: 500">진료비</div>
-              <div><h5>6,300원</h5></div>
+              <div><h5 th:text="|${#numbers.formatInteger(contactLog.payPrice, 0, 'COMMA')}원|"></h5></div>
               <div style="color: rgb(141, 146, 151)">
-                <p style="padding: 8px 0px 0px 0px">
-                  승인일시: 7월 3일 (일) 08:47
+                <p style="padding: 8px 0px 0px 0px" th:text="|승인일시 : ${contactLog.payDate}|">
                 </p>
               </div>
               <div style="color: rgb(141, 146, 151)">
-                <p style="padding: 0px">결제구분: 일시불</p>
               </div>
             </div>
           </div>

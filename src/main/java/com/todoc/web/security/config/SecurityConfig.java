@@ -81,6 +81,12 @@ public class SecurityConfig
     }
 
     @Bean
+    public JwtAuthorizationFilter jwtAuthorizationFilter() 
+    {
+        return new JwtAuthorizationFilter(jwtTokenProvider, objectMapper);
+    }
+    
+    @Bean
     public PasswordEncoder passwordEncoder() 
     {
         return new BCryptPasswordEncoder();

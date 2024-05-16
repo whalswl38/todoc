@@ -27,8 +27,19 @@
 		<result property="clinicBreak" column="CLINIC_BREAK" />
 		<result property="clinicNight" column="CLINIC_NIGHT" />
 		<result property="clinicWeekend" column="CLINIC_WEEKEND" />
-	
 	</resultMap>
+	  
+	<resultMap type="ReservationContact" id="ReservationContactMap">
+		<id property="reservationSeq" column="RESERVATION_SEQ" />
+		<result property="userEmail" column="USER_EMAIL" />
+		<result property="clinicInstinum" column="CLINIC_INSTINUM" />
+		<result property="reservationDate" column="RESERVATION_DATE" />
+		<result property="reservationTime" column="RESERVATION_TIME" />
+		<result property="reservationSymptom" column="RESERVATION_SYMPTOM" />
+		<result property="reservationFlag" column="RESERVATION_FLAG" />
+		<result property="regdate" column="REGDATE" />
+	</resultMap>
+	
 	
 	<select id="clinicList" resultMap="ClinicContactMap">
 		SELECT *
@@ -70,10 +81,17 @@
 		<if test='textSearch != "" and textSearch != null'>
 					AND CLINIC_NAME LIKE '%' || #{textSearch} || '%'
 		</if>
-		<if test='guValue != "" and guValue != null'>
+		<if test='guName != "" and guName != null'>
 		
-					AND CLINIC_ADDR LIKE '%' || #{guValue} || '%'
+					AND CLINIC_ADDR LIKE '%' || #{guName} || '%'
 		</if>
+		    <if test='runningNumList != null and !runningNumList.isEmpty()'>
+        AND CLINIC_INSTINUM IN
+        <foreach collection="runningNumList" item="runningNum" open="(" separator="," close=")">
+            #{runningNum}
+        </foreach>
+    </if>
+
 	</select>
 	
 	<select id="clinicTimeList"  resultMap="ClinicContactMap">
@@ -82,12 +100,56 @@
 		WHERE CLINIC_CONTACT_FLAG = 'C'
 	</select>
 	
+	<select id="timeOnly"  parameterType="String" resultMap="ClinicContactMap">
+		SELECT CLINIC_TIME
+		  FROM TD_CLINIC
+		 WHERE CLINIC_CONTACT_FLAG = 'C'
+		   AND CLINIC_INSTINUM = #{value}
+	</select>
+	
 	
 	<select id="clinicDetail" resultMap="ClinicContactMap">
 		SELECT *
 		FROM TD_CLINIC
-		WHERE CLINIC_INSTINUM=#{value}
+		WHERE CLINIC_CONTACT_FLAG = 'C'
+		AND CLINIC_INSTINUM=#{value}
 	</select>
+	
+	  
+	<insert id="reservationInsert" parameterType="com.todoc.web.dto.ReservationContact">
+		<selectKey resultType="long" keyProperty="reservationSeq" order="BEFORE" >
+			SELECT SEQ_TD_RESERVATION.NEXTVAL FROM DUAL
+		</selectKey>
+			INSERT INTO TD_RESERVATION (
+			    RESERVATION_SEQ,
+			    USER_EMAIL,
+			    CLINIC_INSTINUM,
+			    RESERVATION_DATE,
+			    RESERVATION_TIME,
+			    RESERVATION_SYMPTOM,
+			    RESERVATION_FLAG,
+			    REGDATE
+			) VALUES (
+			    #{reservationSeq},
+			    #{userEmail},
+			    #{clinicInstinum},
+			    #{reservationDate},
+			    #{reservationTime},
+			    #{reservationSymptom},
+			    'C',
+			    SYSDATE
+			)
+	</insert>
+	
+	<!-- 예약된 날짜 찾기 -->
+	<select id="reservedTime" parameterType="String" resultMap="ReservationContactMap">
+		SELECT RESERVATION_TIME
+		  FROM TD_RESERVATION
+		 WHERE CLINIC_INSTINUM = #{clinicInstinum}
+		   AND RESERVATION_DATE = #{reservationDate}
+	</select>
+	
+
 	
 
 	

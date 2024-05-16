@@ -36,9 +36,13 @@ public class ClinicContact {
 	private String searchValue;	
 	private String category;
 	private String textSearch;	
-	private String guValue;	
-	
+	private Integer guValue;
+	private String guName;
+	private List runningNumList;
 	private List<String> guList;
+	
+	private String closeFlag;
+	
 
     public ClinicContact() {
     	guList = new ArrayList<>();

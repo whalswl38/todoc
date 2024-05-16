@@ -10,15 +10,7 @@ import com.todoc.web.dto.StampFile;
 import com.todoc.web.dto.User;
 
 @Mapper
-<<<<<<< HEAD
-public interface UserDao {
-	// 게시글 목록 조회
-	public User read (String userId) throws Exception;
-	
-	
-	
-	
-=======
+
 public interface UserDao 
 {	
 	// 리프레쉬 토큰으로 회원 조회
@@ -62,5 +54,5 @@ public interface UserDao
 	
 	// 병원 회원가입
 	int insertClinic(Clinic clinic);
->>>>>>> main
+
 }

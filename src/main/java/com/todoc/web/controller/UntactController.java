@@ -92,9 +92,9 @@ public class UntactController {
     	if(searchWord != null)
     	untact.setSearchWord(searchWord);
     	
-    	if(sortType != null) {
+    	if(sortType != null) 
     		untact.setSortType(request.getParameter("sortType"));
-    	} 
+    	
     	
 		int totalCount = untactService.subjectListCount(untact);
 		if (totalCount > 0) {

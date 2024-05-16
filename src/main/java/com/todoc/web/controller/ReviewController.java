@@ -18,9 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.todoc.web.dto.ContactLog;
 import com.todoc.web.dto.Review;
+import com.todoc.web.dto.User;
 import com.todoc.web.security.jwt.JwtAuthorizationFilter;
+import com.todoc.web.service.ContactLogService;
 import com.todoc.web.service.ReviewService;
+import com.todoc.web.service.UserService;
 
 @Controller
 @RequestMapping
@@ -30,6 +34,12 @@ public class ReviewController {
 	
 	@Autowired
 	private ReviewService reviewService;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private ContactLogService contactLogService;
 	
 	private final JwtAuthorizationFilter jwtFilter;
 	
@@ -107,25 +117,47 @@ public class ReviewController {
 	 
 	 @PostMapping("/reviewWrite")
 	 @ResponseBody
-	 	public int reviewWrite(@RequestBody Review review, HttpServletRequest request, HttpServletResponse response) {
-		 	
+	 	public int reviewWrite(@RequestBody Review review, HttpServletRequest request, HttpServletResponse response) 
+	    {
 		 	String token = jwtFilter.extractJwtFromCookie(request);
 	    	String userEmail = jwtFilter.getUsernameFromToken(token);
 	    	
+	    	Review reviewInsert = new Review();
+	    	
+	    	ContactLog contactLog = contactLogService.contactViewList(3);
+	    	logger.error("contactLog : "+ contactLog.getClinicInstinum());
+	    	
+	    	
+	    	
 	    	if(userEmail != null)
 	    	{
-	    		review.setUserEmail(userEmail);
+	    		User user = userService.findByEmail(userEmail);
 	    		
-	    		if(!review.getReviewTitle().isEmpty() && !review.getReviewContent().isEmpty() )
+	    		if(user != null)
 	    		{
-    				if(reviewService.reviewInsert(review) > 0)
-	    			{
-	    				return 1;
-	    			}
-    				else
-    				{
-    					return 0;
-    				}
+	    			reviewInsert.setUserEmail(userEmail);
+	    			reviewInsert.setUserName(user.getUserName());
+	    			reviewInsert.setReviewTitle(review.getReviewTitle());
+	    			reviewInsert.setReviewContent(review.getReviewContent());
+	    			reviewInsert.setReviewGrade(review.getReviewGrade());
+	    			reviewInsert.setClinicInstinum(contactLog.getClinicInstinum());
+	    			
+	    			
+		    		if(!review.getReviewTitle().isEmpty() && !review.getReviewContent().isEmpty() )
+		    		{
+	    				if(reviewService.reviewInsert(review) > 0)
+		    			{
+		    				return 1;
+		    			}
+	    				else
+	    				{
+	    					return 0;
+	    				}
+		    		}
+		    		else
+		    		{
+		    			return 0;
+		    		}
 	    		}
 	    		else
 	    		{

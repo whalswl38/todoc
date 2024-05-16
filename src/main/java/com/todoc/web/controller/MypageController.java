@@ -1,7 +1,6 @@
 package com.todoc.web.controller;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.todoc.web.dto.User;
 import com.todoc.web.security.jwt.JwtAuthorizationFilter;
@@ -52,12 +53,12 @@ public class MypageController {
 	    	int reviewTotalCount = reviewService.reviewTotal(userEmail);
 	    	
 	    	
-	    	if(contactTotalCount > 0)
+	    	if(contactTotalCount >= 0)
 	    	{
 	    		model.addAttribute("contactTotalCount", contactTotalCount);
 	    	}
 	    	
-	    	if(reviewTotalCount > 0)
+	    	if(reviewTotalCount >= 0)
 	    	{
 	    		model.addAttribute("reviewTotalCount", reviewTotalCount);
 	    	}
@@ -91,43 +92,43 @@ public class MypageController {
 	
 	//회원정보수정
 	@PostMapping("/update")
-	public String update(HttpServletRequest request, @Valid User user, Model model)
+	@ResponseBody
+	public int update(HttpServletRequest request, @RequestBody User user, Model model)
 	{
+		logger.error("User user : " + user);
+		
 		String token = jwtFilter.extractJwtFromCookie(request);
     	String userEmail = jwtFilter.getUsernameFromToken(token);
 		
-		User updateUser = new User();
+    	User updateUser= new User();
+    	
+    	if(!userEmail.isEmpty())
+    	{
+    		updateUser = userService.findByEmail(user.getUserEmail());
+    		
+    		if(updateUser != null)
+    		{
+    			updateUser.setUserName(user.getUserName());
+    			updateUser.setUserIdentity(user.getUserIdentity());
+    			
+    			if(userService.userUpdate(updateUser) > 0)
+    			{
+    				return 0;
+    			}
+    			else
+    			{
+    				return 1;
+    			}
+    		}
+    		else
+    		{
+    			return 2;
+    		}
+    	}
+    	else 
+    	{
+    		return 3;
+    	}
 		
-		if(!userEmail.isEmpty())
-		{
-			try
-			{
-				logger.error("222222222222222");
-				
-				updateUser.setUserName(user.getUserName());
-				updateUser.setUserIdentity(user.getUserIdentity());
-				updateUser.setUserEmail(userEmail);
-				
-				logger.error("updateUser" + updateUser);
-				
-				if(userService.userUpdate(updateUser) > 0)
-				{
-					logger.error("333333333333333");
-					return "mypage/mypage";
-				}
-				
-				model.addAttribute("user", user);
-				return "mypage/mypage";
-			}
-			catch(Exception e)
-			{
-				logger.error("sign Exception");
-				model.addAttribute("errorMessage", e.getMessage());
-				
-				return "main/main";
-			}
-		}
-		
-		return "mypage/mypage";
 	}
 }

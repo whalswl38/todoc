@@ -10,7 +10,7 @@ public class ContactLog {
     private String status;
     private String contactDate;
     private String reservationSymptom;
-    private int clinicInstinum;
+    private String clinicInstinum;
     private String userName;
     private String advice;
     
@@ -20,4 +20,6 @@ public class ContactLog {
     //결제내역
     private int payPrice;
     private String payDate;
+    
+  
 }

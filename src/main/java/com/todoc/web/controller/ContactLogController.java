@@ -17,6 +17,7 @@ import com.todoc.web.dao.Paging;
 import com.todoc.web.dto.ContactLog;
 import com.todoc.web.security.jwt.JwtAuthorizationFilter;
 import com.todoc.web.service.ContactLogService;
+import com.todoc.web.service.ReviewService;
 
 @Controller
 @RequestMapping
@@ -26,6 +27,9 @@ public class ContactLogController {
 	
 	@Autowired
 	private ContactLogService contactLogService;
+	
+	@Autowired
+	private ReviewService reviewService;
 	
 	private final JwtAuthorizationFilter jwtFilter;
 	
@@ -79,6 +83,7 @@ public class ContactLogController {
 	    	 int totalCount = 0;
 	    	 
 	    	 totalCount = contactLogService.contactLogTotal(userEmail);
+	    	 
 	    	 
 	    	 if(!userEmail.isEmpty())
 	    	 {

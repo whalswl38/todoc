@@ -23,6 +23,8 @@ public class Review {
 	
 	private String clinicDoctor;
 	
+	private String clinicInstinum;
+	
 	private int startRow;
 	private int endRow;
 }

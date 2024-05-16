@@ -109,7 +109,7 @@
 		    #{reviewGrade},
 		    #{userName},
 		    #{clinicInstinum}
-		);
+		)
 	
 	</insert>
 	

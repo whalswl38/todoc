@@ -26,6 +26,7 @@ public class JwtTokenProvider
     public String generateToken(Authentication authentication, boolean isRefreshToken) 
     {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+
         long now = System.currentTimeMillis();
         Date expiryDate = new Date(now + (isRefreshToken ? JwtProperties.REFRESH_EXPIRATION_TIME : JwtProperties.EXPIRATION_TIME));
         
@@ -33,8 +34,24 @@ public class JwtTokenProvider
                 .withSubject(userPrincipal.getUsername())
                 .withExpiresAt(expiryDate)
                 .sign(HMAC512(JwtProperties.SECRET.getBytes()));
-                
+
         log.info("Token generated for user : " + userPrincipal.getUsername() + " with expiry on : " + expiryDate );
+
+        return token;
+    }
+    
+    // 소셜로그인용
+    public String socialGenerateToken(Authentication authentication, boolean isRefreshToken) 
+    {
+        long now = System.currentTimeMillis();
+        Date expiryDate = new Date(now + (isRefreshToken ? JwtProperties.REFRESH_EXPIRATION_TIME : JwtProperties.EXPIRATION_TIME));
+        
+        String token = JWT.create()
+                .withSubject(authentication.getName())
+                .withExpiresAt(expiryDate)
+                .sign(HMAC512(JwtProperties.SECRET.getBytes()));
+
+        log.info("Token generated for user : " + authentication.getName() + " with expiry on : " + expiryDate );
 
         return token;
     }

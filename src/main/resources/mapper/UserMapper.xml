@@ -72,9 +72,9 @@
 	</resultMap>
 	
 	<!-- 병원 프로필 사진 테이블 -->
-	<resultMap type="ClinicFile" id="clinicFileMap" >
+	<resultMap type="ClinicFile" id="clinicFile" >
 		<id column="FILE_SEQ" property="fileSeq" />
-		<id column="CLINIC_INSTINUM" property="clinicInstinum" />
+		<id column="USER_EMAIL" property="userEmail" />
 		<result column="FILE_ORG_NAME" property="fileOrgName" />
 		<result column="FILE_NAME" property="fileName" />
 		<result column="FILE_EXT" property="fileExt" />
@@ -83,7 +83,7 @@
 	</resultMap>
 	
 	<!-- 병원 인감 사진 테이블 -->
-	<resultMap type="StampFile" id="stampFileMap" >
+	<resultMap type="StampFile" id="stampFile" >
 		<id column="FILE_SEQ" property="fileSeq" />
 		<id column="USER_EMAIL" property="userEmail" />
 		<result column="FILE_ORG_NAME" property="fileOrgName" />
@@ -210,19 +210,25 @@
 		WHERE	T.USER_EMAIL = #{value}
 	</select>
 	
-	<!-- 병원 사진 저장 -->
 	<insert id="insertClinicFile" parameterType="com.todoc.web.dto.ClinicFile" >
-		INSERT INTO TD_CLINIC_FILE
-		VALUES ((SELECT NVL(MAX(FILE_SEQ), 0) + 1 
-					  FROM TD_CLINIC_FILE WHERE CLINIC_INSTINUM = #{clinicInstinum}), #{clinicInstinum}, #{fileOrgName}, #{fileName},
+		INSERT INTO TD_CLINIC_FILE 
+		(
+		    FILE_SEQ, CLINIC_INSTINUM, FILE_ORG_NAME,
+		    FILE_NAME, FILE_EXT, FILE_SIZE, FILE_REGDATE
+	    ) 
+		VALUES (SELECT NVL(MAX(FILE_SEQ), 0) + 1 
+					  FROM TD_CLINIC_FILE WHERE CLINIC_INSTINUM = #{clinicInstitution}, #{userEmail}, #{fileOrgName}, #{fileName},
 		              #{fileExt}, #{fileSize}, SYSDATE)
 	</insert>
 	 
-	<!-- 인감 사진 저장 -->
 	<insert id="insertStampFile" parameterType="com.todoc.web.dto.StampFile" >             
-		INSERT INTO TD_STAMP_FILE
-		VALUES ((SELECT NVL(MAX(FILE_SEQ), 0) + 1 
-					  FROM TD_STAMP_FILE WHERE USER_EMAIL = #{userEmail}), #{userEmail}, #{fileOrgName}, #{fileName},
+		INSERT INTO TD_STAMP_FILE 
+		(
+		    FILE_SEQ, USER_EMAIL, FILE_ORG_NAME,
+		    FILE_NAME,  FILE_EXT,  FILE_SIZE,  FILE_REGDATE
+		)
+		VALUES (SELECT NVL(MAX(FILE_SEQ), 0) + 1 
+					  FROM TD_STAMP_FILE WHERE USER_EMAIL = #{userEmail}, #{userEmail}, #{fileOrgName}, #{fileName},
 		              #{fileExt}, #{fileSize}, SYSDATE)
 	</insert>
 	
@@ -256,63 +262,4 @@
 			    #{clinicBreak}, #{clinicNight}, #{clinicWeekend})
 	</insert>	
 	
-	<!-- 아이디 찾기(일반 회원) -->
-	<select id="findUser" parameterType="com.todoc.web.dto.User" resultMap="userMap" >
-		SELECT NVL(USER_EMAIL,'') USER_EMAIL, NVL(USER_STATUS, 'N') USER_STATUS
-		  FROM TD_USER
-		 WHERE USER_NAME = #{userName}
-		<if test="userIdentity != null and userIdentity != '' ">
-		   AND USER_IDENTITY LIKE '%'||#{userIdentity}||'%'</if>
-		<if test="userPhone != null and userPhone != '' ">    
-	       AND USER_PHONE = #{userPhone}</if>
-	</select>
-	
-	<!-- 아이디 찾기(병원 회원) -->
-	<select id="findClinic" parameterType="com.todoc.web.dto.Clinic" resultType="String" >	     
-		SELECT USER_EMAIL
-		  FROM TD_CLINIC
-		 WHERE CLINIC_DOCTOR = #{clinicDoctor}
-		<if test="clinicRegnum != null and clinicRegnum != '' ">
-		   AND CLINIC_REGNUM = #{clinicRegnum}</if>
-		<if test="clinicPhone != null and clinicPhone != '' ">     
-		   AND CLINIC_PHONE = #{clinicPhone}</if>
-	</select>
-	
-	<!-- 아이디 찾기(약국 회원) -->
-	<select id="findPharmacy" parameterType="com.todoc.web.dto.Pharmacy" resultType="String" >	     
-		SELECT USER_EMAIL
-		 FROM TD_PHARMACY
-		 WHERE PHARMACIST_NAME = #{pharmacyName}
-		<if test="pharmacyRegnum != null and pharmacyRegnum != '' "> 
-		   AND PHARMACY_REGNUM = #{pharmacyRegnum}</if>
-		<if test="pharmacyPhone != null and pharmacyPhone != '' ">     
-		   AND PHARMACY_PHONE = #{pharmacyPhone}</if>
-	</select>
-	
-	<update id="updateUser" parameterType="com.todoc.web.dto.User" >
-	 UPDATE TD_USER
-		SET  USER_PWD = #{userPwd}
-	  WHERE  USER_EMAIL = #{userEmail}
-	    AND  USER_NAME = #{userName}
-	</update>
-	
-	<update id="updatePharm" parameterType="com.todoc.web.dto.Pharmacy" >	     
-	 UPDATE TD_PHARMACY
-	    SET  USER_PWD = #{userPwd}
-	  WHERE  USER_EMAIL = #{userEmail}
-	    AND  PHARMACIST_NAME = #{pharmacistName}
-	</update>	
-	
-	<update id="updateClinic" parameterType="com.todoc.web.dto.Clinic" >
-	  UPDATE TD_CLINIC
-	     SET USER_PWD = #{userPwd}
-	  WHERE USER_EMAIL = #{userEmail}
-	    AND CLINIC_DOCTOR = #{clinicDoctor}
-	</update>
-	
-	<!-- 소셜로그인 정보 저장 -->
-	<insert id="insertSocial" parameterType="com.todoc.web.dto.User" >
-		INSERT INTO TD_USER (USER_EMAIL, USER_NAME, USER_TYPE, SOCIAL_TYPE, USER_REGDATE, USER_STATUS) 
-		VALUES (#{userEmail}, #{userName}, 'GUEST', #{socialType}, SYSDATE, 'Y')
-	</insert>
 </mapper>

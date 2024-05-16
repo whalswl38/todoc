@@ -99,16 +99,6 @@
         border: 1px solid #dee2e6; 
         border-radius: 4px;
       }
-      
-      #regC, #emailC {
-        width: 15%;
-        height: 40px;
-        background: #3296D7;
-        color: white;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-      }
 
       .diagnosis-subject{
         border: 1px solid black; 
@@ -271,12 +261,9 @@
         	  document.getElementById('userPhone').value = document.getElementById('phone1').value +'-'+ document.getElementById('phone2').value +'-'+ document.getElementById('phone3').value;
         	  document.getElementById('breakTime').value = document.getElementById('break1').value +'-'+ document.getElementById('break2').value;
         	  
-        	  var areaCode = document.querySelector('.form-select').value; // 지역번호 가져오기
-        	  var partOne = document.getElementById('fax2').value;
-       		  var partTwo = document.getElementById('fax3').value;
-        	  var fullFaxNumber = `${areaCode}-${partOne}-${partTwo}`;
-        	    
-        	  document.getElementById('faxNum').value = fullFaxNumber;
+        	  var areaCode = document.querySelector('.form-select').value; // 지역번호 선택
+        	  var partOne = document.getElementById('fax2').value; // 두 번째 필드 값
+        	  var partTwo = document.getElementById('fax3').value; // 세 번째 필드 값
  
               // 전체 팩스 번호를 형식에 맞게 결합
       	      var fullFaxNumber = `${areaCode}-${partOne}-${partTwo}`;
@@ -468,21 +455,6 @@
             });
           }
         
-          // 휴무 선택하면 input 인식 안되게
-          function toggleTextbox(checkbox) 
-          {
-			    var day = checkbox.id.replace('check', ''); // 'check1'에서 '1'을 추출
-			    var startInputId = 'time' + day + '_start'; // 'time1_start'
-			    var endInputId = 'time' + day + '_end'; // 'time1_end'
-			
-			    var startInput = document.getElementById(startInputId);
-			    var endInput = document.getElementById(endInputId);
-			
-			    // 체크박스 선택여부에 따라 입력 필드를 활성화 혹은 비활성화
-			    startInput.disabled = checkbox.checked;
-			    endInput.disabled = checkbox.checked;
-			}
-        
     </script>
   </head>
   <body>
@@ -499,7 +471,7 @@
           />
           <div class="spacing-height-16"></div>
           <div class="d-flex justify-content-center">
-          	<input type="file" id="fileBtn1" name="clinicFile" onchange="readURL(event);" />
+          	<input type="file" id="fileBtn1" onchange="readURL(event);" />
             <button class="btn btn-primary" style="width: 1600px;" onclick="onClickUpload()">사진 등록</button>
           </div>
         </div>
@@ -512,7 +484,7 @@
           />
           <div class="spacing-height-16"></div>
           <div class="d-flex justify-content-center">
-            <input type="file" id="fileBtn2" name="stampFile" onchange="readURL2(event);" />
+            <input type="file" id="fileBtn2" onchange="readURL2(event);" />
             <button class="btn btn-primary" style="width: 1600px;" onclick="onClickUpload2()">인감 등록</button>
           </div>
         </div><br><br>
@@ -587,7 +559,7 @@
               placeholder=""
               th:field="*{institutionNum}" class="form-control"
             />
-            <span class="input-group-text" style="background-color: #fff; border-left: none;"><button id="regC" type="button" style="width: 84px; font-size: 12px; border-radius: 4px;" onclick="checkInstitution()">가입여부 확인</button></span>
+            <span class="input-group-text" style="background-color: #fff; border-left: none;"><button type="button" style="width: 84px; font-size: 12px; border-radius: 4px;" onclick="checkInstitution()">가입여부 확인</button></span>
           </div>
           <div class="input-group">
             <span class="input-group-text wide-span" ><span style="color: red; margin-right: 4px;">*</span>요양기관명</span>
@@ -619,7 +591,7 @@
               <div class="input-group" style="padding: 8px; width: 80%;">
                 <input type="text" th:field="*{userEmail}" class="form-control" placeholder="" >
               </div>
-           <span class="input-group-text" style="background-color: #fff; border-left: none;"><button id="emailC" type="button" style="width: 84px; font-size: 12px; border-radius: 4px;" onclick="checkDuplicateEmail()">이메일 중복검색</button></span>
+           <span class="input-group-text" style="background-color: #fff; border-left: none;"><button type="button" style="width: 84px; font-size: 12px; border-radius: 4px;" onclick="checkDuplicateEmail()">이메일 중복검색</button></span>
             </div>
           </div>
           <p th:if="${#fields.hasErrors('userEmail')}" th:errors="*{userEmail}" id="error">Incorrect date</p>
@@ -702,7 +674,7 @@
                   -
                 </div>
                 <input type="text" name="time1" id="time1_end" value="" placeholder="" class="timepicker" required size="5" maxlength="5">
-                <input type="checkbox" onclick='toggleTextbox(this)' id="check1"/>휴무
+                <input type="checkbox" id="check1"/>휴무
               </div>
               
               <div class="d-flex align-items-center">
@@ -711,7 +683,7 @@
                   -
                 </div>
                 <input type="text" name="time2" value="" id="time2_end" placeholder="" class="timepicker" required size="5" maxlength="5">
-                <input type="checkbox" onclick='toggleTextbox(this)' id="check2"/>휴무
+                <input type="checkbox" id="check2"/>휴무
               </div>
               
               <div class="d-flex align-items-center">
@@ -720,7 +692,7 @@
                   -
                 </div>
                 <input type="text" name="time3" value="" id="time3_end" placeholder="" class="timepicker" required size="5" maxlength="5">
-                <input type="checkbox" onclick='toggleTextbox(this)' id="check3"/>휴무
+                <input type="checkbox" id="check3"/>휴무
               </div>
               
               <div class="d-flex align-items-center">
@@ -729,7 +701,7 @@
                   -
                 </div>
                 <input type="text" name="time4" value="" id="time4_end" placeholder="" class="timepicker" required size="5" maxlength="5">
-                <input type="checkbox" onclick='toggleTextbox(this)' id="check4"/>휴무
+                <input type="checkbox" id="check4"/>휴무
               </div>
               
               <div class="d-flex align-items-center">
@@ -738,7 +710,7 @@
                   -
                 </div>
                 <input type="text" name="time5" value="" id="time5_end" placeholder="" class="timepicker" required size="5" maxlength="5">
-                <input type="checkbox" onclick='toggleTextbox(this)' id="check5"/>휴무
+                <input type="checkbox" id="check5"/>휴무
               </div>
               
               <div class="d-flex align-items-center">
@@ -747,7 +719,7 @@
                   -
                 </div>
                 <input type="text" name="time6" value="" id="time6_end" placeholder="" class="timepicker" required size="5" maxlength="5">
-                <input type="checkbox" onclick='toggleTextbox(this)' id="check6"/>휴무
+                <input type="checkbox" id="check6"/>휴무
               </div>
               
               <div class="d-flex align-items-center">
@@ -757,7 +729,7 @@
                   -
                 </div>
                 <input type="text" name="time7" value="" id="time7_end" placeholder="" class="timepicker" required size="5" maxlength="5">
-                <input type="checkbox" onclick='toggleTextbox(this)' id="check7"/>휴무
+                <input type="checkbox" id="check7"/>휴무
               </div>
               
               <div class="d-flex align-items-center">
@@ -767,7 +739,7 @@
                   -
                 </div>
                 <input type="text" name="time8" value="" id="time8_end" placeholder="" class="timepicker" required size="5" maxlength="5">
-                <input type="checkbox" onclick='toggleTextbox(this)' id="check8" />휴무
+                <input type="checkbox" id="check8" />휴무
               </div>
               
               <div class="d-flex align-items-center" >
@@ -874,15 +846,15 @@
               <div class="input-group" style="padding: 8px; width: 50%;">
                 <select class="form-select" aria-label="Default select example">
                   <option selected>선택</option>
-                  <option value="02">02</option>
-                  <option value="031">031</option>
-                  <option value="032">032</option>
-                  <option value="042">042</option>
-                  <option value="051">051</option>
-                  <option value="052">052</option>
-                  <option value="053">053</option>
-                  <option value="062">062</option>
-                  <option value="070">070</option>
+                  <option value="1">02</option>
+                  <option value="2">031</option>
+                  <option value="3">032</option>
+                  <option value="4">042</option>
+                  <option value="5">051</option>
+                  <option value="6">052</option>
+                  <option value="7">053</option>
+                  <option value="8">062</option>
+                  <option value="9">070</option>
                 </select>
                 <div class="d-flex justify-content-center align-items-center" id="fax1" style="padding: 4px;">
                   -

@@ -17,6 +17,9 @@ import com.todoc.web.security.jwt.JwtTokenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todoc.web.security.jwt.JwtAuthorizationFilter;
 import com.todoc.web.security.jwt.UserPrincipalDetailsService;
+import com.todoc.web.security.oauth.handler.OAuth2LoginFailureHandler;
+import com.todoc.web.security.oauth.handler.OAuth2LoginSuccessHandler;
+import com.todoc.web.security.oauth.service.CustomOAuth2UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +33,9 @@ public class SecurityConfig
     private final UserPrincipalDetailsService userPrincipalDetailsService;
     private final JwtTokenProvider jwtTokenProvider;
     private final ObjectMapper objectMapper;
-   
+    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+    private final OAuth2LoginFailureHandler oauth2LoginFailureHandler;
+    private final CustomOAuth2UserService customOAuth2UserService;
     
     private static final String[] PERMIT_URL = 
     	{
@@ -53,7 +58,7 @@ public class SecurityConfig
     	{
     		@SuppressWarnings("unused")
 			AuthenticationManager authenticationManager = authenticationConfiguration.getAuthenticationManager();
-    		
+
             http
                     .csrf(csrf -> csrf.disable())
                     .sessionManagement(management -> management
@@ -69,8 +74,14 @@ public class SecurityConfig
                             .anyRequest().permitAll())
                     .httpBasic(basic -> basic.disable())
                     .logout(logout -> logout
-                            .logoutUrl("/logout").logoutSuccessUrl("/main-page").invalidateHttpSession(true).deleteCookies("Authorization"));
-
+                            .logoutUrl("/logout").logoutSuccessUrl("/main-page").invalidateHttpSession(true).deleteCookies("Authorization"))
+                    // 소셜로그인
+                    .oauth2Login((oauth2) -> oauth2
+                    		.successHandler(oAuth2LoginSuccessHandler)
+                            .failureHandler(oauth2LoginFailureHandler)
+                            .userInfoEndpoint()
+                            .userService(customOAuth2UserService)); // customUserService 설정
+            		
             return http.build();
     	}
     	catch(Exception e)

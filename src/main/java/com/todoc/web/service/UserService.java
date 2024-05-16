@@ -49,13 +49,7 @@ public class UserService
     
     // 인감 이미지 파일 경로
     @Value("${stampFile.upload.dir}")
-    private String stampFileUploadDir;
-	
-	// 리프레쉬 토큰으로 회원 조회
-	public User findByRefreshToken(String userRefreshToken)
-	{
-		return userDao.findByRefreshToken(userRefreshToken);
-	}
+    private String stampFileUploadDir; 
 	
 	// 리프레쉬 토큰 업데이트
 	public void refreshTokenUpdate(User user) 

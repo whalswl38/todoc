@@ -71,13 +71,11 @@ public class ClinicContactController {
 	 
 	 @GetMapping("/clinic-contact-list-page") 
 	 public String clinicListDirect(Model model) {
-		 System.out.println("3333333333333333333333333333"); 
 		 List<ClinicContact> list = new ArrayList<>(); 
 		 ClinicContact search=new ClinicContact(); 
 		 list = clinicContactService.clinicList();
 	 
 	 model.addAttribute("clinicList", list); model.addAttribute("search",search);
-	 System.out.println("3333333333333333333333333333");
 	 
 	 return "contact/clinicList"; 
 	 }
@@ -95,8 +93,6 @@ public class ClinicContactController {
 			@RequestParam(value = "isOpening", required = false) String isOpening,
 			@RequestParam(value = "locationValue", required = false) String locationValue,
 			Model model){
-		System.out.println("컨트롤러 시작");
-		System.out.println("isOpening : " + isOpening);
 		List<ClinicContact> list = new ArrayList<>();
 		ClinicContact search=new ClinicContact();
 		search.setCategory(category);
@@ -107,19 +103,14 @@ public class ClinicContactController {
 		
 		//구 지역 검색 인덱스 로 변환(현재위치구/선택구)
 		if(locationValue != null) {
-			System.out.println("어딜까");
 			int locationIndex = search.getGuList().indexOf(locationValue);
-			System.out.println("어딜까");
 
 			if (locationIndex != -1) {
-			    System.out.println("찾는 값의 인덱스: " + locationIndex);
 			    search.setGuValue(locationIndex); 
 			} else {
-			    System.out.println("해당 값이 리스트에 존재하지 않습니다.");
 			}
 			
 		}else {
-			System.out.println("여긴가");
 			search.setGuValue(guValue); 
 		}
 		
@@ -132,12 +123,10 @@ public class ClinicContactController {
 		List runningNumList = new ArrayList<>();
 		runningNumList = clinicContactService.clinicRunningList();
 		for(int i = 0; i < runningNumList.size();i++) {  
-			System.out.println("runningList : " + runningNumList.get(i));
 		}
 		
 		//영업중인 병원 번호 리스트
 		if("Y".equals(isOpening)) {
-			System.out.println("Y.equals(isOpening) if문");
 			if(runningNumList == null || runningNumList.isEmpty()) {
 				runningNumList.add(0, "");
 				search.setRunningNumList(runningNumList);
@@ -145,25 +134,8 @@ public class ClinicContactController {
 			search.setRunningNumList(runningNumList);
 		}
 		
-		
 		list = clinicContactService.clinicListCategory(search);
-		
-		System.out.println("///////////////////////////////");
-		System.out.println("clinicNight : " + clinicNight);
-		System.out.println("clinicWeekend : " + clinicWeekend);
-		System.out.println("category : " + category);
-		System.out.println("search.getCategory() : " + search.getCategory());
-		System.out.println("searchValue : " + searchValue);
-		System.out.println("search.getSearchValue() : " + search.getSearchValue());
-		System.out.println("textSearch : " + textSearch);
-		System.out.println("search.getTextSearch() : " + search.getTextSearch());
-		System.out.println("guValue : " + guValue);
-		System.out.println("locationValue : " + locationValue);
-		System.out.println("search.getGuValue() : " + search.getGuValue());
-		System.out.println("search.getGuName() : " + search.getGuName());
-		System.out.println("///////////////////////////////");
 
-		
 		model.addAttribute("search",search);
 		model.addAttribute("clinicList", list);
 		model.addAttribute("searchValue", searchValue);
@@ -174,14 +146,9 @@ public class ClinicContactController {
 		model.addAttribute("runningNumList", runningNumList);
 		model.addAttribute("locationValue", locationValue);
 
-		
-		
-
 		return "contact/clinicList";
 	}
-	
 
-	
 
 	@GetMapping("/clinic-contact-detail-page")
 	public String clinicDetail(@RequestParam("clinicInstinum") String clinicInstinum, Model model) {
@@ -255,7 +222,6 @@ public class ClinicContactController {
     	
         //공휴일플래그
         String holidayFlag = clinicContactService.isHoliday(clinicInstinum);
-        System.out.println("holidayFlag : " + holidayFlag);
         model.addAttribute("holidayFlag",holidayFlag);
     	
     	return "contact/clinicReservation";
@@ -283,7 +249,6 @@ public class ClinicContactController {
 			    	     
 			    		if(clinicContactService.dayCheck(selectedDate,selectedTime,clinicTime)) {
 			    	    	 
-			    	    	 System.out.println("영업시간맞음");
 			    	    	 
 			    	    	 ReservationContact reservation = new ReservationContact();
 			    	    	 reservation.setClinicInstinum(clinicInstinum);
@@ -294,17 +259,13 @@ public class ClinicContactController {
 			    	    	 
 			    	    	 if(clinicContactService.reservationInsert(reservation)>0) {
 			    	    		 
-			    		   	 // comments 변수에 담긴 값 확인
-			    		   	 System.out.println("Comments: " + comments);
-			    		   	 System.out.println("selectedDate: " + selectedDate);
-			    		   	 System.out.println("selectedTime: " + selectedTime);
+			    		   	 
 			    		   	 
 			    			    return 0;	
 			    	    	 }else {
-			    	    		 return 202;//인서트 실패
+			    	    		 return 202;
 			    	    	 }
 			    	     }else {
-			    	    	 System.out.println("영업시간 아님");
 			    	     }
 			    			
 			    	}else {
@@ -325,24 +286,12 @@ public class ClinicContactController {
     @ResponseBody 
     @GetMapping("/getAvailableTimeSlots")
     public ResponseEntity<?> getAvailableTimeSlotsY(@RequestParam("selectedDate") String selectedDate, @RequestParam("clinicInstinum") String clinicInstinum, @RequestParam(value = "_isHoliday", required = false) String _isHoliday) {
-        // 선택한 날짜에 따른 시간대를 반환하는 로직 구현
-        // 예시로 간단히 미리 정의된 시간대를 반환하는 코드
+       
+
     	List<String> timeSlots = null;
-    	System.out.println("clinicInstinum : " + clinicInstinum);
-    	System.out.println("selectedDate : " + selectedDate);
-    	System.out.println("_isHoliday : " + _isHoliday);
-    	//누르는 날짜마다 바뀌는 timeSlots
+    	
     	timeSlots = clinicContactService.reserveTimebutton(selectedDate,clinicInstinum,_isHoliday);    
-//        if ("2024-05-15".equals(selectedDate)) {
-//        	timeSlots = Arrays.asList("09:40", "10:00", "10:20", "10:40");
-//            return ResponseEntity.ok(timeSlots);
-//        } else {
-//        	timeSlots =  Arrays.asList("11:00", "11:20", "11:40", "12:00", "12:20");
-//            return ResponseEntity.ok(timeSlots);
-//
-//        }
-    	System.out.println("컨트롤러");
-    	System.out.println("timeSlots : " + timeSlots);
+
 
     	
     	return ResponseEntity.ok(timeSlots);

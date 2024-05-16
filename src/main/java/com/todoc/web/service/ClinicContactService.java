@@ -56,11 +56,9 @@ public class ClinicContactService {
 	
 	//병원 리스트 조회(category)
 	public List <ClinicContact> clinicListCategory(ClinicContact search){
-		System.out.println("서비스 시작");
 		List<ClinicContact> list =null;
 		String searchValueCode = search.getSearchValue();
 		String searchValue=null;
-		System.out.println("서비스 시작");
 		if(searchValueCode != null) {
 		
 			switch(searchValueCode) { 
@@ -134,24 +132,16 @@ public class ClinicContactService {
 				
 			}
 		}
-		System.out.println("서비스 시작11111111111111111");
 		if(search != null && search.getGuValue() != null) {
-			System.out.println("여긴가1");
 			Integer guValueIndex = search.getGuValue();
-			System.out.println("여긴가2");
 			search.setGuName(search.getGuList().get(guValueIndex));
-			System.out.println("서비스 시작1222222222222222222222");
 		}
 		
-		System.out.println("서비스 구네임 : " + search.getGuName());
-		System.out.println("서비스 시작33333333333333333333333333333333");
 		search.setSearchValue(searchValue);
 		list =clinicContactDao.clinicListCategory(search);
 		
-		System.out.println("서비스 시작44444444444444444444444");
 		return list;
-		
-		
+
 	}
 	
 	//영업시간 전체 리스트
@@ -172,29 +162,25 @@ public class ClinicContactService {
 		 List<ClinicContact> timeListAll = clinicContactDao.clinicTimeList();
 	        int size = timeListAll.size();
 	        String[][] timeAndInstinumArray = new String[size][10]; // 10으로 수정
-	        System.out.println("clinicRunningList 서비스 진료중 구하기");
 	        for (int i = 0; i < size; i++) {
 	            timeAndInstinumArray[i][0] = timeListAll.get(i).getClinicInstinum();
 
-	            // ClinicTime을 쉼표(,)로 분할하여 배열로 만듭니다.
+	           
 	            String[] clinicTimes = timeListAll.get(i).getClinicTime().split(",");
 
 	            // ClinicTime 배열의 요소를 timeAndInstinumArray에 할당합니다.
 	            for (int j = 0; j < clinicTimes.length; j++) {
 	                timeAndInstinumArray[i][j + 1] = clinicTimes[j];
-	    	        System.out.print( i +","+ j + ":"+timeAndInstinumArray[i][j] + "  ");
 	            }
-	            System.out.println();
 	        }
 
-	        // 현재 요일과 시간을 가져옵니다.
+	        // 현재 요일과 시간
 	        DayOfWeek currentDayOfWeek = DayOfWeek.from(LocalDateTime.now());
 	        LocalTime currentTime = LocalTime.now();
 
-	        // 영업중인 ClinicInstinum 목록을 반환합니다.
+	        // 영업중인 ClinicInstinum 목록
 	        List<String> openClinics = new ArrayList<>();
 	        int dayIndex = currentDayOfWeek.getValue() - 1;//일요일일때만 dayindex를 6으로 하기
-	        System.out.println("currentDayOfWeek.getValue() - 1 : " + dayIndex);
 
 	        for (int i = 0; i < timeAndInstinumArray.length; i++) {
 	            String businessHour = timeAndInstinumArray[i][dayIndex + 1];//여기서 리스트에 맞는 인덱스로 들어감
@@ -204,7 +190,6 @@ public class ClinicContactService {
 	            
 	        }
 	        
-	        System.out.println("진료중 리스트 구한것 : " + openClinics);
 	        return openClinics;
         
 	}
@@ -213,21 +198,15 @@ public class ClinicContactService {
 	
 	//해당 날짜 영업중 여부 (공휴일 제외)
 	public boolean dayCheck(String selectedDate, String selectedTime, String[] clinicTime) {  
-		 // 문자열로부터 LocalDate 객체 생성
+		
         LocalDate date = LocalDate.parse(selectedDate);
 
-        // 요일을 얻기 위해 getDayOfWeek() 메서드 호출
+      
         DayOfWeek dayOfWeek = date.getDayOfWeek();
 
         int dayIndex = date.getDayOfWeek().getValue() - 1;
      
         String businessHour  = clinicTime[dayIndex];
-        
-        System.out.println("dayOfWeek : " + dayOfWeek);
-        System.out.println("dayIndex : " + dayIndex);
-        System.out.println("businessHour : " + businessHour);
-        
-
 
 		return isBusinessHour(selectedTime,businessHour);
 	}
@@ -290,7 +269,7 @@ public class ClinicContactService {
 		
 	}
 	
-	//병원 현재시간 기준 영업시간 선택 버튼 리스트(공휴일 제외, 예약이미 있는 시간 제외)
+	//병원 현재시간 기준 영업시간 선택 버튼 리스트
 	public List<String> reserveTimebutton(String clinicInstinum) {
 		ClinicContact clinicContact = null;
 		
@@ -314,7 +293,6 @@ public class ClinicContactService {
 			String todayRunningTime = clinicTime[dayIndex]; //9:00-18:00
 			
 			//현재 날짜 형식
-	        // 형식 지정
 	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 	        // 날짜를 문자열로 변환
@@ -354,26 +332,20 @@ public class ClinicContactService {
 
 		        }
 			}else {//"휴무" 인경우
-	            System.out.println("오늘은 휴무 입니다.");
 	            nextTimes.add("휴무입니다. 다른 날짜를 선택하세요.");
 
 			}
-			
-            System.out.println("nextTimes : " + nextTimes);
-            
+
           //예약된 시간대 리스트 제거
           List<String> reservedTime = null;
           reservedTime = reservedTime(clinicInstinum, selectedDate);
-    	  System.out.println("예약된 시간대 리스트 reservedTime : "+reservedTime);
     		
           List<String> availableList = excludeTimes(nextTimes, reservedTime);
-          System.out.println("예약가능한 리스트 : "  + availableList); 
 
 		return availableList;
 	}
 	
-	//ajax 병원 선택한 날짜 기준 + 예약 데이터 여부 로 시간 리스트 (공휴일 제외)
-	//선택한 날짜->요일->
+	//ajax 
 	public List<String> reserveTimebutton(String selectedDate, String clinicInstinum, String _isHoliday) {
 		ClinicContact clinicContact = null;
 		List<String> clinicTimeList = new ArrayList<>(); 
@@ -399,7 +371,6 @@ public class ClinicContactService {
 		
 		//공휴일 영업시간
 		String holidayRunningTime = clinicTime[clinicTime.length-1];
-		System.out.println("holidayRunningTime : " + holidayRunningTime );
 		
 		//공휴일 플래그(브라우저에서 받기)
 		String isHoliday = "N";
@@ -410,7 +381,6 @@ public class ClinicContactService {
 		
 		//선택한 날짜가 오늘 
 		if(date.isEqual(currentDay)) {
-			System.out.println("오늘인 경우");
 			if(isHoliday.equals("Y")){//오늘이 공휴일이면 holidayRunningTime 으로 현재시간 반영해 남는 시간 표시
 				if(!holidayRunningTime.equals("휴무")) {
 					// 현재 시간 이후의 시간대 구하기
@@ -444,7 +414,6 @@ public class ClinicContactService {
 
 			        }
 				}else {//"휴무" 인경우
-		            System.out.println("오늘은 휴무 입니다.");
 		            nextTimes.add("휴무입니다. 다른 날짜를 선택하세요.");
 		
 				}
@@ -482,7 +451,6 @@ public class ClinicContactService {
 
 			        }
 				}else {//"휴무" 인경우
-		            System.out.println("오늘은 휴무 입니다.");
 		            nextTimes.add("휴무입니다. 다른 날짜를 선택하세요.");
 		
 				}
@@ -499,16 +467,13 @@ public class ClinicContactService {
 			LocalDate yesterdayDate = currentDate.minusDays(1);
 			
 			if (selectedDate_.isBefore(currentDate)) {
-				// 예약 가능한 시간대가 없음을 알리는 메시지 추가
+				// 예약 가능한 시간대가 없음을 알리는 메시지 
 				nextTimes.add("예약가능한 시간이 없습니다.");
 			}else { 			
 				// 현재 시간 이후의 시간대 구하기
-				System.out.println("오늘이 아닌 경우");
 				
 				if(isHoliday.equals("Y")) {//공휴일인경우
 					if(!holidayRunningTime.equals("휴무")) {
-						System.out.println("공휴일이고 휴무 아닌 경우111");
-						System.out.println("holidayRunningTime : " + holidayRunningTime);
 		
 				        String[] runningTimes = holidayRunningTime.split("-");
 				        String start = runningTimes[0]; // 9:00
@@ -523,12 +488,10 @@ public class ClinicContactService {
 					        startTime = startTime.plusMinutes(20);
 				        }
 					}else {
-						System.out.println("이날은 휴무 입니다.");
 				       nextTimes.add("휴무입니다. 다른 날짜를 선택하세요.");
 					}
 				}else {//공휴일이 아닌경우
 					if(!todayRunningTime.equals("휴무")) {
-						System.out.println("공휴일이 아니고 휴무 아닌 경우222");
 		
 				        String[] runningTimes = todayRunningTime.split("-");
 				        String start = runningTimes[0]; // 9:00
@@ -543,7 +506,6 @@ public class ClinicContactService {
 					        startTime = startTime.plusMinutes(20);
 				        }
 					}else {
-						System.out.println("이날은 휴무 입니다.");
 				       nextTimes.add("휴무입니다. 다른 날짜를 선택하세요.");
 					}
 				}
@@ -554,15 +516,11 @@ public class ClinicContactService {
 
 		}
 		
-		System.out.println("서비스");
-        System.out.println("nextTimes : " + nextTimes);
         
 		List<String> reservedTime = null;
 		reservedTime = reservedTime(clinicInstinum, selectedDate);
-		System.out.println("예약된 시간대 리스트 reservedTime : "+reservedTime);
 		
         List<String> availableList = excludeTimes(nextTimes, reservedTime);
-        System.out.println("예약가능한 리스트 : "  + availableList); 
 
 	return availableList;
 	}
@@ -585,7 +543,6 @@ public class ClinicContactService {
 		    }
 		}
 
-		System.out.println("이미 예약된 시간대 : " + reservedTimeList);
 		return reservedTimeList;
 	}
 	
@@ -623,7 +580,6 @@ public class ClinicContactService {
 			}
 		}
 		
-		System.out.println("isHoliday : "+clinicTime[clinicTime.length-1]);
 
 		 return "N";
 	 }

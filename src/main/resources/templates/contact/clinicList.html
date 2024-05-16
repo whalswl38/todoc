@@ -335,7 +335,7 @@
           </div>
         </form>
         <div class="spacing-height-8"></div>
-  		<div class="d-flex" style="gap:13px">
+  		<div class="d-flex justify-content-center" style="gap:13px;">
 	  		<div class="filter-sort" id="currentLocationBtn" th:onclick="currentLoca()" th:style="${locationValue != null} ? 'color: royalblue; background-color: #e0ecff; border: 1px solid royalblue;' : ''">현재위치</div>
 	  		<div class="filter-sort" id="openButton" th:onclick="opening()" th:style="${isOpening == 'Y'} ? 'color: royalblue; background-color: #e0ecff; border: 1px solid royalblue;' : ''">진료중</div>
 			<div class="filter-sort" id="nightFilter" th:onclick="nightList()"  th:style="${search.clinicNight == 'Y'} ? 'color: royalblue; background-color: #e0ecff; border: 1px solid royalblue;' : ''">
@@ -393,7 +393,7 @@
                   color: rgb(141, 146, 151);
                 "
                 
-                th:text="${clinic.clinicInstinum}" 
+                th:text="${clinic.clinicPhone}" 
               ></div><!-- "${clinic.keyword}" -->
               <div
                 class="d-flex align-items-center"
@@ -405,7 +405,7 @@
                 "
               >
                 <div
-                  th:text="${clinic.clinicName}"
+                  th:text="${clinic.clinicSubject}"
                 ></div>
                 <div
                   style="
@@ -415,7 +415,7 @@
                     border-radius: 50%;
                   "
                 ></div>
-                <div th:text="${clinic.clinicName}"></div>
+                <div th:text="${clinic.clinicSymptom}"></div>
               </div>
 
               <div
@@ -442,8 +442,8 @@
                 ></div>
                 <div
                   style="color: rgb(141, 146, 151)"
-                  th:text="${clinic.clinicAddr}"
-                ></div>
+                  
+                >[[${clinic.clinicDoctor}]] 의사</div>
               </div>
               <div
                 class="d-flex align-items-center"
@@ -521,7 +521,155 @@
       <!-- 정렬 모달 -->
         <div id="map-container"></div>	
         <!-- 지도 스크립트 시작-->
-   
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ba782e0da2a2ffd54dfb01c48b963e38&libraries=services"></script>
+		<script>
+			//마커를 담을 배열입니다
+			var markers = [];
+			
+			var mapContainer = document.getElementById('map-container'), // 지도를 표시할 div 
+			    mapOption = {
+			        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+			        level: 3 // 지도의 확대 레벨
+			    };  
+			
+			var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+			
+			// HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
+			if (navigator.geolocation) {			    
+			    // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+			    navigator.geolocation.getCurrentPosition(function(position) {
+			        
+			        var lat = position.coords.latitude, // 위도
+			            lon = position.coords.longitude; // 경도
+			        
+			        var locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+			            message = '<div style="text-align:center; width: 200px; padding:5px;">현재위치 입니다</div>'; // 인포윈도우에 표시될 내용입니다
+			        
+			        // 마커와 인포윈도우를 표시합니다
+			        displayMarker(locPosition, message);
+			            
+			        // 현재위치 좌표를 주소로 변환 (구만 표현)
+			        // 좌표를 주소로 변환
+			        var geocoder = new kakao.maps.services.Geocoder();
+			        geocoder.coord2Address(lon, lat, function(result, status) {
+			            if (status === kakao.maps.services.Status.OK) {
+			                var address = result[0].address.address_name;
+			                var addressArray = address.split(' '); // 공백을 기준으로 주소를 나누어 배열로 만듭니다.
+			                var gu = addressArray[1]; // 두 번째 요소가 구 이름입니다. 배열 인덱스는 0부터 시작하므로 인덱스 1을 선택합니다.
+			                document.getElementById('currentLocationBtn').innerText = gu+'로 검색';
+			                document.getElementById('currentLocation').value = gu;
+			            
+			            } else {
+			                console.error('좌표를 주소로 변환하는데 실패했습니다.');
+			            }
+			        });
+			            
+			      });
+			    
+			} else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+			    
+			    var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),    
+			        message = 'geolocation을 사용할수 없어요..'
+			        
+			    displayMarker(locPosition, message);
+			}
+
+			// 지도에 마커와 인포윈도우를 표시하는 함수입니다
+			function displayMarker(locPosition, message) {
+
+			    // 마커를 생성합니다
+			    var marker = new kakao.maps.Marker({  
+			        map: map, 
+			        position: locPosition
+			    }); 
+			    
+			    var iwContent = message // 인포윈도우에 표시할 내용
+			        
+
+			    // 인포윈도우를 생성합니다
+			    var infowindow = new kakao.maps.InfoWindow({
+			        content : iwContent
+			        
+			    });
+			    
+			    // 인포윈도우를 마커위에 표시합니다 
+			    infowindow.open(map, marker);
+			    
+			    // 지도 중심좌표를 접속위치로 변경합니다
+			    map.setCenter(locPosition);      
+			}    
+			
+			// 주소-좌표 변환 객체를 생성합니다
+			var geocoder = new kakao.maps.services.Geocoder();
+			
+			//검색할 주소 배열
+			var addressArray = [];
+			
+			var mapAddrInputs = document.querySelectorAll('[id^="mapAddr"]');
+			
+			for(var i = 0; i < mapAddrInputs.length; i++){ 
+				addressArray.push({
+					'groupAddress' : $("input[name='mapAddr']").eq(i).val(),
+					'mapClinicName' : $("input[name='mapClinicName']").eq(i).val()
+				});
+			}
+			
+			//주소를 좌표로 변환 
+			for (var i = 0; i < addressArray.length; i++) {
+			    (function (i) {
+			        var mapClinicName = addressArray[i].mapClinicName;
+			        geocoder.addressSearch(addressArray[i].groupAddress, function (result, status) {
+			            if (status === kakao.maps.services.Status.OK) {//주소를 좌표로 변환하는데 성공했는지 상수 체크
+			            	//변환된 좌표를 생성(result 객체는 변환된 좌표의 정보를 담음. result[0].y: 경도, 와 result[0].x: 위도)
+			                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+			                //생성한 좌표로 마커 생성( map 객체에 해당 마커를 표시하기 위해 map 속성에 지도 객체를 지정)
+			                var marker = new kakao.maps.Marker({
+			                    map: map,
+			                    position: coords
+			                });
+			                //생성한 마커를 지도에 표시
+			                marker.setMap(map);
+			                //지도의 중심을 생성한 좌표로 이동 (마커가 생성된 위치가 지도 화면에 보임)
+			                
+			                var iwContent = '<div style="text-align:center; width: 200px; padding:5px;">' + mapClinicName + '</div>';
+			                var infowindow = new kakao.maps.InfoWindow({
+			                    content: iwContent
+			                });
+
+			                kakao.maps.event.addListener(marker, 'mouseover', function () {
+			                    infowindow.open(map, marker);
+			                });
+
+			                kakao.maps.event.addListener(marker, 'mouseout', function () {
+			                    infowindow.close();
+			                });
+			                
+			                document.getElementById('clinicDiv'+i).addEventListener('mouseenter', function() {
+				              	  // 마우스가 요소 위로 올라갔을 때 실행되는 함수
+				              	  // 여기에 마커를 표시하는 코드를 추가합니다.
+				              	  infowindow.open(map, marker); // 예시 코드, 필요한 동작으로 수정해야 합니다.
+				              	
+				              	map.setCenter(coords);  
+				            });
+			                document.getElementById('clinicDiv' + i).addEventListener('mouseleave', function() {
+			                    // 마우스가 요소에서 나갔을 때 실행되는 함수
+			                    // 여기에 마커를 숨기거나 인포윈도우를 닫는 코드를 추가합니다.
+			                    infowindow.close();
+			                   
+			                });
+
+			            }
+
+			        });
+
+			    })(i);
+
+			    
+			}
+
+			
+			
+			</script>       
 		<!-- 지도 스크립트 끝 -->
        
         

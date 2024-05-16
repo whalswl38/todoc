@@ -178,7 +178,7 @@
     	        
     		  if($.trim($("#userEmail").val()).length <= 0)
     		  {
-    			  document.getElementById("invalid-feedback").innerHTML = "이메일을 작성해주세요.";
+    			  document.getElementById("invalid-feedback").innerHTML = "아이디를 작성해주세요.";
     			  return;
     		  }
     		  
@@ -202,17 +202,13 @@
 	    	            } 
 	  	                else if(response == 1)
 	  	                {
-	    	                 // location.href = "/admin/main";
-	    	            } 
+	    	                 // location.href = "/admin/main"; // 관리자
+	    	            }
 	  	                else if(response == 2)
 	  	                {
-	    	                location.href = "/main-page"; // 얘는 소셜로그인이라서 회원정보 수정으로 이동
+	    	                location.href = "/main-page"; // 일반 유저
 	    	            }
 	  	                else if(response == 3)
-	  	                {
-	    	                location.href = "/main-page";
-	    	            }
-	  	                else if(response == 4)
 	  	                {
 	    	                location.href = "/main-page"; // 의사, 약사
 	    	            }
@@ -256,7 +252,7 @@
 
       <form id="loginForm" method="post">
         <div class="input-group">
-          <input type="text" name="email" id="userEmail" onkeyup="return submitName(event);" placeholder="이메일" required />
+          <input type="text" name="email" id="userEmail" onkeyup="return submitName(event);" placeholder="아이디" required />
         </div>
         <div class="input-group">
           <input
@@ -277,10 +273,10 @@
 
       <div class="find-register">
         <div class="register-link">
-          <a href="/register">아이디 찾기</a>
+          <a href="/login/findId">아이디 찾기</a>
         </div>
         <div class="register-link">
-          <a href="/register">비밀번호 찾기</a>
+          <a href="/login/findPwd">비밀번호 찾기</a>
         </div>
         <div class="register-link" onClick="goToRegister()">회원가입</div>
       </div>

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html
   xmlns:th="http//www.thymeleaf.org"
@@ -71,18 +72,21 @@
           $(".clicked-background").removeClass("clicked-background");
           $(this).addClass("clicked-background");
         });
+        
+        $("#medicalBtn").click(function (){
+        	window.location.href = "http://localhost:8099/room-page";
+        });
       });
     </script>
   </head>
   <div layout:fragment="content" class="mypage-container">
     <div class="spacing-height-16"></div>
     <div class="d-flex justify-content-between" style="gap: 32px">
-      <div style="padding: 8px; width: 450px">
+      <div style="padding: 8px; width: 800px">
         <div class="mypage-details">
           <div
             style="
               text-align: center;
-              background-color: rgb(255, 244, 230);
               padding: 8px;
             "
           >
@@ -93,26 +97,29 @@
               class="d-flex justify-content-center align-items-center"
               style="flex: 1; flex-direction: column"
             >
-              <div style="color: #ffe1c0; font-weight: 500">6</div>
-              <div style="cursor: pointer">나의 봉사활동</div>
+              <div style="color: royalblue; font-weight: 500">5500P</div>
+              <div>나의 포인트</div>
             </div>
             <div
               class="d-flex justify-content-center align-items-center"
               style="flex: 1; flex-direction: column"
             >
-              <div>0</div>
-              <div style="cursor: pointer">나의 진료내역</div>
+              <div style="color: royalblue; font-weight: 500" th:text="${contactTotalCount}"></div>
+              <div style="cursor: pointer" th:onclick="|location.href='@{medical-history-page}'|">나의 진료내역</div>
             </div>
             <div
               class="d-flex justify-content-center align-items-center"
               style="flex: 1; flex-direction: column"
             >
-              <div style="color: #ffe1c0; font-weight: 500">1</div>
-              <div style="cursor: pointer">나의 리뷰내역</div>
+              <div style="color: royalblue; font-weight: 500" th:text="${reviewTotalCount}"></div>
+              <div style="cursor: pointer" th:onclick="|location.href='@{review-detail-page}'|">나의 리뷰내역</div>
             </div>
           </div>
+          
+          <!-- <div id="nomedical" style="display:none;"> -->
           <div class="silver-hr"></div>
-          <div class="d-flex justify-content-between align-items-center">
+          
+          <div class="d-flex justify-content-between align-items-center" >
             <div><h4>진료 신청</h4></div>
             <div>
               <h6 style="color: dodgerblue; cursor: pointer">진료 취소</h6>
@@ -137,7 +144,7 @@
 
             <div class="status" style="flex-direction: column">
               <div class="status-icon status-icon-active">
-                <i class="fa-solid fa-circle"></i>
+                <i class="fa-solid fa-circle" ></i>
               </div>
               <div class="status-active">접수완료</div>
               <div
@@ -203,39 +210,32 @@
                 color: #fff;
                 border-radius: 16px;
                 opacity: 0.6;
-                cursor: pointer;
+                cursor:pointer;
               "
+              id="medicalBtn"
             >
-              진료실 입장하기
+            진료실 입장하기
             </div>
           </div>
+          
+          </div>
+          
           <div class="silver-hr"></div>
 
           <div class="p-2 d-flex align-items-center justify-content-between">
-            <div style="cursor: pointer">
+            <div>
               <p>회원정보수정</p>
             </div>
-            <div style="cursor: pointer">
-              <i
+            <div style="cursor: pointer" th:onclick="|location.href='@{infoUpdate-page}'|">
+              <i 
                 class="fa-solid fa-chevron-right"
                 style="color: rgb(141, 146, 151)"
               ></i>
             </div>
           </div>
-          <div class="p-2 d-flex align-items-center justify-content-between">
-            <div style="cursor: pointer">
-              <p>나의 봉사활동</p>
-            </div>
-            <div style="cursor: pointer">
-              <i
-                class="fa-solid fa-chevron-right"
-                style="color: rgb(141, 146, 151)"
-              ></i>
-            </div>
-          </div>
-          <div class="p-2 d-flex align-items-center justify-content-between">
-            <div style="cursor: pointer">
-              <p>나의 봉사후기</p>
+          <div class="p-2 d-flex align-items-center justify-content-between" >
+            <div style="cursor: pointer" >
+              <p>나의 진료내역</p>
             </div>
             <div style="cursor: pointer">
               <i
@@ -246,7 +246,7 @@
           </div>
           <div class="p-2 d-flex align-items-center justify-content-between">
             <div style="cursor: pointer">
-              <p>나의 후원내역</p>
+              <p>나의 문의내역</p>
             </div>
             <div style="cursor: pointer">
               <i

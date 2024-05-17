@@ -3,15 +3,12 @@ package com.todoc.web;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.todoc.web.dto.User;
 import com.todoc.web.security.jwt.JwtAuthorizationFilter;
 import com.todoc.web.service.UserService;
 
@@ -50,30 +47,7 @@ public class TestController {
        return "megazines/megazineDetail";
    }
 
-    @GetMapping("/user/mypage-page")
-   public String test17(HttpServletRequest request, Model model) {
-    	String token = jwtFilter.extractJwtFromCookie(request);
-    	String userEmail = jwtFilter.getUsernameFromToken(token);
-    	
-    	User user = userService.findByEmail(userEmail);
-    	model.addAttribute("user", user);
-    	return "/mypage/mypage";
-   }
 
-    @GetMapping("/medical-history-page")
-    public String test18() {
-        return "mypage/medicalHistory";
-    }
-
-    @GetMapping("/medical-history-detail-page")
-    public String test19() {
-        return "mypage/medicalHistoryDetail";
-    }
-
-    @GetMapping("/review-detail-page")
-    public String test20() {
-        return "mypage/reviewDetail";
-    }
 
      @GetMapping("/chat-home-page")
     public String test21() {
@@ -108,9 +82,10 @@ public class TestController {
         model.addAttribute("clinicList", list);
         return "clinic/clinicList";
     }
-
-    @GetMapping("/review-page")
-    public String test25() {
-        return "mypage/review";
+    
+    
+    @GetMapping("/mypage-page2")
+    public String test28() {
+        return "mypage/mypageMedical";
     }
 }

@@ -69,4 +69,9 @@ public interface UserDao
 	
 	// 소셜로그인 회원 정보 저장
 	int insertSocial(User user);
+	
+	// 회원정보 수정
+	int userUpdate(User user);
+	
+	
 }

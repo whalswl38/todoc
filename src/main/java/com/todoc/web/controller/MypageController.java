@@ -53,16 +53,18 @@ public class MypageController {
 	    	int reviewTotalCount = reviewService.reviewTotal(userEmail);
 	    	
 	    	
-	    	if(contactTotalCount >= 0)
+	    	if(userEmail != null)
 	    	{
-	    		model.addAttribute("contactTotalCount", contactTotalCount);
+		    	if(contactTotalCount >= 0)
+		    	{
+		    		model.addAttribute("contactTotalCount", contactTotalCount);
+		    	}
+		    	
+		    	if(reviewTotalCount >= 0)
+		    	{
+		    		model.addAttribute("reviewTotalCount", reviewTotalCount);
+		    	}
 	    	}
-	    	
-	    	if(reviewTotalCount >= 0)
-	    	{
-	    		model.addAttribute("reviewTotalCount", reviewTotalCount);
-	    	}
-	    	
 	
 	    	return "/mypage/mypage";
 	   }

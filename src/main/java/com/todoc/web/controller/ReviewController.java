@@ -125,8 +125,6 @@ public class ReviewController {
 	    	Review reviewInsert = new Review();
 	    	
 	    	ContactLog contactLog = contactLogService.contactViewList(3);
-	    	logger.error("contactLog : "+ contactLog.getClinicInstinum());
-	    	
 	    	
 	    	
 	    	if(userEmail != null)
@@ -141,8 +139,8 @@ public class ReviewController {
 	    			reviewInsert.setReviewContent(review.getReviewContent());
 	    			reviewInsert.setReviewGrade(review.getReviewGrade());
 	    			reviewInsert.setClinicInstinum(contactLog.getClinicInstinum());
-	    			
-	    			
+	    			reviewInsert.setContactSeq(review.getContactSeq());
+	    				
 		    		if(!review.getReviewTitle().isEmpty() && !review.getReviewContent().isEmpty() )
 		    		{
 	    				if(reviewService.reviewInsert(review) > 0)
@@ -169,5 +167,8 @@ public class ReviewController {
 	    		return 0;
 	    	}
 		 	
+		 	
 	 	}
+	 	
+	 	
 }

@@ -84,8 +84,13 @@ public class TestController {
     }
     
     
-    @GetMapping("/mypage-page2")
-    public String test28() {
+    @GetMapping("/reservationList-page")
+    public String test29() {
+        return "mypage/reservationList";
+    }
+    
+    @GetMapping("/medical-mypage")
+    public String test30() {
         return "mypage/mypageMedical";
     }
 }

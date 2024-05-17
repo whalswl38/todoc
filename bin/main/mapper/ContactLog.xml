@@ -78,6 +78,8 @@
 	</select>
 
 	
+	
+	
 	<!-- 진료내역 토탈카운트 -->
 	<select id="contactLogTotal" parameterType="String" resultType="int">
 	
@@ -86,7 +88,16 @@
 				 WHERE USER_EMAIL = #{value}
 	</select>
 
-
-
+	
+	
+	<!-- 리뷰체크 -->
+	<select id="contactSeqCheck" parameterType="long" resultType="int">
+		
+			SELECT COUNT(REVIEW_SEQ)
+			  FROM TD_CONTACT_LOG A, TD_REVIEW B
+			 WHERE A.CONTACT_SEQ = B.CONTACT_SEQ
+			   AND A.CONTACT_SEQ = #{value}
+	
+	</select>
 
 </mapper>

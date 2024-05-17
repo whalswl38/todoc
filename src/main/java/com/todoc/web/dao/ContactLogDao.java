@@ -17,4 +17,7 @@ public interface ContactLogDao {
 	
 	//진료내역 토탈카운트
 	int contactLogTotal(String userEmail);
+	
+	//진료내역 리뷰체크
+	int contactSeqCheck(long contactSeq);
 }

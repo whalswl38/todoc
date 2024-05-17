@@ -219,6 +219,13 @@
                 $(".paging-active").removeClass("paging-active");
                 $(this).addClass("paging-active");
             });
+            
+            $("#filter-open").click(function() {
+                $("#sortList").hide();
+                $("#sortList[data-status='N']").hide();
+                $("#sortList[data-status='Y']").show();
+                
+            });
         });
 
         function goToDetail(clinicInstinum) {
@@ -227,23 +234,39 @@
 
         function setSort(sort) {
             $("#sort").removeClass("clicked-background");
+            var sortType; // sortType 변수를 정의합니다.
             if (sort != null && sort != "") {
                 $("#sort-text").text(sort);
                 $("#sort").addClass("clicked-background");
                 if (sort === "평점 높은 순") {
-                    $("#sortType").val("grade");
-                    $("#searchWord").submit();
+                    sortType = "grade"; // sortType을 grade로 설정합니다.
                 } else if (sort === "리뷰 많은 순") {
-                    $("#sortType").val("review");
-                    $("#searchWord").submit();
+                    sortType = "review"; // sortType을 review로 설정합니다.
+                } else {
+                    sortType = ""; // 기본값으로 빈 문자열을 설정합니다.
                 }
+                $.ajax({
+                    type: "GET",
+                    url: "/select-clinic-page",
+                    data: {
+                        sortType: sortType
+                    }, 
+                    success: function(data) { // 성공 콜백 함수의 인자를 data로 맞춤
+                        var newContent = $(data).find("#root").html();
+                        $('#root').html(newContent);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('오류 발생');
+                    }
+                });
+                $("#sortType").val(sortType);
             } else {
                 $("#sort-text").text("가까운 순");
                 $("#sort").addClass("clicked-background");
+                sortType = ""; 
+                $("#sortType").val(sortType); 
             }
-            
         }
-        <!-- -->
 /*         function setSort(sortType) {
             // 선택한 정렬 방식을 폼 필드에 설정합니다.
             document.getElementById("sortType").value = sortType;
@@ -329,7 +352,7 @@
                             <i class="fa-solid fa-location-crosshairs" style="font-size: 12px"></i>
                             <span id="sort-text">현재 내 위치</span>
                         </div>
-                        <div class="filter-box">진료중</div>
+                        <div id="filter-open" class="filter-box">진료중</div>
                         <div class="filter-box">야간진료</div>
                     </div>
                     
@@ -343,35 +366,37 @@
                     
                     <div class="spacing-height-16"></div>
                     <div class="spacing-height-16"></div>
-                    <div id="root" class="row" th:each="clinic : ${subject}">
-                        <div class="col card-box d-flex" th:onclick="goToDetail(this.getAttribute('data-clinicInstinum'))" th:data-clinicInstinum="${clinic.clinicInstinum}">
-                            <div style="width: 60%">
-                                <div class="d-flex align-items-center" style="gap: 8px">
-                                    <div class="" style="color: #212529; font-size: 20px; font-weight: 500" th:text="${clinic.clinicDoctor}"></div>
-                                    <input type="hidden" id="clinicInstinumm" name="clinicInstinumm" th:value="${clinic.clinicInstinum}">
-                                    <div class="" style="color: rgb(141, 146, 151)" th:text="${clinic.clinicName}"></div>
-                                </div>
-                                <div class="row" style="margin-bottom: 4px">
-                                    <div class="col" style="padding-left: 4px">
-                                        <span><i class="fa-solid fa-star" style="color: #ffd43b"></i></span>
-                                        <span th:text="${clinic.reviewGrade}"></span><span style="color: rgb(141, 146, 151)">(</span><span th:text="${clinic.reviewSeq}" style="color: rgb(141, 146, 151)"></span><span style="color: rgb(141, 146, 151)">)</span>
-                                    </div>
-                                </div>
-                                <div class="d-flex" style="gap: 8px; margin-bottom: 4px">
-                                    <div th:if="${clinic.clinicStatus == 'Y'}" style="color: green">진료중</div>
-                                    <div th:if="${clinic.clinicStatus == 'N'}" style="color: rgb(128, 128, 128)">진료종료</div>
-                                    <div style="height: 13px; width: 1px; background: silver; margin-top: 5px;"></div>
-                                    <div th:text="${clinic.clinicTime}" style="color: rgb(141, 146, 151)"></div>
-                                </div>
-                                <div>
-                                    <span class="clinicItem" style="color: rgb(169, 174, 177); background-color: rgb(245, 246, 247);">영상진료</span>
-                                </div>
-                            </div>
-                            <div class="card-image-box" style="background: #bdbdbd">
-                                <img class="card-image" th:src="@{/image/__${clinic.fileOrgName}__}" />
-                            </div>
-                        </div>
-                        <div style="width: calc(100% - 30px); height: 1px; background: rgb(169, 174, 177); margin: 12px 0px; opacity: 0.4;"></div>
+                    <div id="root">
+	                    <div class="row" th:each="clinic : ${subject}">
+	                        <div id=sortList  class="col card-box d-flex" th:onclick="goToDetail(this.getAttribute('data-clinicInstinum'))" th:data-clinicInstinum="${clinic.clinicInstinum}" th:data-status="${clinic.clinicStatus}">
+	                            <div style="width: 60%">
+	                                <div class="d-flex align-items-center" style="gap: 8px">
+	                                    <div class="" style="color: #212529; font-size: 20px; font-weight: 500" th:text="${clinic.clinicDoctor}"></div>
+	                                    <input type="hidden" id="clinicInstinumm" name="clinicInstinumm" th:value="${clinic.clinicInstinum}">
+	                                    <div class="" style="color: rgb(141, 146, 151)" th:text="${clinic.clinicName}"></div>
+	                                </div>
+	                                <div class="row" style="margin-bottom: 4px">
+	                                    <div class="col" style="padding-left: 4px">
+	                                        <span><i class="fa-solid fa-star" style="color: #ffd43b"></i></span>
+	                                        <span th:text="${clinic.reviewGrade}"></span><span style="color: rgb(141, 146, 151)">(</span><span th:text="${clinic.reviewSeq}" style="color: rgb(141, 146, 151)"></span><span style="color: rgb(141, 146, 151)">)</span>
+	                                    </div>
+	                                </div>
+	                                <div class="d-flex" style="gap: 8px; margin-bottom: 4px">
+	                                    <div th:if="${clinic.clinicStatus == 'Y'}" style="color: green">진료중</div>
+	                                    <div th:if="${clinic.clinicStatus == 'N'}" style="color: rgb(128, 128, 128)">진료종료</div>
+	                                    <div style="height: 13px; width: 1px; background: silver; margin-top: 5px;"></div>
+	                                    <div th:text="${clinic.clinicTime}" style="color: rgb(141, 146, 151)"></div>
+	                                </div>
+	                                <div>
+	                                    <span class="clinicItem" style="color: rgb(169, 174, 177); background-color: rgb(245, 246, 247);">영상진료</span>
+	                                </div>
+	                            </div>
+	                            <div class="card-image-box" style="background: #bdbdbd">
+	                                <img class="card-image" th:src="@{/image/__${clinic.fileOrgName}__}" />
+	                            </div>
+	                        </div>
+	                        <div style="width: calc(100% - 30px); height: 1px; background: rgb(169, 174, 177); margin: 12px 0px; opacity: 0.4;"></div>
+	                    </div>
                     </div>
                 </div>
                 <!-- 페이징 영역 -->

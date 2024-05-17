@@ -287,7 +287,10 @@ public class UntactController {
 
     //비대면-결제
     @GetMapping("/clinic-reserve-payment-page")
-    public String test10() {
+    public String test10(HttpServletRequest request, HttpServletResponse response) {
+    	String token = jwtFilter.extractJwtFromCookie(request);
+    	String userEmail = jwtFilter.getUsernameFromToken(token);
+    	
     	return "untact/clinicReservationPayment";
     }
     

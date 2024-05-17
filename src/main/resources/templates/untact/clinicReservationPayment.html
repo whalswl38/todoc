@@ -89,14 +89,45 @@
       }
     </style>
     <script>
-      $(document).ready(function () {
-	      $(".next-btn").on("click", function () {
+		$(document).ready(function () {
+/* 	      $(".next-btn").on("click", function () {
 	        if ($("#kakao").is(":checked")) {
 	          window.location.href = "https://kakaopay.com"; // Replace with the actual Kakao Pay URL
 	        } else {
 	          alert("카카오페이를 선택해주세요.");
 	        }
-	      });
+	      }); */
+			$(".next-btn").on("click", function () {
+				if ($("#kakao").is(":checked")) {
+					// 카카오페이 결제전송
+					$.ajax({
+						url:'/kakaoPay',
+						type:'get',
+						data:{
+				           itemName:$("#itemName").val(),
+				           quantity:$("#quantity").val(),
+				           totalAmount:$("#totalAmount").val()
+						},
+						success:function(response){
+				           if(response.code==0){
+				               
+				               $("#orderId").val(orderId);
+				               $("#tId").val(tId);
+				               $("#pcUrl").val(pcUrl);
+				               
+				               var win = window.open('','kakaoPopUp','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=540,height=700,left=100,top=100');
+				               $("#kakaoForm").submit();
+				            } else{
+				               alert("오류가 발생하였습니다.");
+				               $(".next-btn").prop("disabled",false);
+				            }
+						},
+		                error:function(error) {
+		                    console.error('결제가 실패 처리 되었습니다.');
+		                }
+					});
+				}
+			});
       });
     </script>
   </head>
@@ -135,7 +166,7 @@
           <h4>결제 정보를 입력해주세요.</h4><br/>
           <h5>진료비</h5>
 			<div class="d-flex align-items-center">
-			<label>5,500원</label>
+			<div id="payPrice"><label>5,500원</label></div>
 			</div>
           <div class="spacing-height-16"></div>
           <div class="spacing-height-8"></div>
@@ -148,8 +179,18 @@
             </div> 
             <div class="d-flex align-items-center">
               <input type="radio" name="payment-type" id="kakao" />
-              <label for="kakao">카카오페이</label>
+              <div id="kakao" th:value="카카오페이"><label for="kakao">카카오페이</label></div>
             </div>
+      		<input type="hidden" name="itemCode" id="itemCode" maxlength="32" class="form-control mb-2" placeholder="상품코드" value="0123456789" />
+	     	<input type="hidden" name="itemName" id="itemName" maxlength="50" class="form-control mb-2" placeholder="상품명" value="토닥토닥" />
+	     	<input type="hidden" name="quantity" id="quantity" maxlength="3" class="form-control mb-2" placeholder="수량" value="1" />
+	     	<input type="hidden" name="totalAmount" id="totalAmount" maxlength="10" class="form-control mb-2" placeholder="금액" value="5,500원" />
+	    
+		    <form name="kakaoForm" id="kakaoForm" method="post" target="kakaoPopUp" action="/kakao/payPopUp">
+		    	<input type="hidden" name="orderId" id="orderId" value=""/>
+		        <input type="hidden" name="tId" id="tId" value=""/>
+		        <input type="hidden" name="pcUrl" id="pcUrl" value=""/>
+			</form>
           </div>
 <!--           <div class="spacing-height-16"></div>
           <div class="spacing-height-16"></div> -->

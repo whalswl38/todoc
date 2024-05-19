@@ -43,7 +43,6 @@ public class ClinicContact {
 	
 	private String closeFlag;
 	
-
     public ClinicContact() {
     	guList = new ArrayList<>();
     	guList.add("강남구");

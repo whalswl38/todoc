@@ -13,6 +13,12 @@ public class ReservationContact {
 	private String reservationSymptom;
 	private String reservationFlag;
 	private String regdate;
+	private String status;
+	
+	//예약확인 리스트
+	private String userName;
+	private String clinicDoctor;
+	private String clinicName;
 	
 	
 	

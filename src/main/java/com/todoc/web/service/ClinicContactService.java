@@ -585,7 +585,72 @@ public class ClinicContactService {
 	 }
 	
 	
-	
+	 //예약확인 리스트
+	 public List<ReservationContact> reservationList(String clinicInstinum)
+	 {
+		 List<ReservationContact> list = null;
+		 
+		 try
+		 {
+			 list = clinicContactDao.reservationList(clinicInstinum);
+		 }
+		 catch(Exception e)
+		 {
+			 logger.error("[ClinicContactService] reservationList Exception",e);
+		 }
+		 return list;
+	 }
+	 
+	 //예약확인 의사 상세
+	 public ClinicContact clinicListView(String userEmail)
+	 {
+		 ClinicContact clinic = null;
+		 
+		 try
+		 {
+			 clinic = clinicContactDao.clinicListView(userEmail);
+		 }
+		 catch(Exception e)
+		 {
+			 logger.error("[ClinicContactService] clinicListView Exception",e);
+		 }
+		 
+		 return clinic;
+	 }
+	 
+	 //예약리스트 예약승인
+	 public int reservationApprove(long reservationSeq)
+	 {
+		 int count = 0;
+		 
+		 try
+		 {
+			 count = clinicContactDao.reservationApprove(reservationSeq);
+		 }
+		 catch(Exception e)
+		 {
+			 logger.error("[ClinicContactService] reservationApprove Exception",e);
+		 }
+		 
+		 return count;
+	 }
+	 
+	 //예약리스트 예약취소
+	 public int reservationCancel(long reservationSeq)
+	 {
+		 int count = 0;
+		 
+		 try
+		 {
+			 count = clinicContactDao.reservationCancel(reservationSeq);
+		 }
+		 catch(Exception e)
+		 {
+			 logger.error("[ClinicContactService] reservationCancel Exception",e);
+		 }
+		 
+		 return count;
+	 }
 }
 
 

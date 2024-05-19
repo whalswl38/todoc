@@ -34,9 +34,16 @@ public interface ClinicContactDao {
 	//해당날짜 이미 예약된 시간대 찾기
 	public List<ReservationContact> reservedTime(ReservationContact reservation);
 	
-	
+	//예약확인 리스트
+	List<ReservationContact> reservationList(String clinicInstinum);
 
+	//예약확인 의사 상세
+	ClinicContact clinicListView(String userEmail);
 	
+	//예약리스트 승인
+	int reservationApprove(long reservationSeq);
 	
+	//예약리스트 취소
+	int reservationCancel(long reservationSeq);
 
 }

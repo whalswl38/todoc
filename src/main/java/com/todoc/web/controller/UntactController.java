@@ -304,5 +304,17 @@ public class UntactController {
     public String test13() {
         return "untact/reservationDoctorView";
     }
+    
+    @GetMapping("/pdf-page")
+    public String test30() {
+        return "untact/pdf";
+    }
+    
+    @GetMapping("/medicine-page")
+    public String test31(HttpServletRequest request, HttpServletResponse response) {
+    	String token = jwtFilter.extractJwtFromCookie(request);
+    	String userEmail = jwtFilter.getUsernameFromToken(token);
+    	return "untact/prescription";
+    }
 
 }

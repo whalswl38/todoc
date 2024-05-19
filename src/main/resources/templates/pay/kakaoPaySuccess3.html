@@ -141,58 +141,22 @@
         style="padding: 8px; width: 80%; margin: 0 auto"
       >
         <div class="" style="font-weight: 500">
-          <h4>결제 정보를 입력해주세요.</h4><br/>
+          <h4>결제가 정상적으로 완료되었습니다.</h4><br/>
+          <h5>결제일시</h5>
+			<div class="d-flex align-items-center">
+			<div id="payPrice"><label>[[${info.approved_at}]]</label></div>
+			</div>
+          <h5>주문번호</h5>
+			<div class="d-flex align-items-center">
+			<div id="payPrice"><label>[[${info.partner_order_id}]]</label></div>
+			</div>
           <h5>진료비</h5>
 			<div class="d-flex align-items-center">
-			<div id="payPrice"><label>5,500원</label></div>
+			<div id="payPrice"><label>[[${info.amount.total}]]</label></div>
 			</div>
           <div class="spacing-height-16"></div>
           <div class="spacing-height-8"></div>
-          <h5>결제 수단 선택</h5>
-          <div class="spacing-height-8"></div>
-          <div class="d-flex" style="gap: 32px">
-            <div class="d-flex align-items-center">
-              <input type="radio" name="payment-type" id="credit" checked />
-              <label for="credit">신용/체크카드</label>
-            </div> 
-            <div class="d-flex align-items-center">
-              <input type="radio" name="payment-type" id="kakao" />
-              <div id="kakao" th:value="카카오페이"><label for="kakao">카카오페이</label></div>
-            </div>
-      		<input type="hidden" name="itemCode" id="itemCode" maxlength="32" class="form-control mb-2" placeholder="상품코드" value="0123456789" />
-	     	<input type="hidden" name="itemName" id="itemName" maxlength="50" class="form-control mb-2" placeholder="상품명" value="토닥토닥" />
-	     	<input type="hidden" name="quantity" id="quantity" maxlength="3" class="form-control mb-2" placeholder="수량" value="1" />
-	     	<input type="hidden" name="totalAmount" id="totalAmount" maxlength="10" class="form-control mb-2" placeholder="금액" value="5,500원" />
-	    
-		    <form name="kakaoForm" id="kakaoForm" method="post" target="kakaoPopUp" action="/kakao/payPopUp">
-		    	<input type="hidden" name="orderId" id="orderId" value=""/>
-		        <input type="hidden" name="tId" id="tId" value=""/>
-		        <input type="hidden" name="pcUrl" id="pcUrl" value=""/>
-			</form>
-          </div>
-<!--           <div class="spacing-height-16"></div>
-          <div class="spacing-height-16"></div> -->
-<!--           <div class="swiper-cotainer-box">
-            <div class="swiper-container">
-              <div class="swiper-wrapper">
-                <div class="swiper-slide">Slide 1</div>
-                <div class="swiper-slide">Slide 2</div>
-                <div class="swiper-slide">Slide 3</div>
-              </div>
-              <div class="swiper-button-prev"></div>
-              <div class="swiper-button-next"></div>
-              <div class="swiper-pagination"></div>
-            </div>
-          </div> -->
 
-          <script>
-            var swiper = new Swiper(".swiper-container", {
-              pagination: {
-                el: ".swiper-pagination",
-                type: "bullets",
-              },
-            });
-          </script>
           <div class="spacing-height-16"></div>
           <div class="spacing-height-16"></div>
           <div class="next-btn">다음</div>
@@ -202,3 +166,4 @@
     </div>
   </div>
 </html>
+

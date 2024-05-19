@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http//www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/layout}"
+><head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<script type="text/javascript">
+function test(){
+	window.opener.location.href="http://www.naver.com"; //부모창 이동시킬 url 수정필요
+	window.close();
+}
+
+
+$(document).ready(function() {
+    $.ajax({
+        url: '/kakaoPayResult', 
+        type: 'POST', 
+        data: formData, 
+        processData: false,
+        contentType: false, 
+        success: function(response) {
+        	if(response >= 1){
+                alert('예약이 성공적으로 완료되었습니다.');
+                window.location.href = "http://localhost:8099/clinic-reserve-user-page";
+        	} else {
+        		console.log('예약실패');
+        	}
+        },
+        error: function(error) {
+            console.error('예약을 처리하는 도중 오류가 발생했습니다.');
+        }
+    });
+	window.opener.location.href="http://www.naver.com"; //부모창 이동시킬 url 수정필요
+	window.close();
+});
+</script>
+</head>
+<body>
+ 
+카카오페이 결제가 정상적으로 완료되었습니다.
+ 
+결제일시:     [[${info.approved_at}]]<br/>
+주문번호:    [[${info.partner_order_id}]]<br/>
+상품명:    [[${info.item_name}]]<br/>
+상품수량:    [[${info.quantity}]]<br/>
+결제금액:    [[${info.amount.total}]]<br/>
+결제방법:    [[${info.payment_method_type}]]<br/>
+ 
+ <input id="close" type="button" value="close" th:onclick="test();">
+ 
+<h2>[[${info}]]</h2>
+ 
+</body>
+</html>

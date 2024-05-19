@@ -1,5 +1,8 @@
 package com.todoc.web.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,12 +51,10 @@ public class KakaoPayController {
         return "pay/kakaoPaySuccess";
     }
     
-    @PostMapping("/kakaoPayResult")
-    public String kakaoPayResult(@RequestParam("pg_token") String pg_token, Model model) {
-        log.info("kakaoPaySuccess get............................................");
-        log.info("kakaoPaySuccess pg_token : " + pg_token);
+    @GetMapping("/kakaoPayResult")
+    public String kakaoPayResult(Model model, HttpServletRequest request, HttpServletResponse response ) {
 
-        model.addAttribute("info", kakaoPayService.kakaoPayInfo(pg_token));
+       // model.addAttribute("info", kakaoPayService.kakaoPayInfo(pg_token));
 
         return "pay/kakaoPaySuccess3";
     }

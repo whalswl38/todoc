@@ -45,6 +45,8 @@ public class Untact {
     private long startRow;
     private long endRow;
     private String sortType;
+    private String location;
+    
     
 }
 

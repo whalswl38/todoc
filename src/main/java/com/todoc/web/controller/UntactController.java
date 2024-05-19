@@ -78,7 +78,10 @@ public class UntactController {
     	String symptom = request.getParameter("symptom");
     	String searchWord = request.getParameter("searchWord");
     	String sortType = request.getParameter("sortType");
-
+    	String location = request.getParameter("location");  	
+    	
+    	
+    	
     	long curPage = 1; 
     	if(request.getParameter("curPage") != null)
     	 curPage = (long)Integer.parseInt(request.getParameter("curPage"));
@@ -93,7 +96,11 @@ public class UntactController {
     	untact.setSearchWord(searchWord);
     	
     	if(sortType != null) {
-    		untact.setSortType(request.getParameter("sortType"));
+    		untact.setSortType(sortType);
+    	} 
+
+    	if(location != null) {
+    		untact.setLocation(location);
     	} 
     	
 		int totalCount = untactService.subjectListCount(untact);

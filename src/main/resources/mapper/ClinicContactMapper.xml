@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.todoc.web.dao.ClinicContactDao">
+	<resultMap type="ClinicContact" id="ClinicContactMap">
+		<id property="clinicEmail" column="CLINIC_EMAIL" />
+		<result property="clinicInstinum" column="CLINIC_INSTINUM" />
+		<result property="clinicRegnum" column="CLINIC_REGNUM" />
+		<result property="clinicPhone" column="CLINIC_PHONE" />
+		<result property="clinicName" column="CLINIC_NAME" />
+		<result property="clinicSubject" column="CLINIC_SUBJECT" />
+		<result property="clinicSymptom" column="CLINIC_SYMPTOM" />
+		<result property="userEmail" column="USER_EMAIL" />
+		<result property="userPwd" column="USER_PWD" />
+		<result property="clinicDay" column="CLINIC_DAY" />
+		<result property="clinicTime" column="CLINIC_TIME" />
+		<result property="clinicDayoff" column="CLINIC_DAYOFF" />
+		<result property="clinicZipcode" column="CLINIC_ZIPCODE" />
+		<result property="clinicAddr" column="CLINIC_ADDR" />
+		<result property="clinicNonBenefit" column="CLINIC_NON_BENEFIT" />
+		<result property="clinicContactFlag" column="CLINIC_CONTACT_FLAG" />
+		<result property="clinicDetail" column="CLINIC_DETAIL" />
+		<result property="clinicStatus" column="CLINIC_STATUS" />
+		<result property="clinicDoctor" column="CLINIC_DOCTOR" />
+		<result property="clinicRefreshToken" column="CLINIC_REFRESH_TOKEN" />
+		<result property="clinicFax" column="CLINIC_FAX" />
+		<result property="clinicCareer" column="CLINIC_CAREER" />
+		<result property="clinicBreak" column="CLINIC_BREAK" />
+		<result property="clinicNight" column="CLINIC_NIGHT" />
+		<result property="clinicWeekend" column="CLINIC_WEEKEND" />
+	</resultMap>
+	  
+	<resultMap type="ReservationContact" id="ReservationContactMap">
+		<id property="reservationSeq" column="RESERVATION_SEQ" />
+		<result property="userEmail" column="USER_EMAIL" />
+		<result property="clinicInstinum" column="CLINIC_INSTINUM" />
+		<result property="reservationDate" column="RESERVATION_DATE" />
+		<result property="reservationTime" column="RESERVATION_TIME" />
+		<result property="reservationSymptom" column="RESERVATION_SYMPTOM" />
+		<result property="reservationFlag" column="RESERVATION_FLAG" />
+		<result property="regdate" column="REGDATE" />
+	</resultMap>
+	
+	<resultMap type="ClinicFile" id="ClinicFileMap">
+        <result column="FILE_SEQ" property="fileSeq"/>
+        <result column="FILE_ORG_NAME" property="fileOrgName"/>
+        <result column="FILE_NAME" property="fileName"/>
+        <result column="FILE_EXT" property="fileExt"/>
+        <result column="FILE_SIZE" property="fileSize"/>
+        <result column="FILE_REGDATE" property="fileRegDate"/>
+    </resultMap>
+	
+	
+	<select id="clinicList" resultMap="ClinicContactMap">
+		SELECT *
+		FROM TD_CLINIC
+		WHERE CLINIC_CONTACT_FLAG LIKE '%C%'
+	</select>
+	
+	<select id="clinicListTotal" parameterType="ClinicContact" resultMap="ClinicContactMap">
+		SELECT *
+		FROM TD_CLINIC
+		WHERE CLINIC_CONTACT_FLAG LIKE '%C%'
+		<if test='textSearch != "" and textSearch != null'>
+		AND CLINIC_SYMPTOM LIKE '%' || #{textSearch} || '%'
+		OR CLINIC_SUBJECT LIKE '%' || #{textSearch} || '%'
+		OR CLINIC_NAME LIKE '%' || #{textSearch} || '%'
+		</if>
+	</select>
+	
+	<select id="clinicListCategory" parameterType="com.todoc.web.dto.ClinicContact" resultMap="ClinicContactMap">
+	 SELECT RNUM,
+   				CLINIC_INSTINUM,
+   				CLINIC_REGNUM,
+   				CLINIC_PHONE,
+				CLINIC_NAME,
+				CLINIC_SUBJECT,
+				CLINIC_SYMPTOM,
+				USER_EMAIL,
+				USER_PWD,
+				CLINIC_DAY,
+				CLINIC_TIME,
+				CLINIC_DAYOFF,
+				CLINIC_ZIPCODE,
+				CLINIC_ADDR,
+				CLINIC_NON_BENEFIT,
+				CLINIC_CONTACT_FLAG,
+				CLINIC_DETAIL,
+				CLINIC_STATUS,
+				CLINIC_DOCTOR,
+				CLINIC_REFRESH_TOKEN,
+				CLINIC_FAX,
+				CLINIC_CAREER,
+				CLINIC_BREAK,
+				CLINIC_NIGHT,
+				CLINIC_WEEKEND,
+				FILE_ORG_NAME,
+				FILE_NAME
+	    FROM ( SELECT ROWNUM RNUM, 
+    				A.CLINIC_INSTINUM,
+    				NVL(A.CLINIC_REGNUM,'') AS CLINIC_REGNUM,
+     				NVL(A.CLINIC_PHONE,'') AS CLINIC_PHONE,
+     				NVL(A.CLINIC_NAME,'') AS CLINIC_NAME,
+     				NVL(A.CLINIC_SUBJECT,'') AS CLINIC_SUBJECT,
+     				NVL(A.CLINIC_SYMPTOM,'') AS CLINIC_SYMPTOM,
+     				NVL(A.USER_EMAIL,'') AS USER_EMAIL,
+     				NVL(A.USER_PWD,'') AS USER_PWD,
+     				NVL(A.CLINIC_DAY,'') AS CLINIC_DAY,
+     				NVL(A.CLINIC_TIME,'') AS CLINIC_TIME,
+    				NVL(A.CLINIC_DAYOFF,'') AS CLINIC_DAYOFF,
+     				NVL(A.CLINIC_ZIPCODE,'') AS CLINIC_ZIPCODE,
+     				NVL(A.CLINIC_ADDR,'') AS CLINIC_ADDR,
+     				NVL(A.CLINIC_NON_BENEFIT,'') AS CLINIC_NON_BENEFIT,
+     				NVL(A.CLINIC_CONTACT_FLAG,'') AS CLINIC_CONTACT_FLAG,
+     				NVL(A.CLINIC_DETAIL,'') AS CLINIC_DETAIL,
+     				NVL(A.CLINIC_STATUS,'') AS CLINIC_STATUS,
+     				NVL(A.CLINIC_DOCTOR,'') AS CLINIC_DOCTOR,
+     				NVL(A.CLINIC_REFRESH_TOKEN,'') AS CLINIC_REFRESH_TOKEN,
+     				NVL(A.CLINIC_FAX,'') AS CLINIC_FAX,
+     				NVL(A.CLINIC_CAREER,'') AS CLINIC_CAREER,
+     				NVL(A.CLINIC_BREAK,'') AS CLINIC_BREAK,
+     				NVL(A.CLINIC_NIGHT,'') AS CLINIC_NIGHT,
+     				NVL(A.CLINIC_WEEKEND,'') AS CLINIC_WEEKEND,
+     				NVL(B.FILE_ORG_NAME,'') AS FILE_ORG_NAME,
+               	 	NVL(B.FILE_NAME,'') AS FILE_NAME
+			   FROM TD_CLINIC A, TD_CLINIC_FILE B
+			  WHERE CLINIC_CONTACT_FLAG LIKE '%C%'
+				AND A.CLINIC_INSTINUM = B.CLINIC_INSTINUM
+ 		<if test='category != "" and category != null and searchValue != "" and searchValue != null'>
+			<choose>
+				<when test='category == "1"'>
+					AND CLINIC_SUBJECT LIKE '%' || #{searchValue} || '%'
+				</when>
+				<when test='category == "2"'>
+					AND CLINIC_SYMPTOM LIKE '%' || #{searchValue} || '%'
+				</when>
+			</choose>
+		</if>
+       	<if test='clinicNight != "" and clinicNight != null'>
+					AND CLINIC_NIGHT='Y'
+		</if>
+        <if test='clinicWeekend != "" and clinicWeekend != null'>
+					AND CLINIC_WEEKEND='Y'
+		</if>
+        <if test='textSearch != "" and textSearch != null'>
+					AND CLINIC_NAME LIKE '%' || #{textSearch} || '%'
+		</if>
+        <if test='guName != "" and guName != null'>
+		
+					AND CLINIC_ADDR LIKE '%' || #{guName} || '%'
+		</if>
+        <if test='runningNumList != null and !runningNumList.isEmpty()'>
+        			AND A.CLINIC_INSTINUM IN
+        <foreach collection="runningNumList" item="runningNum" open="(" separator="," close=")">
+           			 #{runningNum}
+        </foreach>
+    	</if>
+        	)
+        
+       WHERE RNUM <![CDATA[>=]]> #{startRow}
+		 AND RNUM <![CDATA[<=]]> #{endRow}
+
+	</select>
+	
+	<select id="listCount" parameterType="com.todoc.web.dto.ClinicContact" resultType="long">
+		SELECT COUNT(CLINIC_INSTINUM) AS CNT
+		FROM TD_CLINIC
+		WHERE CLINIC_CONTACT_FLAG LIKE '%C%'
+	 		<if test='category != "" and category != null and searchValue != "" and searchValue != null'>
+			<choose>
+				<when test='category == "1"'>
+					AND CLINIC_SUBJECT LIKE '%' || #{searchValue} || '%'
+				</when>
+				<when test='category == "2"'>
+					AND CLINIC_SYMPTOM LIKE '%' || #{searchValue} || '%'
+				</when>
+			</choose>
+			</if>
+       		<if test='clinicNight != "" and clinicNight != null'>
+					AND CLINIC_NIGHT='Y'
+			</if>	
+        	<if test='clinicWeekend != "" and clinicWeekend != null'>
+					AND CLINIC_WEEKEND='Y'
+			</if>
+        	<if test='textSearch != "" and textSearch != null'>
+					AND CLINIC_NAME LIKE '%' || #{textSearch} || '%'
+			</if>
+        	<if test='guName != "" and guName != null'>
+		
+					AND CLINIC_ADDR LIKE '%' || #{guName} || '%'
+			</if>
+        	<if test='runningNumList != null and !runningNumList.isEmpty()'>
+        			AND CLINIC_INSTINUM IN
+        	<foreach collection="runningNumList" item="runningNum" open="(" separator="," close=")">
+           			 #{runningNum}
+        	</foreach>
+   	 		</if>
+	
+	
+	</select>
+	
+	<select id="clinicTimeList"  resultMap="ClinicContactMap">
+		SELECT CLINIC_INSTINUM,CLINIC_TIME
+		FROM TD_CLINIC
+		WHERE CLINIC_CONTACT_FLAG LIKE '%C%'
+	</select>
+	
+	<select id="timeOnly"  parameterType="String" resultMap="ClinicContactMap">
+		SELECT CLINIC_TIME
+		  FROM TD_CLINIC
+		 WHERE CLINIC_CONTACT_FLAG LIKE '%C%'
+		   AND CLINIC_INSTINUM = #{value}
+	</select>
+	
+	
+	<select id="clinicDetail" resultMap="ClinicContactMap">
+		SELECT A.*,B.FILE_ORG_NAME, B.FILE_NAME
+		FROM TD_CLINIC A, TD_CLINIC_FILE B 
+		WHERE A.CLINIC_CONTACT_FLAG LIKE '%C%'
+		AND A.CLINIC_INSTINUM = B.CLINIC_INSTINUM
+		AND A.CLINIC_INSTINUM=#{value}
+	</select>
+	
+	  
+	<insert id="reservationInsert" parameterType="com.todoc.web.dto.ReservationContact">
+		<selectKey resultType="long" keyProperty="reservationSeq" order="BEFORE" >
+			SELECT SEQ_TD_RESERVATION.NEXTVAL FROM DUAL
+		</selectKey>
+			INSERT INTO TD_RESERVATION (
+			    RESERVATION_SEQ,
+			    USER_EMAIL,
+			    CLINIC_INSTINUM,
+			    RESERVATION_DATE,
+			    RESERVATION_TIME,
+			    RESERVATION_SYMPTOM,
+			    RESERVATION_FLAG,
+			    REGDATE
+			) VALUES (
+			    #{reservationSeq},
+			    #{userEmail},
+			    #{clinicInstinum},
+			    #{reservationDate},
+			    #{reservationTime},
+			    #{reservationSymptom},
+			    'C',
+			    SYSDATE
+			)
+	</insert>
+	
+	<!-- 예약된 날짜 찾기 -->
+	<select id="reservedTime" parameterType="String" resultMap="ReservationContactMap">
+		SELECT RESERVATION_TIME
+		  FROM TD_RESERVATION
+		 WHERE CLINIC_INSTINUM = #{clinicInstinum}
+		   AND RESERVATION_DATE = #{reservationDate}
+	</select>
+	
+
+	
+
+	
+
+</mapper>

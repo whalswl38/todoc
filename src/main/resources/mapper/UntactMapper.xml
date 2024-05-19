@@ -68,6 +68,9 @@
 			<if test="searchWord != null and searchWord != ''">
 			AND (A.CLINIC_SUBJECT LIKE '%' || #{searchWord} ||'%' OR A.CLINIC_SYMPTOM LIKE '%' || #{searchWord} ||'%' OR A.CLINIC_NAME LIKE '%' || #{searchWord} ||'%')
 			</if>
+			<if test="location != null and location != ''">
+			AND CLINIC_ADDR LIKE '%' || #{location} || '%' 
+			</if>
 		) Z
 		WHERE RNUM <![CDATA[>=]]> #{startRow} 
 		  	AND RNUM <![CDATA[<=]]> #{endRow} 
@@ -131,6 +134,9 @@
 		</if>
 		<if test="searchWord != null and searchWord != ''">
 		AND (A.CLINIC_SUBJECT LIKE '%' || #{searchWord} ||'%' OR A.CLINIC_SYMPTOM LIKE '%' || #{searchWord} ||'%' OR A.CLINIC_NAME LIKE '%' || #{searchWord} ||'%')
+		</if>
+		<if test="location != null and location != ''">
+		AND CLINIC_ADDR LIKE '%' || #{location} || '%' 
 		</if>
 	) Z
 	</select>

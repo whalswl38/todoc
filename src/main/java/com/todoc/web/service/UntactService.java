@@ -136,4 +136,13 @@ public class UntactService {
 	public int insertReservation(Reserve rsve) {
 		return untactDao.insertReservation(rsve);
 	}
+	
+	public Reserve reserveCheck(Reserve rsve) {
+		 return untactDao.reserveCheck(rsve);
+	}
+	
+	public Untact precriptionWrite(Untact untact) {
+		return untactDao.precriptionWrite(untact);
+	}
+	
 }

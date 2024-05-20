@@ -39,12 +39,18 @@ public class Untact {
 	private String reviewRegdate;
 	private String reviewGrade;
 	private String userName;
-    
+	
+	private long reservationSeq;
+	private String userIdentity;
+	private String reservationDate;
+
     private String searchWord;
 
     private long startRow;
     private long endRow;
     private String sortType;
+    private String location;
+    
     
 }
 

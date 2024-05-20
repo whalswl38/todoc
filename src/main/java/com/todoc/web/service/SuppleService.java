@@ -107,7 +107,6 @@ public class SuppleService
 	public int deleteSupple(long suppleSeq)
 	{
 		// 파일 삭제
-		
 		return suppleDao.deleteSupple(suppleSeq);
 	}
 }

@@ -42,12 +42,11 @@
 		    NVL(SUPPLE_FUNCTION,'') SUPPLE_FUNCTION, NVL(SUPPLE_DOSE,'') SUPPLE_DOSE, NVL(SUPPLE_REGDATE,'') SUPPLE_REGDATE,
 		    NVL(SUPPLE_LINK,'') SUPPLE_LINK, NVL(SUPPLE_STATUS, 'N') SUPPLE_STATUS, NVL(SUPPLE_TITLE,'') SUPPLE_TITLE
 		FROM TD_SUPPLE
-		WHERE SUPPLE_STATUS = 'Y'
         ORDER BY SUPPLE_SEQ DESC
                     )
                     )
         WHERE RNUM <![CDATA[>=]]> 1
-          AND RNUM <![CDATA[<=]]> 15
+          AND RNUM <![CDATA[<=]]> 4
 	</select>
 	
 	<!-- 영양제 하나 조회 -->

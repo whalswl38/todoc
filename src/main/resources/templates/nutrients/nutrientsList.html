@@ -46,13 +46,6 @@
         width: 100%;
         background: #fff;
       }
-      .nutrients-list-box {
-      	display: flex;
-      	flex-wrap: wrap; /*요소 줄바꿈*/
-      	gap:16px;
-      	justify-content: center; /*요소를 가운데 정렬*/
-      }
-      
 
       .silver-hr {
         width: 100%;
@@ -93,8 +86,8 @@
       }
 
       .each-nutrient {
-        width: clac(25% - 16px); /*4개씩 한 줄에 출력하기 위해 각 항목의 너비를 25%로 설정*/
-        box-sizing: border-box; /*패딩과 보더를 너비에 포함*/
+        width: 180px;
+        cursor: pointer;
       }
 
       .each-nutrient-image-box {
@@ -104,8 +97,7 @@
         overflow: hidden;
         margin-top: 8px;
         background: rgb(247, 249, 250);
-        position: relative; 
-        text-align:center;
+        position: relative;
       }
 
       .each-nutrient-image {
@@ -132,6 +124,7 @@
       .fa-solid {
         color: red;
       }
+
       .row > * {
         padding: 3px;
       }
@@ -145,7 +138,7 @@
       }
     </style>
     <script>
-      const ingredientObjArr = [
+      const functionObjArr = [
         { name: "종합영양", img: "image/medical-icon/allVita.png" },
         { name: "피로회복", img: "image/medical-icon/piro.png" },
         { name: "향산화", img: "image/medical-icon/medicalDiet.png" },
@@ -159,7 +152,8 @@
         { name: "스태미나", img: "image/medical-icon/stemina.png" }
       ];
 
-      const functionObjArr = [
+
+      const ingredientObjArr = [
         { name: "글루타치온", img: "image/medical-icon/glu.png" },
         { name: "유산균", img: "image/medical-icon/probio.png" },
         { name: "비타민B", img: "image/medical-icon/vita.png" },
@@ -168,6 +162,7 @@
         { name: "칼슘", img: "image/medical-icon/diet.png" },
         { name: "루테인", img: "image/medical-icon/rutain.png" },
         { name: "콜라겐", img: "image/medical-icon/probio.png" },
+        { name: "바이오틱스", img: "image/medical-icon/probio.png" },
         { name: "오메가3", img: "image/medical-icon/omega.png" },
         { name: "밀크씨슬", img: "image/medical-icon/milk.png" },
         { name: "아르기닌", img: "image/medical-icon/bone.png" }
@@ -217,11 +212,11 @@
       }
 
       function goToDetail() {
-        location.href = "/nutrients-detail-page";
+        window.location.href = "http://localhost:8099/nutrients-detail-page";
       }
       $(document).ready(function(){
     	 $("#writeBtn").on("click", function(){
-    		 location.href="/nutrients-write";
+    		 location.href="/admin/nutrients-write";
     	 });   
     	 });
    </script> 	
@@ -316,27 +311,140 @@
 			            편집
 			          </button><br>
 		</div>	          
-        <div id="nutrients-list-box" style="padding: 4px 0px;">	          
+        <div id="nutrients-list-box" style="padding: 4px 0px; float:center;">	          
           
-          <div class="nutrients-list-box" style="gap: 16px">
+          <div class="container" style="gap: 16px">
             <div th:each="supple: ${list}">
-            <div th:if="${supple.suppleStatus == 'Y'}">
             <div class="each-nutrient">
               <div class="each-nutrient-image-box">
                 <img
                   src="image/kakao.png"
                   class="each-nutrient-image"
-                  onclick="goToDetail([[${supple.suppleSeq}]])"
+                  onclick="goToDetail()"
                 />
                 <div>
                   <i class="fa-regular fa-heart like"></i>
                 </div>
               </div>
+<<<<<<< HEAD
               <div class="each-nutrient-text" style="float:center; " onclick="goToDetail()">
                 [[${supple.suppleCompany}]] :: [[${supple.suppleName}]]
               </div>
             </div>
           </div>
+=======
+              <div class="each-nutrient-text" onclick="goToDetail()">
+                Now Foods, 비타민-6 함유
+              </div>
+            </div>
+            <div class="each-nutrient">
+              <div class="each-nutrient-image-box">
+                <img
+                  src="image/kakao.png"
+                  class="each-nutrient-image"
+                  onclick="goToDetail()"
+                />
+                <div>
+                  <i class="fa-regular fa-heart like"></i>
+                </div>
+              </div>
+              <div class="each-nutrient-text" onclick="goToDetail()">
+                Now Foods, 비타민-6 함유
+              </div>
+            </div>
+            <div class="each-nutrient">
+              <div class="each-nutrient-image-box">
+                <img
+                  src="image/kakao.png"
+                  class="each-nutrient-image"
+                  onclick="goToDetail()"
+                />
+                <div>
+                  <i class="fa-regular fa-heart like"></i>
+                </div>
+              </div>
+              <div class="each-nutrient-text" onclick="goToDetail()">
+                Now Foods, 비타민-6 함유
+              </div>
+            </div>
+            <div class="each-nutrient">
+              <div class="each-nutrient-image-box">
+                <img
+                  src="image/kakao.png"
+                  class="each-nutrient-image"
+                  onclick="goToDetail()"
+                />
+                <div>
+                  <i class="fa-regular fa-heart like"></i>
+                </div>
+              </div>
+              <div class="each-nutrient-text" onclick="goToDetail()">
+                Now Foods, 비타민-6 함유
+              </div>
+            </div>
+          </div>
+          
+          <div class="row d-flex" style="gap: 16px">
+            <div class="each-nutrient">
+              <div class="each-nutrient-image-box">
+                <img src="image/kakao.png" class="each-nutrient-image" />
+                <div>
+                  <i
+                    class="fa-regular fa-heart like"
+                    onclick="goToDetail()"
+                  ></i>
+                </div>
+              </div>
+              <div class="each-nutrient-text" onclick="goToDetail()">
+                Now Foods, 비타민-6 함유
+              </div>
+            </div>
+            <div class="each-nutrient">
+              <div class="each-nutrient-image-box">
+                <img
+                  src="image/kakao.png"
+                  class="each-nutrient-image"
+                  onclick="goToDetail()"
+                />
+                <div>
+                  <i class="fa-regular fa-heart like"></i>
+                </div>
+              </div>
+              <div class="each-nutrient-text" onclick="goToDetail()">
+                Now Foods, 비타민-6 함유
+              </div>
+            </div>
+            <div class="each-nutrient">
+              <div class="each-nutrient-image-box">
+                <img
+                  src="image/kakao.png"
+                  class="each-nutrient-image"
+                  onclick="goToDetail()"
+                />
+                <div>
+                  <i class="fa-regular fa-heart like"></i>
+                </div>
+              </div>
+              <div class="each-nutrient-text" onclick="goToDetail()">
+                Now Foods, 비타민-6 함유
+              </div>
+            </div>
+            <div class="each-nutrient">
+              <div class="each-nutrient-image-box">
+                <img
+                  src="image/kakao.png"
+                  class="each-nutrient-image"
+                  onclick="goToDetail()"
+                />
+                <div>
+                  <i class="fa-regular fa-heart like"></i>
+                </div>
+              </div>
+              <div class="each-nutrient-text" onclick="goToDetail()">
+                Now Foods, 비타민-6 함유
+              </div>
+            </div>
+>>>>>>> minjicho
           </div>
           
           <div class="row d-flex" style="gap: 16px">
@@ -345,7 +453,6 @@
           </div>
           
           <div class="spacing-height-16"></div>
-          <br><br>
           <div
             style="
               background-color: #0d6efd;

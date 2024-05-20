@@ -200,7 +200,6 @@
 		                  FROM TD_RESERVATION A, TD_USER B, TD_CLINIC C
 		                 WHERE A.USER_EMAIL = B.USER_EMAIL
 		                   AND A.CLINIC_INSTINUM = C.CLINIC_INSTINUM
-		                   AND A.RESERVATION_STATUS = '예약확인'
 		                   AND A.CLINIC_INSTINUM = #{value}
 		                 ORDER BY A.RESERVATION_TIME ASC, A.RESERVATION_SEQ ASC))
 		 WHERE RNUM <![CDATA[>=]]> 0
@@ -230,4 +229,30 @@
 			   SET RESERVATION_STATUS = '예약취소'
 			 WHERE RESERVATION_SEQ = #{value}
 	</update>
+	
+	<!-- 예약승인/취소 리스트 토탈카운트 -->
+	<select id="reservationListTotal" parameterType="String" resultType="int">
+		SELECT COUNT(CLINIC_INSTINUM)
+		  FROM TD_RESERVATION
+		 WHERE RESERVATION_STATUS = '예약확인'
+		   AND CLINIC_INSTINUM = #{value}
+	</select>
+	
+	<!-- 진료 대기 리스트 -->
+	<select id="contactListTotal" parameterType="String" resultType="int">
+		SELECT COUNT(CLINIC_INSTINUM)
+		  FROM TD_RESERVATION
+		 WHERE RESERVATION_STATUS = '예약확정'
+		   AND CLINIC_INSTINUM = #{value}
+	</select>
+	
+	<!-- 이메일로 의사 정보 불러오기 -->
+	<select id="clinicfindByEmail" parameterType="String" resultMap="ClinicContactMap">
+		SELECT USER_EMAIL,
+		       CLINIC_DOCTOR,
+		       CLINIC_NAME,
+		       CLINIC_INSTINUM
+		  FROM TD_CLINIC
+		 WHERE USER_EMAIL = #{value}
+	</select>
 </mapper>

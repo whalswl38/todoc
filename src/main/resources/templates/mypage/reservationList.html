@@ -161,6 +161,10 @@
       	color:red;
       	font-size:10px;
       }
+      
+      td{
+      	align-content: center;
+      }
     </style>
     <script>
       $(document).ready(function () {
@@ -230,7 +234,8 @@
 	        </div>
      	 </div>
       
-      	<div style="font-size:20px; font-weight:bold;"><a>@@소아청소년과의원</a> 김은희의사</div><br/>
+      	<div style="font-size:20px; font-weight:bold;"><a th:text="|${clinic.clinicName}|"></a>&nbsp;&nbsp;
+      	<a th:text="|${clinic.clinicDoctor}의사|"></a></div><br/>
           
           <!-- <div id="nomedical" style="display:none;"> -->
           
@@ -240,10 +245,10 @@
 							<colgroup>
 								<col style="width: 7%" />
 								<col style="width: 10%" />
-								<col style="width: 10%" />
+								<col style="width: 15%" />
 								<col style="width: 10%" />
 								<col style="width: 15%" />
-								<col style="width: 20%" />
+								<col style="width: 15%" />
 							</colgroup>
 							<thead>
 								<tr>
@@ -256,51 +261,16 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>20</td>
-									<td>1234</td>
-									<td>홍길동</td>
+								<tr th:each="list : ${list}" th:if="${list.status == '예약확정'}">
+									<td th:text="${list.reservationSeq}"></td>
+									<td th:text="${list.userName}"></td>
+									<td th:text="${list.reservationSymptom}"></td>
 									<td>진료대기중</td>
-									<td>2024.02.22 15:20</td>
-									<td><a style="color:royalblue; font-weight: bold;" th:href="@{/room-page}">입장하기</a></td>
-								</tr>
-								<tr>
-									<td>20</td>
-									<td>1234</td>
-									<td>쌍용강북</td>
-									<td>진료대기중</td>
-									<td>2024.02.22 15:22:47</td>
-									<td><a style="pointer-events: none;" th:href="@{/room-page}">입장하기</a></td>
-								</tr>
-								<tr>
-									<td>20</td>
-									<td>1234</td>
-									<td>쌍용강북</td>
-									<td>진료대기중</td>
-									<td>2024.02.22 15:22:47</td>
-									<td><a style="color:royalblue; font-weight: bold; " th:href="@{/room-page}">입장하기</a></td>
-								</tr>
-								<tr>
-									<td>19</td>
-									<td>1234</td>
-									<td>쌍용강북</td>
-									<td>진료대기중</td>
-									<td>2024.02.22 15:22:47</td>
-									<td>12</td>
-								</tr>
-								<tr>
-									<td>19</td>
-									<td>1234</td>
-									<td>쌍용강북</td>
-									<td>2024.02.22 15:22:47</td>
-									<td>12</td>
-								</tr>
-								<tr>
-									<td>19</td>
-									<td>1234</td>
-									<td>쌍용강북</td>
-									<td>2024.02.22 15:22:47</td>
-									<td>12</td>
+									<td th:text="|${list.reservationDate}&nbsp;&nbsp;${list.reservationTime}|"></td>
+									<td>
+									<a style="color:royalblue; font-weight: bold; cursor:pointer;"
+									th:onclick="|location.href='@{room-page(userEmail=${list.userEmail})}'|"
+									>입장하기</a></td>
 								</tr>
 							</tbody>
 						</table>

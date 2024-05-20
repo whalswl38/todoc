@@ -234,4 +234,12 @@ public class UserController
 	{
 		return "login/resetPwd";
 	}
+	
+	
+	//https설정
+	@GetMapping("/healthcheck")
+	public String healthcheck()
+	{
+		return "OK";
+	}
 }

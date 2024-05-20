@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.todoc.web.security.jwt.JwtAuthorizationFilter;
 
@@ -25,12 +26,14 @@ public class RoomController {
 	}
 	
 	 @GetMapping("/room-page")
-     public String roomStream(HttpServletRequest request, Model model) 
+     public String roomStream(HttpServletRequest request, Model model, @RequestParam(value="userEmail", defaultValue="") String contactUserEmail) 
 	 {
 		 String token = jwtFilter.extractJwtFromCookie(request);
 	     String userEmail = jwtFilter.getUsernameFromToken(token);
 	     
 	     model.addAttribute("userEmail", userEmail);
+	     model.addAttribute("contactUserEmail", contactUserEmail);
+	     
 	     logger.error("userEmail : " + userEmail);
 	     
          return "chat/stream";

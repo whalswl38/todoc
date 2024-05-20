@@ -53,6 +53,7 @@ public class MypageController {
 		this.jwtFilter = jwtFilter;
 	}
 	
+	//마이페이지
 	@GetMapping("/mypage-page")
 	 public String test17(HttpServletRequest request, Model model) 
 	 {
@@ -67,28 +68,42 @@ public class MypageController {
 	    	
 	    	if(userEmail != null)
 	    	{
-		    	if(contactTotalCount >= 0)
-		    	{
-		    		model.addAttribute("contactTotalCount", contactTotalCount);
-		    	}
-		    	
-		    	if(reviewTotalCount >= 0)
-		    	{
-		    		model.addAttribute("reviewTotalCount", reviewTotalCount);
-		    	}
+	    		User user = userService.findByEmail(userEmail);
+	    		
+	    		if(user != null)
+	    		{
+			    	if(contactTotalCount >= 0)
+			    	{
+			    		model.addAttribute("contactTotalCount", contactTotalCount);
+			    		model.addAttribute("userEmail", userEmail);
+			    	}
+			    	
+			    	if(reviewTotalCount >= 0)
+			    	{
+			    		model.addAttribute("reviewTotalCount", reviewTotalCount);
+			    	}
+	    		}
+	    		else
+	    		{
+	    			return "redirect:/main-page";
+	    		}
+	    	}
+	    	else
+	    	{
+	    		return "redirect:/login-page";
 	    	}
 	
-	    	return "/mypage/mypage";
+	    	return "mypage/mypage";
 	   }
 	
-	
+	//회원정보수정 페이지
 	@GetMapping("/infoUpdate-page")
-    public String test27(HttpServletRequest request, Model model) 
+    public String infoUpdate(HttpServletRequest request, Model model) 
 	{
 		String token = jwtFilter.extractJwtFromCookie(request);
     	String userEmail = jwtFilter.getUsernameFromToken(token);
     	
-    	if(!userEmail.isEmpty())
+    	if(userEmail != null)
     	{
     		User user = userService.findByEmail(userEmail);
     	
@@ -98,7 +113,10 @@ public class MypageController {
 	    		model.addAttribute("user", user);
 	    	}
     	}
-    	
+    	else
+    	{
+    		return "redirect:/login-page";
+    	}
     	
     	
         return "mypage/infoUpdate";
@@ -116,7 +134,7 @@ public class MypageController {
 		
     	User updateUser= new User();
     	
-    	if(!userEmail.isEmpty())
+    	if(userEmail != null)
     	{
     		updateUser = userService.findByEmail(user.getUserEmail());
     		
@@ -146,16 +164,94 @@ public class MypageController {
 		
 	}
 	
+	//진료대기 리스트
 	@GetMapping("/reservationList-page")
-    public String test29() {
+    public String reservationList(HttpServletRequest request, Model model) {
+
+		List<ReservationContact> list = null;
+    	ClinicContact clinic = null;
+		
+		String token = jwtFilter.extractJwtFromCookie(request);
+    	String userEmail = jwtFilter.getUsernameFromToken(token);
+    	
+    	if(userEmail != null)
+    	{
+    		clinic = clinicContactService.clinicListView(userEmail);
+    		
+    		if(clinic != null)
+    		{
+    			list = clinicContactService.reservationList(clinic.getClinicInstinum());
+    			
+				model.addAttribute("list", list);
+				model.addAttribute("clinic", clinic);
+    			
+				for(int i =0; i<list.size(); i++)
+				{
+					logger.error("list : " + list.get(i));
+				}
+    		}
+    	}
+    	else
+    	{
+    		return "redirect:/login-page";
+    	}
+		
         return "mypage/reservationList";
     }
     
+	
+	//의사 마이페이지
     @GetMapping("/medical-mypage")
-    public String test30() {
+    public String medicalMypage(HttpServletRequest request, Model model) {
+    	
+    	String token = jwtFilter.extractJwtFromCookie(request);
+    	String userEmail = jwtFilter.getUsernameFromToken(token);
+    	
+    	//예약승인 리스트
+    	int listTotalCount = 0;
+    	
+    	//진료 대기 리스트
+    	int contactTotalCount = 0;
+    	
+    	//이메일로 병원정보 가져오기
+    	ClinicContact clinic = null;
+    	
+    	if(userEmail != null)
+    	{
+    		clinic = clinicContactService.clinicfindByEmail(userEmail);
+    		
+    		logger.error("clinic :" + clinic);
+    		
+    		if(clinic != null)
+    		{
+    			listTotalCount = clinicContactService.reservationListTotal(clinic.getClinicInstinum());
+    			
+    			contactTotalCount = clinicContactService.contactListTotal(clinic.getClinicInstinum());
+    			
+    			if(listTotalCount >= 0)
+    			{
+    				model.addAttribute("listCount", listTotalCount);
+    			}
+    			
+    			if(contactTotalCount >= 0)
+    			{
+    				model.addAttribute("contactCount", contactTotalCount);
+    			}
+    		}
+    		else
+    		{
+    			return "redirect:/main-page";
+    		}
+    	}
+    	else
+    	{
+    		return "redirect:/login-page";
+    	}
+    	
         return "mypage/mypageMedical";
     }
     
+    //예약 승인 취소 리스트
     @GetMapping("/reservationStatus-page")
     public String clinicContactService(HttpServletRequest request, Model model) 
     {
@@ -174,18 +270,21 @@ public class MypageController {
     		{
     			list = clinicContactService.reservationList(clinic.getClinicInstinum());
     			
-    			if(list != null)
-    			{
-    				model.addAttribute("list", list);
-    				model.addAttribute("clinic", clinic);
-    			}
+				model.addAttribute("list", list);
+				model.addAttribute("clinic", clinic);
+    				
     		}
+    	}
+    	else
+    	{
+    		return "redirect:/login-page";
     	}
     	
     	
         return "mypage/reservationStatus";
     }
     
+    //예약승인
     @PostMapping("/mypage/reservationApprove")
     @ResponseBody
     public int reservationApprove(@RequestBody ReservationContact reservationContact, HttpServletRequest request, Model model) 
@@ -212,7 +311,7 @@ public class MypageController {
     	}
     }
     
-    
+    //예약취소
     @PostMapping("/mypage/reservationCancel")
     @ResponseBody
     public int reservationCancel(@RequestBody ReservationContact reservationContact, HttpServletRequest request, Model model) 
@@ -237,6 +336,14 @@ public class MypageController {
     	{
     		return 2;
     	}
+    }
+    
+    
+    //의사 회원정보수정
+    @GetMapping("/medicalUpdate-page")
+    public String mypageMedical(Model model)
+    {
+    	return "mypage/medicalUpdate";
     }
     
 }

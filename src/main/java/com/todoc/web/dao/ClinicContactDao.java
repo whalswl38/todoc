@@ -45,5 +45,13 @@ public interface ClinicContactDao {
 	
 	//예약리스트 취소
 	int reservationCancel(long reservationSeq);
-
+	
+	//예약 승인리스트 토탈 카운트
+	int reservationListTotal(String clinicInstinum);
+	
+	//진료 대기 리스트 토탈 카운트
+	int contactListTotal(String clinicInstinum);
+	
+	//이메일로 병원정보 불러오기
+	ClinicContact clinicfindByEmail(String userEmail);
 }

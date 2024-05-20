@@ -16,7 +16,7 @@
 	<!-- 진료내역 -->
 	<select id="contactList" parameterType="String" resultMap="contactResultMap">
 		SELECT USER_EMAIL,
-				CONTACT_SEQ,
+			   CONTACT_SEQ,
 		       USER_NAME,
 		       CLINIC_NAME,
 		       STATUS,
@@ -51,9 +51,6 @@
 		 WHERE RNUM <![CDATA[>]]> 0
 		   AND RNUM <![CDATA[<=]]> 5
 	
-	
-	
-	
 	</select>
 
 	<!-- 상세 진료내역 -->
@@ -69,7 +66,6 @@
 			       NVL(A.CLINIC_INSTINUM, '') CLINIC_INSTINUM,
 			       NVL(A.RESERVATION_SYMPTOM, '') RESERVATION_SYMPTOM,
 			       NVL(A.ADVICE, '') ADVICE,
-			       NVL(C.PAY_PRICE, '') PAY_PRICE,
 			       NVL(TO_CHAR(C.PAY_DATE, 'YYYY.MM.DD HH24:MI:SS'), '') PAY_DATE
 			  FROM TD_CONTACT_LOG A, TD_CLINIC B, TD_PAY_LOG C
 			 WHERE A.CLINIC_INSTINUM = B.CLINIC_INSTINUM

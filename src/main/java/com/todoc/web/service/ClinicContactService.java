@@ -601,6 +601,7 @@ public class ClinicContactService {
 		 return list;
 	 }
 	 
+	 
 	 //예약확인 의사 상세
 	 public ClinicContact clinicListView(String userEmail)
 	 {
@@ -650,6 +651,58 @@ public class ClinicContactService {
 		 }
 		 
 		 return count;
+	 }
+	 
+	 //예약승인 리스트 토탈카운트
+	 public int reservationListTotal(String clinicInstinum)
+	 {
+		 int count = 0;
+		 
+		 try
+		 {
+			 count = clinicContactDao.reservationListTotal(clinicInstinum);
+		 }
+		 catch(Exception e)
+		 {
+			 logger.error("[ClinicContactService] reservationListTotal Exception",e);
+		 }
+		 
+		 return count;
+	 }
+	 
+	 //진료 대기 리스트 토탈카운트
+	 public int contactListTotal(String clinicInstinum)
+	 {
+		 int count = 0;
+		 
+		 try
+		 {
+			 count = clinicContactDao.contactListTotal(clinicInstinum);
+		 }
+		 catch(Exception e)
+		 {
+			 logger.error("[ClinicContactService] contactListTotal Exception",e);
+		 }
+		 
+		 return count;
+	 }
+	 
+	 
+	 //이메일로 병원 정보 불러오기
+	 public ClinicContact clinicfindByEmail(String userEmail)
+	 {
+		 ClinicContact clinic = null;
+		 
+		 try
+		 {
+			 clinic = clinicContactDao.clinicfindByEmail(userEmail);
+		 }
+		 catch(Exception e)
+		 {
+			 logger.error("[ClinicContactService] clinicfindByEmail Exception",e);
+		 }
+		 
+		 return clinic;
 	 }
 }
 

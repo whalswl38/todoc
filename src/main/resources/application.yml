@@ -1,0 +1,49 @@
+server :
+  port : 8000
+  
+spring :
+  datasource :
+    driver-class-name : com.mysql.cj.jdbc.Driver #mySQL을 사용
+    url : jdbc:mysql://43.202.39.197/TtwwiTest?createDatabaseIfNotExist=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username :  #db 계정
+    password : # db 비밀번호
+    
+  jpa :
+    database: mysql   
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view : false
+    hibernate :
+      ddl-auto : create
+      
+    #show-sql : 실제 실행되는 쿼리를 로그에 표시
+    show_sql : true
+      
+  security :
+    oauth2 :
+      client :
+        registration :
+          kakao :
+            client-id :
+            client-secret : 
+            client-authentication-method : POST
+            redirectUri : http://43.202.39.197:8000/login/oauth2/code/kakao
+            scope : profile_nickname, profile_image, account_email
+            authorization-grant-type : authorization_code
+            
+#          facebook :
+#            client-id : 
+#            client-secret : 
+#            redirectUri : http://43.202.39.197:8000/oauth2/callback/facebook
+#            scope : public_profile, email
+          
+        provider :
+          kakao :
+            authorizationUri : https://kauth.kakao.com/oauth/authorize
+            tokenUri : https://kauth.kakao.com/oauth/token
+            userInfoUri : https://kapi.kakao.com/v2/user/me
+            userNameAttribute : id
+jwt:
+        # ttwwi-backend-spring-boot-security-jwt-OAuth2-encoder-ttwwi-backend
+  secret : 
+
+

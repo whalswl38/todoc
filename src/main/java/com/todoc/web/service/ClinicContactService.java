@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.todoc.web.Repository.ClinicRepository;
 import com.todoc.web.dao.ClinicContactDao;
 import com.todoc.web.dto.ClinicContact;
 import com.todoc.web.dto.ReservationContact;
@@ -26,7 +27,7 @@ public class ClinicContactService {
 	@Autowired
 	private ClinicContactDao clinicContactDao;
 	
-	//대면 병원 리스트(total로 바꿔보기)
+	//대면 병원 리스트(모두 불러오기)
 	public List<ClinicContact> clinicList(){ 
 		List<ClinicContact> list =null;
 		
@@ -41,18 +42,18 @@ public class ClinicContactService {
 	}
 	
 	//병원 리스트 total
-	public List<ClinicContact> clinicListTotal(ClinicContact search){
-		List<ClinicContact> list =null;
-		
-		try {
-			list = clinicContactDao.clinicListTotal(search); 	
-		}catch(Exception e) {
-			logger.error("[ClinicContactService] clinicListTotal Exception",e);
-		}
-
-		return list;
-		
-	}
+//	public List<ClinicContact> clinicListTotal(ClinicContact search){
+//		List<ClinicContact> list =null;
+//		
+//		try {
+//			list = clinicContactDao.clinicListTotal(search); 	
+//		}catch(Exception e) {
+//			logger.error("[ClinicContactService] clinicListTotal Exception",e);
+//		}
+//
+//		return list;
+//		
+//	}
 	
 	//병원 리스트 조회(category)
 	public List <ClinicContact> clinicListCategory(ClinicContact search){
@@ -142,6 +143,22 @@ public class ClinicContactService {
 		
 		return list;
 
+	}
+	
+	//총 게시물 수
+	public long listCount(ClinicContact search) {
+		long count = 0;
+		try {
+			count = clinicContactDao.listCount(search);
+		} catch (Exception e) {
+			logger.error("[ClinicContactService] listCount Exception",e);
+
+			
+		}
+		
+		
+		
+		return count;
 	}
 	
 	//영업시간 전체 리스트
@@ -583,6 +600,13 @@ public class ClinicContactService {
 
 		 return "N";
 	 }
+	 
+	 
+	 @Autowired
+	    private ClinicRepository clinicRepository;
+	 public List<ClinicContact> getClinics(int startRow, int endRow, String category, String searchValue, String clinicNight, String clinicWeekend, String textSearch, String guName, List<String> runningNumList) {
+	        return clinicRepository.getClinics(startRow, endRow, category, searchValue, clinicNight, clinicWeekend, textSearch, guName, runningNumList);
+	    }
 	
 	
 	

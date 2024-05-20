@@ -17,7 +17,10 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -59,19 +62,31 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter
     
     // JWT 토큰을 쿠키에서 추출하고, 토큰이 유효한 경우 사용자 이름을 추출해서 security의 SecurityContext에 인증 정보를 등록
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException 
-    {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String token = extractJwtFromCookie(request);
-        
+
         if (token != null && validateToken(token)) 
         {
-            String username = getUsernameFromToken(token); // 토큰에서 사용자 이름 추출 로직 구현 필요
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null, Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
+            String username = getUsernameFromToken(token);
+            List<SimpleGrantedAuthority> authorities = getAuthoritiesFromToken(token);
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-        
+
         chain.doFilter(request, response);
     }
+
+    public List<SimpleGrantedAuthority> getAuthoritiesFromToken(String token) 
+    {
+        DecodedJWT jwt = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET.getBytes()))
+                            .build()
+                            .verify(token.replace(JwtProperties.TOKEN_PREFIX, ""));
+        
+        String[] roles = jwt.getClaim("roles").asArray(String.class);
+        
+        return Arrays.stream(roles).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+    }
+
     
     // 토큰 값 유효성 체크
     public boolean validateToken(String token) 

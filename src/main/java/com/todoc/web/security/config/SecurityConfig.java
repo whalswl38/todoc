@@ -15,6 +15,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todoc.web.security.jwt.JwtAuthorizationFilter;
+
+import com.todoc.web.security.jwt.JwtEntryPoint;
 import com.todoc.web.security.jwt.JwtTokenProvider;
 import com.todoc.web.security.jwt.UserPrincipalDetailsService;
 import com.todoc.web.security.oauth.handler.OAuth2LoginFailureHandler;
@@ -36,6 +38,7 @@ public class SecurityConfig
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
     private final OAuth2LoginFailureHandler oauth2LoginFailureHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final JwtEntryPoint jwtEntryPoint;
     
     private static final String[] PERMIT_URL = 
     	{
@@ -60,6 +63,8 @@ public class SecurityConfig
 			AuthenticationManager authenticationManager = authenticationConfiguration.getAuthenticationManager();
 
             http
+                    .exceptionHandling(handling -> handling
+                            .authenticationEntryPoint(jwtEntryPoint))
                     .csrf(csrf -> csrf.disable())
                     .sessionManagement(management -> management
                             .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -68,16 +73,16 @@ public class SecurityConfig
                             .antMatchers(PERMIT_URL).permitAll()
                             .antMatchers("/mypage/**").authenticated()
                             .antMatchers("/pay/**").authenticated()
-                            .antMatchers("/user/**").hasRole("USER")
-                            .antMatchers("/medical/**").hasRole("MEDICAL") // 의사, 약사
-                            .antMatchers("/admin/**").hasRole("ADMIN") // 관리자
+                            .antMatchers("/user/**").hasAuthority("ROLE_USER")
+                            .antMatchers("/medical/**").hasAuthority("ROLE_MEDICAL") // 의사, 약사
+                            .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN") // 관리자
                             .anyRequest().permitAll())
                     .httpBasic(basic -> basic.disable())
                     .logout(logout -> logout
                             .logoutUrl("/logout").logoutSuccessUrl("/main-page").invalidateHttpSession(true).deleteCookies("Authorization"))
                     // 소셜로그인
                     .oauth2Login((oauth2) -> oauth2
-                    		.successHandler(oAuth2LoginSuccessHandler)
+                            .successHandler(oAuth2LoginSuccessHandler)
                             .failureHandler(oauth2LoginFailureHandler)
                             .userInfoEndpoint()
                             .userService(customOAuth2UserService)); // customUserService 설정

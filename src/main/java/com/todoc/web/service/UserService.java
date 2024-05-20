@@ -50,6 +50,12 @@ public class UserService
     // 인감 이미지 파일 경로
     @Value("${stampFile.upload.dir}")
     private String stampFileUploadDir; 
+    
+	@Value("${coolsms.api.key}")
+	private String api_key;
+	
+	@Value("${coolsms.api.secret}")
+	private String api_secret_key;
 	
 	// 리프레쉬 토큰 업데이트
 	public void refreshTokenUpdate(User user) 
@@ -112,10 +118,7 @@ public class UserService
 	
 	// 문자 인증
 	public String sendSMS(String to) throws Exception
-	{	
-		String api_key = "NCSFHBPPFH4YKLGD";
-		String api_secret_key = "XUNKCP6IOIIVUWRY18PAWSRZKBXMBXV1";
-
+	{
 		Message coolsms = new Message(api_key, api_secret_key);
 		
 		String numStr = rand();
@@ -353,4 +356,10 @@ public class UserService
 		return true;
 	}
 	
+	
+	//회원정보 수정
+	public int userUpdate(User user)
+	{
+		return userDao.userUpdate(user);
+	}
 }

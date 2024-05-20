@@ -3,35 +3,25 @@ package com.todoc.web;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.todoc.web.dto.User;
+
 import com.todoc.web.security.jwt.JwtAuthorizationFilter;
 import com.todoc.web.service.UserService;
 
 @Controller
 @RequestMapping
 public class TestController {
-
-	@Autowired
-	private UserService userService;
-	private final JwtAuthorizationFilter jwtFilter;
-	
-	public TestController(JwtAuthorizationFilter jwtFilter)
-	{
-		this.jwtFilter = jwtFilter;
-	}
 	
     @GetMapping("/main-page")
     public String test2() {    	
     	return "main/main";
     }
+
     @GetMapping("/select-subject-page")
     public String test5( ) {
         return "untact/selectSubject";
@@ -77,15 +67,6 @@ public class TestController {
     public String test12() {
         return "untact/reservationDoctorView";
     }
-
-    @GetMapping("/nutrients-list-page")
-    public String test13() {
-        return "nutrients/nutrientsList";
-    }
-    @GetMapping("/nutrients-detail-page")
-    public String test14() {
-        return "nutrients/nutrientsDetail";
-    }
    @GetMapping("/megazine-list-page")
    public String test15() {
        return "megazines/megazineList";
@@ -95,30 +76,16 @@ public class TestController {
        return "megazines/megazineDetail";
    }
 
-    @GetMapping("/user/mypage-page")
-   public String test17(HttpServletRequest request, Model model) {
-    	String token = jwtFilter.extractJwtFromCookie(request);
-    	String userEmail = jwtFilter.getUsernameFromToken(token);
-    	
-    	User user = userService.findByEmail(userEmail);
-    	model.addAttribute("user", user);
-    	return "/mypage/mypage";
-   }
+//    @GetMapping("/user/mypage-page")
+////   public String test17(HttpServletRequest request, Model model) {
+////    	String token = jwtFilter.extractJwtFromCookie(request);
+////    	String userEmail = jwtFilter.getUsernameFromToken(token);
+//    	
+//    	User user = userService.findByEmail(userEmail);
+//    	model.addAttribute("user", user);
+//    	return "/mypage/mypage";
+//   }
 
-    @GetMapping("/medical-history-page")
-    public String test18() {
-        return "mypage/medicalHistory";
-    }
-
-    @GetMapping("/medical-history-detail-page")
-    public String test19() {
-        return "mypage/medicalHistoryDetail";
-    }
-
-    @GetMapping("/review-detail-page")
-    public String test20() {
-        return "mypage/reviewDetail";
-    }
 
      @GetMapping("/chat-home-page")
     public String test21() {
@@ -153,9 +120,10 @@ public class TestController {
         model.addAttribute("clinicList", list);
         return "clinic/clinicList";
     }
-
-    @GetMapping("/review-page")
-    public String test25() {
-        return "mypage/review";
+    
+    
+    @GetMapping("/mypage-page2")
+    public String test28() {
+        return "mypage/mypageMedical";
     }
 }

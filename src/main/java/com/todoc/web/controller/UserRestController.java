@@ -144,7 +144,6 @@ public class UserRestController
 	    cookie.setHttpOnly(true);
 	    cookie.setMaxAge(JwtProperties.EXPIRATION_TIME);
 	    cookie.setPath("/");
-	    cookie.setSecure(true);
 	    response.addCookie(cookie);
 	    
 	    log.info("cookie jwt success !");

@@ -6,12 +6,31 @@
 >
   <head>
     <title>나의 진료내역</title>
-    
-   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <style>
       .medical-history-container {
         max-width: 768px;
         margin: auto;
+      }
+
+      .silver-hr {
+        width: 100%;
+        height: 1px;
+        background: #a9aeb1;
+        margin: 12px 0;
+        opacity: 0.4;
+      }
+
+      .silver-hr-block {
+        width: 100%;
+        height: 20px;
+        background: #a9aeb1;
+        opacity: 0.2;
+      }
+
+      .silver-hr-inline {
+        width: 10px;
+        background: #a9aeb1;
+        opacity: 0.2;
       }
 
       .clicked-background {
@@ -95,52 +114,6 @@
         flex: 1;
         text-align: center;
       }
-      
-      
-      .page_wrap {
-	text-align:center;
-	font-size:0;
- }
-.page_nation {
-	display:inline-block;
-}
-.page_nation .none {
-	display:none;
-}
-.page_nation a {
-	display:block;
-	margin:0 3px;
-	float:left;
-	border:1px solid #e6e6e6;
-	width:28px;
-	height:28px;
-	line-height:28px;
-	text-align:center;
-	background-color:#fff;
-	font-size:13px;
-	color:#999999;
-	text-decoration:none;
-}
-.page_nation .arrow {
-	border:1px solid #ccc;
-}
-.page_nation .pprev {
-	margin-left:0;
-}
-.page_nation .prev {
-	margin-right:7px;
-}
-.page_nation .next {
-	margin-left:7px;
-}
-.page_nation .nnext {
-	margin-right:0;
-}
-.page_nation a.active {
-	background-color:#42454c;
-	color:#fff;
-	border:1px solid #42454c;
-}
     </style>
     <script>
       $(document).ready(function () {
@@ -149,27 +122,62 @@
           $(this).addClass("clicked-background");
         });
       });
-      
     </script>
   </head>
   <div layout:fragment="content" class="medical-history-container d-flex">
+    <div class="silver-hr-inline"></div>
     <div class="d-flex justify-content-between" style="gap: 32px">
-      <div style="padding: 8px 0px; width: 800px">
+      <div style="padding: 8px 0px; width: 450px">
         <div class="medical-history-details">
           <div class="spacing-height-16"></div>
           <div class="d-flex">
             <div class="p-2 tab clicked-background">비대면 진료</div>
             <div class="p-2 tab">전체 진료</div>
           </div>
+          <div class="silver-hr-block"></div>
           <div class="spacing-height-16"></div>
-          
+          <div
+            class="d-flex justify-content-center align-items-center"
+            style="flex-direction: column; position: relative"
+          >
+            <div>
+              <div class="medical-history-image"></div>
+              <div
+                style="
+                  position: absolute;
+                  right: 24px;
+                  top: 4px;
+                  font-size: 18px;
+                "
+              >
+                <i class="fa-solid fa-x"></i>
+              </div>
+            </div>
+            <div class="spacing-height-16"></div>
+            <div>
+              <h5 style="font-weight: 700">진료내역을 한 번에 모아보세요</h5>
+            </div>
+            <div><p>30초면 내가 받은 진료, 처방약을 학인할 수 있어요.</p></div>
+            <div class="spacing-height-8"></div>
+            <div
+              style="
+                color: #fff;
+                background-color: black;
+                border-radius: 16px;
+                padding: 12px;
+                width: 84%;
+                text-align: center;
+                cursor: pointer;
+              "
+            >
+              한 번에 불러오기
+            </div>
+          </div>
+          <div class="silver-hr"></div>
           <div class="medical-history-list">
-          
-          <div th:if="${!#lists.isEmpty(list)}">
             <div
               class="medical-history-info"
-              th:each="list, listStat : ${list}"
-              th:onclick="|location.href='@{medical-history-detail-page(contactSeq=${list.contactSeq})}'|"
+              onclick="window.location.href='http://localhost:8080/medical-history-detail-page'"
             >
               <div
                 class="d-flex justify-content-between"
@@ -180,52 +188,63 @@
                     class="fa-solid fa-house-medical"
                     style="color: #ffd43b"
                   ></i
-                  >&nbsp;<span class="doctor-name" th:text="${list.userName}"></span>
+                  >&nbsp;<span class="doctor-name">이하은</span>
                 </div>
-                <div class="status-done" th:if="${list.status == 'Y'}">진료완료</div>
-                <div class="status-cancel" th:if="${list.status == 'N'}">접수취소</div>
+                <div class="status-done">진료완료</div>
               </div>
-              <div><h5 th:text="${list.clinicName}"></h5></div>
-              <div style="color: rgb(141, 146, 151)"><p th:text="${list.contactDate}">2023/12/23(토)</p></div>
-              <div class="sub-info" th:if="${list.status == 'N'}">
-                <a th:text="${list.clinicName}"></a> 진료차례에 병원을 방문하지 않아서 접수가
+              <div><h5>황신소아청소년과의원</h5></div>
+              <div style="color: rgb(141, 146, 151)"><p>2023/12/23(토)</p></div>
+            </div>
+            <div
+              class="medical-history-info"
+              onclick="window.location.href='http://localhost:8080/medical-history-detail-page'"
+            >
+              <div
+                class="d-flex justify-content-between"
+                style="padding-bottom: 8px"
+              >
+                <div>
+                  <i
+                    class="fa-solid fa-house-medical"
+                    style="color: #ffd43b"
+                  ></i
+                  >&nbsp;<span class="doctor-name">이하은</span>
+                </div>
+                <div class="status-done">진료완료</div>
+              </div>
+              <div><h5>황신소아청소년과의원</h5></div>
+              <div style="color: rgb(141, 146, 151)"><p>2019/06/13(목)</p></div>
+            </div>
+            <div
+              class="medical-history-info"
+              onclick="window.location.href='http://localhost:8080/medical-history-detail-page'"
+            >
+              <div
+                class="d-flex justify-content-between"
+                style="padding-bottom: 8px"
+              >
+                <div>
+                  <i
+                    class="fa-solid fa-house-medical"
+                    style="color: #ffd43b"
+                  ></i
+                  >&nbsp;<span class="doctor-name">이하은</span>
+                </div>
+                <div class="status-cancel">접수취소</div>
+              </div>
+              <div><h5>황신소아청소년과의원</h5></div>
+              <div style="color: rgb(141, 146, 151)"><p>2019/06/10(월)</p></div>
+              <div class="sub-info">
+                [황산소아과의원] 진료차례에 병원을 방문하지 않아서 접수가
                 취소되었습니다.
               </div>
             </div>
-           </div>
-           
-           <div th:if="${#lists.isEmpty(list)}">
-	           <div>
-	            <h1 style="text-align:center; ">진료 목록이 없습니다.</h1><br/><br/>
-	           </div>
-           </div>
-            
-            
-            <!-- 페이지처리 -->
-            <div class="page_wrap">
-   				<div class="page_nation">
-			      <a class="arrow prev" href="#">
-			      <span class="material-symbols-outlined">chevron_left</span></a>
-			      <a href="#" class="active">1</a>
-			      <a href="#">2</a>
-			      <a href="#">3</a>
-			      <a href="#">4</a>
-			      <a href="#">5</a>
-			      <a class="arrow next" href="#">
-			      <span class="material-symbols-outlined">chevron_right</span></a>
-			   </div>
-			</div>
-			
-            
           </div>
         </div>
-        
+        <div class="spacing-height-16"></div>
         <div class="spacing-height-16"></div>
       </div>
     </div>
+    <div class="silver-hr-inline"></div>
   </div>
-  
- <form name="bbsForm" id="bbsForm" method="post">
-		<input type="hidden" name="contactSeq" id="contactSeq"  value="" />
-  </form>
 </html>

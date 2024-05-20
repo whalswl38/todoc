@@ -144,6 +144,10 @@
         $(document).ready(function() {
 
         });
+        
+        function fnSubmit(){
+        	$("#Form").submit();
+        }
     </script>
 </head>
 <body>
@@ -163,6 +167,7 @@
                     </li>
                 </ul>
             </div>
+            <form id="Form" name="Form" method="post" action="/prescriptionInsert">
             <div align="center"  class="wrap" th:each="clinic : ${untact}">
                 <h1>처 방 전</h1>
                 <span class="title" style="text-align: left;">※ 국비진료대상자(전액국비부담) 보훈번호(&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;)</span>
@@ -183,7 +188,7 @@
                         <div class="num">5</div><span class="title">기타(&emsp;&emsp;&emsp;&emsp;)</span>
                     </div>
                     <div class="numbox">
-                        <span class="title">요양기관번호 : [[${clinic.clinicInstinum}]]</span>
+                        <span name="clinicInstinum" class="title">요양기관번호 : [[${clinic.clinicInstinum}]]</span>
                     </div>
                 </div>
 
@@ -255,63 +260,42 @@
                         <th style="border-bottom:2px solid #000;" class="brnone">용&emsp;&emsp;법</th>
                     </tr>
                     <tr>
-                        <td colspan="2" style="height:25px;"><input type="text"></td>
+                        <td colspan="2" style="height:25px;"><input name="medi1" type="text"></td>
                         <td></td>
                         <td></td>
-                        <td><input type="text" style="width: 15px"></td>
+                        <td><input name="dose" type="text" style="width: 15px"></td>
                         <td class="brnone" ></td>
                     </tr>
                     <tr>
-                        <td colspan="2" style="height:25px;"><input type="text"></td>
+                        <td colspan="2" style="height:25px;"><input name="medi2" type="text"></td>
                         <td></td>
                         <td></td>
                         <td><input type="text" style="width: 15px"></td>
                         <td class="brnone"></td>
                     </tr>
                     <tr>
-                        <td colspan="2" style="height:25px;"><input type="text"></td>
+                        <td colspan="2" style="height:25px;"><input name="medi3" type="text"></td>
                         <td></td>
                         <td></td>
                         <td><input type="text" style="width: 15px"></td>
                         <td class="brnone"></td>
                     </tr>
                     <tr>
-                        <td colspan="2" style="height:25px;"><input type="text"></td>
+                        <td colspan="2" style="height:25px;"><input name="medi4" type="text"></td>
                         <td></td>
                         <td></td>
                         <td><input type="text" style="width: 15px"></td>
                         <td class="brnone"></td>
                     </tr>
                     <tr>
-                        <td colspan="2" style="height:25px;"><input type="text"></td>
+                        <td colspan="2" style="height:25px;"><input name="medi5" type="text"></td>
                         <td></td>
                         <td></td>
                         <td><input type="text" style="width: 15px"></td>
                         <td class="brnone"></td>
                     </tr>
                     <tr>
-                        <td colspan="2" style="height:25px;"><input type="text"></td>
-                        <td></td>
-                        <td></td>
-                        <td><input type="text" style="width: 15px"></td>
-                        <td class="brnone"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="height:25px;"><input type="text"></td>
-                        <td></td>
-                        <td></td>
-                        <td><input type="text" style="width: 15px"></td>
-                        <td class="brnone"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="height:25px;"><input type="text"></td>
-                        <td></td>
-                        <td></td>
-                        <td><input type="text" style="width: 15px"></td>
-                        <td class="brnone"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="height:25px;"><input type="text"></td>
+                        <td colspan="2" style="height:25px;"><input name="medi6" type="text"></td>
                         <td></td>
                         <td></td>
                         <td><input type="text" style="width: 15px"></td>
@@ -380,11 +364,14 @@
                         <td style="border:0px; border-bottom:1px solid #000;"></td>
                     </tr>
                 </table>
+                <input name="reservationSeq" type="hidden" th:value="${clinic.reservationSeq}">
+                <input name="clinicInstinum" type="hidden" th:value="${clinic.clinicInstinum}">
             </div>
+            </form>
             </div>
             <br/>
             <div class="filter-sort" style="color: royalblue; background-color: #e0ecff; border: 1px solid royalblue; align-content: center; text-align: center; margin-left: 400px">
-		        <a href="/main-page" style="text-decoration: none; color: inherit; text-align: center; ">작성</a>
+		        <a href="#" th:onclick="fnSubmit()" style="text-decoration: none; color: inherit; background-color:#e0ecff; text-align: center; ">작성</a>
 	    	</div>
             <div class="spacing-height-16"></div>
             <div class="spacing-height-16"></div>

@@ -1,9 +1,6 @@
 package com.todoc.web.security.jwt;
 
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -33,14 +30,9 @@ public class JwtTokenProvider
         long now = System.currentTimeMillis();
         Date expiryDate = new Date(now + (isRefreshToken ? JwtProperties.REFRESH_EXPIRATION_TIME : JwtProperties.EXPIRATION_TIME));
         
-        List<String> roles = userPrincipal.getAuthorities().stream()
-                .map(grantedAuthority -> grantedAuthority.getAuthority())
-                .collect(Collectors.toList());
-        
         String token = JWT.create()
                 .withSubject(userPrincipal.getUsername())
                 .withExpiresAt(expiryDate)
-                .withClaim("roles", roles)
                 .sign(HMAC512(JwtProperties.SECRET.getBytes()));
 
         log.info("Token generated for user : " + userPrincipal.getUsername() + " with expiry on : " + expiryDate );

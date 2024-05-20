@@ -1,9 +1,0 @@
-diff a/src/main/java/com/todoc/web/controller/UntactController.java b/src/main/java/com/todoc/web/controller/UntactController.java	(rejected hunks)
-@@ -299,6 +299,7 @@
-     public String test13() {
-         return "untact/reservationDoctorView";
-     }
-+   
-     
- 
- }

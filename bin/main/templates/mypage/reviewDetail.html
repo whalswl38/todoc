@@ -12,6 +12,32 @@
         margin: auto;
       }
 
+      .silver-hr {
+        width: 100%;
+        height: 1px;
+        background: #a9aeb1;
+        margin: 12px 0;
+        opacity: 0.4;
+      }
+
+      .silver-hr-block {
+        width: 100%;
+        height: 20px;
+        background: #a9aeb1;
+        opacity: 0.2;
+      }
+
+      .silver-hr-inline {
+        width: 10px;
+        background: #a9aeb1;
+        opacity: 0.2;
+      }
+
+      .silver-hr-inline-short {
+        width: 4px;
+        background: #a9aeb1;
+        opacity: 0.2;
+      }
       h2 {
         margin-bottom: 0;
       }
@@ -84,54 +110,39 @@
         font-weight: 500;
         opacity: 0.6;
       }
-      
-       .silver-hr {
-        width: 100%;
-        height: 1px;
-        background: #a9aeb1;
-        margin: 12px 0;
-        opacity: 0.4;
-      }
     </style>
     <script>
-    $(document).ready(function () {
-    	
-      $("#collaspe-btn").on("click", function () {
-        document.bbsForm.endRow.value += 3;
-        document.bbsForm.action ="/review-detail-page";
-        document.bbsForm.submit;
-      });
-    });
-    
-    function rowPlus()
-    {
-    	
-    }
-  </script>
-  
+      $(document).ready(function () {});
+    </script>
   </head>
-  
-  <div layout:fragment="content" class="review-container d-flex " style="flex-wrap: wrap;" >
+  <div layout:fragment="content" class="review-container d-flex">
+    <div class="silver-hr-inline-short"></div>
     <div class="spacing-height-16"></div>
-    <div class="d-flex justify-content-between" style="gap: 32px;" th:each="list, listStat : ${list}" >
-      <div style="padding: 0px 16px; width: 800px">
-      <h2 style="text-align:center;" th:if="${listStat.first}">리뷰 내역</h2>
+    <div class="d-flex justify-content-between" style="gap: 32px">
+      <div style="padding: 0px 16px; width: 450px">
         <div class="review-details">
+          <div style="text-align: center">
+            <h2>리뷰내역</h2>
+          </div>
           <div class="spacing-height-16"></div>
           <div class="spacing-height-16"></div>
           <div
             class="d-flex align-items-center clinic-info-box"
             style="gap: 16px"
           >
-            <div class="clinic-info d-flex" style="flex-direction: column; ">
-              <div class="clinic-name">
-              <a th:text="${list.clinicName}"></a> &nbsp;&nbsp;
-              <a th:text="${list.clinicDoctor}"></a> &nbsp;&nbsp; 
-              <a th:text="${list.reviewRegdate}"></a></div>
-              <br/>
-              <div class="clinic-address" style="font-size:20px; color:black;" th:text="${list.reviewTitle}"></div>
+            <div class="profileImg-box" style="background: #bdbdbd">
+              <img
+                class="profileImg"
+                src="https://www.urbanbrush.net/web/wp-content/uploads/edd/2017/09/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7-2017-09-19-%EC%98%A4%ED%9B%84-1.37.55.png"
+              />
+            </div>
+            <div class="clinic-info d-flex" style="flex-direction: column">
+              <div class="clinic-name">소망소아과의원</div>
+              <div class="clinic-address">서울 중구 세종대로 585, 3층</div>
+              <div class="review-cnt">28 리뷰</div>
             </div>
           </div>
+          <div class="spacing-height-8"></div>
           <div>
             <i class="fa-solid fa-star" style="color: #ffd43b"></i>
             <i class="fa-solid fa-star" style="color: #ffd43b"></i>
@@ -139,47 +150,31 @@
             <i class="fa-solid fa-star" style="color: #ffd43b"></i>
             <i class="fa-solid fa-star" style="color: #ffd43b"></i>
           </div>
+          <div class="spacing-height-16"></div>
           <div class="tag-box">
             <div class="tag"><span>포장</span>꼼꼼해요</div>
             <div class="tag"><span>사이즈</span>꼼꼼해요</div>
             <div class="tag"><span>배송</span>꼼꼼해요</div>
             <div class="tag"><span>밝기</span>꼼꼼해요</div>
             <div class="tag"><span>색감</span>꼼꼼해요</div>
-            <div class="tag"><span>두께감</span>꼼꼼해요</div>	
+            <div class="tag"><span>두께감</span>꼼꼼해요</div>
           </div>
-          <div class="review-content" th:text="${list.reviewContent}">
+          <div class="spacing-height-16"></div>
+          <div class="spacing-height-16"></div>
+          <div class="review-content">
+            의사 선생님이 너무 친절하십니다. 다만 대기 시간이 있어서 각오하고
+            오셔야할 것 같습니다.
           </div>
+          <div class="spacing-height-16"></div>
           <div class="d-flex" style="gap: 16px; padding: 4px">
             <div class="review-btn">리뷰수정</div>
-            <div class="review-btn">리뷰삭제</div>
+            <div class="review-btn">리뷰보기</div>
           </div>
         </div>
         <div class="spacing-height-16"></div>
-        <div class="silver-hr"></div>
+        <div class="spacing-height-16"></div>
       </div>
     </div>
-    <br/><br/>
-     <div class="d-flex justify-content-center align-items-center"
-              style="width: 100%"
-            >
-      <button
-                id="collaspe-btn"
-                class="btn btn-white"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapse"
-                aria-expanded="false"
-                aria-controls="collapseExample"
-              >
-                더보기
-       </button>
-      </div>  
-      
-      
+    <div class="silver-hr-inline-short"></div>
   </div>
-  
-  
-  <form name="bbsForm" id="bbsForm" method="post">
-		<input type="text" name="endRow" id="endRow" th:value="${endRow}" />
-  </form>
 </html>

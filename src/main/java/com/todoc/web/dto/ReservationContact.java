@@ -13,6 +13,7 @@ public class ReservationContact {
 	private String reservationSymptom;
 	private String reservationFlag;
 	private String regdate;
+	private String reservationStatus;
 	
 	
 	

@@ -38,6 +38,7 @@
 		<result property="reservationSymptom" column="RESERVATION_SYMPTOM" />
 		<result property="reservationFlag" column="RESERVATION_FLAG" />
 		<result property="regdate" column="REGDATE" />
+		<result property="reservationStatus" column="RESERVATION_STATUS" />
 	</resultMap>
 	
 	<resultMap type="ClinicFile" id="ClinicFileMap">
@@ -233,7 +234,8 @@
 			    RESERVATION_TIME,
 			    RESERVATION_SYMPTOM,
 			    RESERVATION_FLAG,
-			    REGDATE
+			    REGDATE,
+			    RESERVATION_STATUS
 			) VALUES (
 			    #{reservationSeq},
 			    #{userEmail},
@@ -242,7 +244,8 @@
 			    #{reservationTime},
 			    #{reservationSymptom},
 			    'C',
-			    SYSDATE
+			    SYSDATE,
+			    '예약확인'
 			)
 	</insert>
 	

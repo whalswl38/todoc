@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http//www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/layout}"
+>
+  <head>
+    <title>건강매거진 상세 페이지</title>
+    <style>
+      .megazine-detail-container {
+        max-width: 768px;
+        margin: auto;
+      }
+
+      #location-box{
+        gap: 16px;
+      }
+
+      #location-box a, #location-box p{
+        color: rgb(169, 174, 177);
+      }
+
+      #megazine-content{
+        white-space: normal;
+      }
+
+      .bottom-box{
+        padding: 8px 16px;
+        border: 1px solid #212529;
+        border-radius: 8px;
+      }
+  
+      .fa-solid:not(.not-active) {
+        color: red;
+      }
+
+      #like, #share{
+        cursor: pointer;
+      }
+
+      .untact-btn{
+        width: 80%;
+        margin: 0 auto;
+        color: #fff;
+        padding: 8px;
+        background-color: royalblue;
+        text-align: center;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+      }
+      #fileBtn{
+      	visibility: hidden;
+      }
+
+    </style>
+    <script>
+       $(document).ready(function () {like
+        $("#like").click(function () {
+          $(".fa-heart").toggleClass("fa-solid");
+          $(".fa-heart").toggleClass("fa-regular");
+        });
+
+      });
+       
+       
+       function onClickUpload(){ document.getElementById('fileBtn').click();}
+       
+       function readURL(event)
+       {
+     	 var reader = new FileReader();
+     	 
+     	 reader.onload = function(event)
+     	 {
+     		 document.getElementById('preview').src = event.target.result;
+        	 };
+        	 reader.readAsDataURL(event.target.files[0]);
+       }
+       
+    </script>
+  </head>
+  <div layout:fragment="content" class="megazine-detail-container">
+    <div style="padding: 8px; width: 768px">
+      <div style="width: 100%">
+      	<div class="spacing-height-16"></div>
+		<div class="spacing-height-16"></div>
+        <div class="spacing-height-16"></div>
+        <div class="spacing-height-16"></div>
+        <div><h2>새로운 매거진 작성</h2></div>
+        <div class="spacing-height-16"></div>
+        <div><h5>대표사진 등록 후, 내용을 작성해주세요.</h5></div>
+
+        <div class="spacing-height-16"></div>
+         <form name="writeForm" id="writeForm" method="post" enctype="multipart/form-data">
+	           <!-- 사진 시작 -->
+	        <div class="row d-flex justify-content-start">
+	        <div class="col-md-6" id="clinicImage" style="width: 150px; padding:15px;">
+	          <img id="preview"
+	            src="image/megazineWrite.png"
+	            class="img-thumbnail"
+	            alt="Profile Image"
+	          />
+	          
+	          <div class="spacing-height-16"></div>
+	          <div class="d-flex justify-content-start">
+	          	<input type="file" id="fileBtn" name="clinicFile" onchange="readURL(event);" />
+	            <button class="btn btn-primary" style="width: 1600px;background-color: royalblue;" onclick="onClickUpload()">대표사진 등록</button>
+	          </div>
+	        </div>
+	        </div>
+	        <!-- 사진 끝 -->
+	        
+	          <div class="spacing-height-16"></div>
+	          <!-- 글 작성칸 시작-->
+	          <textarea id="newsContent" class="form-control" style="width:100%;height:600px; margin: 0 auto;"></textarea>
+	          <!-- 글 작성칸 끝 -->
+	         
+	             
+	
+	        <div class="spacing-height-16"></div>
+	        <div class="spacing-height-16"></div>
+	        <div class="untact-btn"     onclick="">글 게시하기</div>
+        </form>
+        <div class="spacing-height-16"></div>
+     
+        <div class="silver-hr"></div>
+        <div class="spacing-height-16"></div>
+        <div class="spacing-height-16"></div>
+
+        <div class="spacing-height-16"></div>
+        <div class="spacing-height-16"></div>
+      </div>
+    </div>
+  </div>
+</html>

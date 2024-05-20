@@ -76,16 +76,6 @@ public class TestController {
        return "megazines/megazineDetail";
    }
 
-//    @GetMapping("/user/mypage-page")
-////   public String test17(HttpServletRequest request, Model model) {
-////    	String token = jwtFilter.extractJwtFromCookie(request);
-////    	String userEmail = jwtFilter.getUsernameFromToken(token);
-//    	
-//    	User user = userService.findByEmail(userEmail);
-//    	model.addAttribute("user", user);
-//    	return "/mypage/mypage";
-//   }
-
 
      @GetMapping("/chat-home-page")
     public String test21() {

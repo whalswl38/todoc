@@ -41,14 +41,6 @@ public class TestController {
     public String test14() {
         return "nutrients/nutrientsDetail";
     }
-   @GetMapping("/megazine-list-page")
-   public String test15() {
-       return "megazines/megazineList";
-   }
-   @GetMapping("/megazine-detail-page")
-   public String test16() {
-       return "megazines/megazineDetail";
-   }
 
     @GetMapping("/user/mypage-page")
    public String test17(HttpServletRequest request, Model model) {

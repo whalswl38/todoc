@@ -1,6 +1,7 @@
 package com.todoc.web.service;
 
 import java.io.File;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,15 @@ public class SuppleService
 	// 영양제 첨부파일 경로
 	@Value("${suppleFile.upload.dir}")
 	private String suppleFileUploadDir;
+	
+	// 글 모두 조회
+	public List<Supple> suppleList(Supple supple)
+	{		
+		List<Supple> list = suppleDao.suppleList(supple);
+		List<SuppleFile> fileList = suppleDao.selectSuppleFile(supple.getSuppleSeq());
+		
+		return list;
+	}
 	
 	// 글번호로 글 조회
 	public Supple selectSupple(long suppleSeq)
@@ -85,13 +95,6 @@ public class SuppleService
 
 	    return count;
 	}
-
-	
-	// 파일 삭제
-	public int deleteSuppleFile(long suppleSeq)
-	{
-		return suppleDao.deleteSuppleFile(suppleSeq);
-	}
 	
 	// 글 수정
 	public int updateSupple(Supple supple)
@@ -100,8 +103,10 @@ public class SuppleService
 	}
 	
 	// 글 삭제
+	@Transactional
 	public int deleteSupple(long suppleSeq)
 	{
+		// 파일 삭제
 		return suppleDao.deleteSupple(suppleSeq);
 	}
 }

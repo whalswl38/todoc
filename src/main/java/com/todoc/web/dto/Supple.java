@@ -1,9 +1,6 @@
 package com.todoc.web.dto;
-
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 
@@ -21,6 +18,7 @@ public class Supple
 	private String suppleRegdate;
 	private String suppleLink;
 	private String suppleStatus;
+	private String suppleTitle;
 	
-	private List<MultipartFile> files = new ArrayList<>();
+	private List<SuppleFile> suppleFile;
 }

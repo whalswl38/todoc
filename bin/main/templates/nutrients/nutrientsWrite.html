@@ -385,6 +385,7 @@
 		        var formData = new FormData(); // FormData 객체 생성
 
 		        // Form 데이터 추가
+		        formData.append('suppleTitle', $("#suppleTitle").val());
 		        formData.append('suppleName', $("#suppleName").val());
 		        formData.append('suppleCompany', $("#suppleCompany").val());
 		        formData.append('suppleFormula', $("#suppleFormula").val());
@@ -508,6 +509,8 @@
 		    	<div class="file-list"></div>
 		    </div>
 		    <br><br>
+		    글 제목&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			 <input type="text" id="suppleTitle" name="suppleTitle" /><br><br>
 			영양제 이름&nbsp;
 			 <input type="text" id="suppleName" name="suppleName" /><br><br>
 			제조사명 &nbsp;&nbsp;&nbsp;&nbsp;

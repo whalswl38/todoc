@@ -14,6 +14,7 @@
 		<result column="SUPPLE_REGDATE" property="suppleRegdate" />
 		<result column="SUPPLE_LINK" property="suppleLink" />
 		<result column="SUPPLE_STATUS" property="suppleStatus" />
+		<result column="SUPPLE_TITLE" property="suppleTitle" />
 	</resultMap>
 	
 	<resultMap id="suppleFileMap" type="SuppleFile" >
@@ -26,14 +27,50 @@
 		<result column="FILE_REGDATE" property="fileRegdate" />
 	</resultMap>
 	
+	<!-- 영양제 리스트 -->
+	<select id="suppleList" parameterType="com.todoc.web.dto.Supple" resultMap="suppleMap" >
+		SELECT *
+           FROM (
+        SELECT ROWNUM RNUM, SUPPLE_SEQ, NVL(SUPPLE_NAME,'') SUPPLE_NAME, NVL(SUPPLE_RAW,'') SUPPLE_RAW,
+		    NVL(SUPPLE_CAUTION,'') SUPPLE_CAUTION, NVL(SUPPLE_FORMULA,'') SUPPLE_FORMULA, NVL(SUPPLE_COMPANY,'') SUPPLE_COMPANY,
+		    NVL(SUPPLE_FUNCTION,'') SUPPLE_FUNCTION, NVL(SUPPLE_DOSE,'') SUPPLE_DOSE, NVL(SUPPLE_REGDATE,'') SUPPLE_REGDATE,
+		    NVL(SUPPLE_LINK,'') SUPPLE_LINK, NVL(SUPPLE_STATUS, 'N') SUPPLE_STATUS, NVL(SUPPLE_TITLE,'') SUPPLE_TITLE
+           FROM (
+		SELECT
+		    SUPPLE_SEQ, NVL(SUPPLE_NAME,'') SUPPLE_NAME, NVL(SUPPLE_RAW,'') SUPPLE_RAW,
+		    NVL(SUPPLE_CAUTION,'') SUPPLE_CAUTION, NVL(SUPPLE_FORMULA,'') SUPPLE_FORMULA, NVL(SUPPLE_COMPANY,'') SUPPLE_COMPANY,
+		    NVL(SUPPLE_FUNCTION,'') SUPPLE_FUNCTION, NVL(SUPPLE_DOSE,'') SUPPLE_DOSE, NVL(SUPPLE_REGDATE,'') SUPPLE_REGDATE,
+		    NVL(SUPPLE_LINK,'') SUPPLE_LINK, NVL(SUPPLE_STATUS, 'N') SUPPLE_STATUS, NVL(SUPPLE_TITLE,'') SUPPLE_TITLE
+		FROM TD_SUPPLE
+        ORDER BY SUPPLE_SEQ DESC
+                    )
+                    )
+        WHERE RNUM <![CDATA[>=]]> 1
+          AND RNUM <![CDATA[<=]]> 4
+	</select>
+	
 	<!-- 영양제 하나 조회 -->
 	<select id="selectSupple" parameterType="long" resultMap="suppleMap" >
 		SELECT
-		    NVL(SUPPLE_SEQ,'') SUPPLE_SEQ, NVL(SUPPLE_NAME,'') SUPPLE_NAME, NVL(SUPPLE_RAW,'') SUPPLE_RAW,
+		    SUPPLE_SEQ, NVL(SUPPLE_NAME,'') SUPPLE_NAME, NVL(SUPPLE_RAW,'') SUPPLE_RAW,
 		    NVL(SUPPLE_CAUTION,'') SUPPLE_CAUTION, NVL(SUPPLE_FORMULA,'') SUPPLE_FORMULA, NVL(SUPPLE_COMPANY,'') SUPPLE_COMPANY,
-		    NVL(SUPPLE_FUNCTION,'') SUPPLE_FUNCTION, NVL(SUPPLE_DOSE,'') SUPPLE_DOSE, NVL(SUPPLE_REGDATE,'') SUPPLE_REGDATE,
-		    NVL(SUPPLE_LINK,'') SUPPLE_LINK, NVL(SUPPLE_STATUS, 'N') SUPPLE_STATUS
+		    NVL(SUPPLE_FUNCTION,'') SUPPLE_FUNCTION, NVL(SUPPLE_DOSE,'') SUPPLE_DOSE, NVL(TO_CHAR(SUPPLE_REGDATE,'YY.MM.DD'),'') SUPPLE_REGDATE,
+		    NVL(SUPPLE_LINK,'') SUPPLE_LINK, NVL(SUPPLE_STATUS, 'N') SUPPLE_STATUS, NVL(SUPPLE_TITLE,'') SUPPLE_TITLE
 		FROM TD_SUPPLE
+		WHERE SUPPLE_SEQ = #{value}
+	</select>
+	
+	<!-- 영양제 글 첨부파일 조회 -->
+	<select id="selectSuppleFile" parameterType="long" resultMap="suppleFileMap" >
+		SELECT
+		    SUPPLE_SEQ,
+		    FILE_SEQ,
+		    NVL(FILE_ORG_NAME,'') FILE_ORG_NAME,
+		    NVL(FILE_NAME,'') FILE_NAME,
+		    NVL(FILE_EXT,'') FILE_EXT,
+		    NVL(FILE_SIZE,'') FILE_SIZE,
+		    NVL(FILE_REGDATE,'') FILE_REGDATE
+		FROM TD_SUPPLE_FILE
 		WHERE SUPPLE_SEQ = #{value}
 	</select>
 	
@@ -44,12 +81,13 @@
 	</selectKey>
 		INSERT INTO TD_SUPPLE 
 		(
+			SUPPLE_TITLE, 
 		    SUPPLE_SEQ, SUPPLE_NAME, SUPPLE_RAW,
 		    SUPPLE_CAUTION, SUPPLE_FORMULA, SUPPLE_COMPANY,
 		    SUPPLE_FUNCTION, SUPPLE_DOSE, SUPPLE_REGDATE,
 		    SUPPLE_LINK, SUPPLE_STATUS
 		)
-		VALUES (#{suppleSeq}, #{suppleName}, #{suppleRaw},
+		VALUES (#{suppleTitle}, #{suppleSeq}, #{suppleName}, #{suppleRaw},
 		 		#{suppleCaution}, #{suppleFormula}, #{suppleCompany}, #{suppleFunction}, #{suppleDose}, SYSDATE, #{suppleLink}, 'Y')
 	</insert>
 	
@@ -72,6 +110,7 @@
 	<update id="updateSupple" parameterType="com.todoc.web.dto.Supple" >
 		 UPDATE TD_SUPPLE
 			SET 
+			     SUPPLE_TITLE = #{suppleTitle},
 			     SUPPLE_NAME = #{suppleName},
 			     SUPPLE_RAW = #{suppleRaw},
 			     SUPPLE_CAUTION = #{suppleCaution},

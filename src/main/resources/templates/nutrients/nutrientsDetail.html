@@ -22,6 +22,7 @@
         position: absolute;
         display: flex;
         background: rgb(255, 255, 255);
+        box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 16px 0px;
         -webkit-box-align: center;
         align-items: center;
         justify-content: space-between;
@@ -130,11 +131,7 @@
       }
     </style>
     <script>
-<<<<<<< HEAD
-    const ingredientObjArr = [
-=======
     const functionObjArr = [
->>>>>>> minjicho
         { name: "종합영양", img: "image/medical-icon/allVita.png" },
         { name: "피로회복", img: "image/medical-icon/piro.png" },
         { name: "향산화", img: "image/medical-icon/medicalDiet.png" },
@@ -145,17 +142,10 @@
         { name: "장건강", img: "image/medical-icon/jang.png" },
         { name: "다이어트", img: "image/medical-icon/hyang.png" },
         { name: "간건강", img: "image/medical-icon/gan.png" },
-<<<<<<< HEAD
-        { name: "스태미나", img: "image/medical-icon/stemina.png" }
-      ];
-
-      const functionObjArr = [
-=======
         { name: "스태미나", img: "image/medical-icon/stemina.png" },
       ];
 
       const ingredientObjArr = [
->>>>>>> minjicho
         { name: "글루타치온", img: "image/medical-icon/glu.png" },
         { name: "유산균", img: "image/medical-icon/probio.png" },
         { name: "비타민B", img: "image/medical-icon/vita.png" },
@@ -163,17 +153,10 @@
         { name: "바나바", img: "image/medical-icon/nutri.png" },
         { name: "칼슘", img: "image/medical-icon/diet.png" },
         { name: "루테인", img: "image/medical-icon/rutain.png" },
-<<<<<<< HEAD
-        { name: "콜라겐", img: "image/medical-icon/probio.png" },
-        { name: "오메가3", img: "image/medical-icon/omega.png" },
-        { name: "밀크씨슬", img: "image/medical-icon/milk.png" },
-        { name: "아르기닌", img: "image/medical-icon/bone.png" }
-=======
         { name: "바이오틱스", img: "image/medical-icon/probio.png" },
         { name: "오메가3", img: "image/medical-icon/omega.png" },
         { name: "밀크씨슬", img: "image/medical-icon/milk.png" },
         { name: "아르기닌", img: "image/medical-icon/bone.png" },
->>>>>>> minjicho
       ];
 
       $(document).ready(function () {
@@ -225,42 +208,6 @@
           nutrientsDiv.append($div);
         });
       }
-      
-      $(document).ready(function(){
-    	 $("#deleteBtn").on("click", function(){
-    		 $.ajax({
-    			 url:"/nutri/delete",
-    			 type:"post",
-    			 data:{
-    				 suppleSeq:$("#suppleSeq").val()
-    			 },
-    			 dataType:"json",
-    			 success: function(data)
-    			 {
-    				 if(data == 1)
-    			     {
-    					 location.href="/nutrients-list-page";
-    			     }
-    				 else if(data == 404)
-    				 {
-    					 alert("해당 글이 존재하지 않습니다.");
-    				 }
-    				 else if(data == 500)
-    				 {
-    					 alert("서버 오류가 발생했습니다.");
-    				 }
-    			 },
-    			 error: function(error)
-    			 {
-    				 alert("오류가 발생했습니다.");
-    			 }
-    		 });
-    	 });
-    	 
-    	 $("#updateBtn").on("click", function(){
-    		 
-    	 });
-      });
     </script>
   </head>
   <div layout:fragment="content" class="nutrients-list-container">
@@ -272,11 +219,11 @@
             style="background-color: white; position: relative; height: 48px"
           >
             <div class="d-flex align-items-center" style="gap: 16px">
-              <div class="tab tab-active" id="functionTab">성분별</div>
+              <div class="tab tab-active" id="functionTab">기능별</div>
               <div
                 style="width: 1px; height: 16px; background-color: #fff"
               ></div>
-              <div id="nutrientTab" class="tab">기능별</div>
+              <div id="nutrientTab" class="tab">성분별</div>
             </div>
             <div class="search-container">
               <input
@@ -314,47 +261,11 @@
             style="display: flex; gap: 8px; padding: 4px 0px"
           ></div>
         </div>
-        <div id="nutrients-detail-box" style="padding: 0px">	 
+        <div id="nutrients-detail-box" style="padding: 0px">
           <div id="preview" style="width: 100%; height: 200px; border-radius: 8px; border: 1px solid rgb(141, 146, 151)">
           </div>
           <div id="description" class="p-3" style="width: 90%; margin: 0 auto; border-radius: 16px; border: 1px solid rgb(141, 146, 151);">
-          <div sec:authorize="hasAuthority('ROLE_ADMIN')">
-                      <button
-			            style="
-			              background-color: #0d6efd;
-			              padding: 5px 6px;
-			              border-radius: 8px;
-			              color: #fff;
-			              margin:3px;
-			              text-align: center;
-			              cursor: pointer;
-			              width:100px;
-			              float: right;
-			              border:none;
-			            "
-			            id="deleteBtn"
-			          >
-			            삭제
-			          </button>
-			          <button
-			            style="
-			              background-color: #0d6efd;
-			              padding: 5px 6px;
-			              border-radius: 8px;
-			              color: #fff;
-			              margin:3px;
-			              text-align: center;
-			              cursor: pointer;
-			              width:100px;
-			              float: right;
-			              border:none;
-			            "
-			            id="updateBtn"
-			          >
-			            수정
-			          </button><br>
-		</div><br>
-            <h4>[[${supple.suppleTitle}]]</h4>
+            <h4>혈당관리가 필요한 사람들이 찾는 뉴트리션 파월!</h4>
             <div style="width: calc(100% - 32px); min-height: 300px; border-radius: 16px; border: 1px solid rgb(141, 146, 151); padding: 16px;">
               <div class="row">
                 <div class="col-md-4 d-flex justify-content-center align-items-center" style="flex-direction: column;">
@@ -364,14 +275,14 @@
                     </div>
                     <br/>
                   <div class="d-flex justify-content-center align-items-center" style="flex-direction: column;">
-                    <div style="color:rgb(141, 146, 151);">[[${supple.suppleRegdate]]</div>
-                    <div style="color: #212529">[[${supple.suppleName]] -- [[${supple.suppleFormula]]</div>
+                    <div style="color:rgb(141, 146, 151);">파이도테크</div>
+                    <div style="color: #212529">햇살담은 파월</div>
                   </div>
                 </div>
                 <div class="col-md-7" style="color: #212529; padding-top: 16px;">
-                  <div><span style="color:rgb(141, 146, 151); padding: 12px;">01</span>[[${supple.suppleCaution]]</div>
-                  <div><span  style="color:rgb(141, 146, 151);  padding: 12px;">02</span>[[${supple.suppleDose]]</div>
-                  <div><span  style="color:rgb(141, 146, 151);  padding: 12px;">03</span>[[${supple.suppleRaw]]</div>
+                  <div><span style="color:rgb(141, 146, 151); padding: 12px;">01</span>코로술산 식약처 1일 최대함량 1.3mg 보유</div>
+                  <div><span  style="color:rgb(141, 146, 151);  padding: 12px;">02</span>100% 식물 유래 자연 그대로 추출</div>
+                  <div><span  style="color:rgb(141, 146, 151);  padding: 12px;">03</span>부분료로 만든 프리미엄 원료 배합</div>
                 </div>
               </div>
               <div>
@@ -393,28 +304,14 @@
               </div>
               <div class="spacing-height-16"></div>
               <div class="d-flex justify-content-between">
-                <div class="p-2"><h5>[[${supple.suppleLink]]</h5></div>
+                <div class="p-2"><h5>코로술산</h5></div>
                 <div class="p-2">1.3mg&nbsp;<i class="fa-solid fa-circle" style="color: #0d6efd"></i></div>
               </div>
-              </div>
+            </div>
           </div>
           <div class="d-flex p-2" style="justify-content: flex-end; width: 90%; margin: 0 auto;">
-			<div
-            style="
-              background-color: #0d6efd;
-              padding: 8px 16px;
-              width: 100px;
-              margin: 0 auto;
-              border-radius: 8px;
-              color: #fff;
-              text-align: center;
-              cursor: pointer;
-            "
-          >
-            + 더보기
+            <div><button class="btn btn-primary" onclick="window.location.href='http://localhost:8080/nutrients-list-page'">리스트</button></div>
           </div>
-          </div>
-          <br><br>
           <div id="bottom-info" class="d-flex justify-content-center " style="width: 85%; background-color: rgb(247, 249, 250); padding: 16px; gap: 24px; margin: 0 auto;">
             <div class="d-flex align-items-center " style="flex-direction: column;">
               <h6>AI</h6>
@@ -452,11 +349,4 @@
       </div>
     </div>
   </div>
-  
-  <form name="suppleForm" id="suppleForm" method="post">
-  	<input type="hidden" id="searchType" value="" />
-  	<input type="hidden" id="searchValue" value="" />
-  	<input type="hidden" id="suppleSeq" value="" />
-  	<input type="hidden" id="curPage" value="" />
-  </form>
 </html>

@@ -91,7 +91,6 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler
     	cookie.setHttpOnly(true);
     	cookie.setMaxAge(JwtProperties.EXPIRATION_TIME);
     	cookie.setPath("/");
-    	cookie.setSecure(true);
     	response.addCookie(cookie);
     	
     	response.sendRedirect("/main-page");

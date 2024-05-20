@@ -32,7 +32,7 @@
         justify-content: space-between;
         width: 270px;
         border-radius: 8px;
-        border: 2px solid royalblue;
+        border: 1px solid #ce1185;
       }
 
       input::placeholder {
@@ -70,10 +70,10 @@
       }
 
       .tab-active {
-        color: royalblue;
+        color: #ce1185;
         background-color: #fff;
         border: 1px solid #a9aeb1;
-        border-top: 2px solid royalblue;
+        border-top: 1px solid #ce1185;
       }
 
       .megazine {
@@ -258,7 +258,6 @@
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
       }
-      
     </style>
     <script>
       $(document).ready(function () {
@@ -271,29 +270,7 @@
           $(".paging-active").removeClass("paging-active");
           $(this).addClass("paging-active");
         });
-        
-        
-        $("#btnWrite").on("click", function() {
-            document.bbsForm.action="/megazine-write-page";
-            document.bbsForm.submit();
-         });
-        
-        
-        
       });
-      
-      
-      function search(newsFilter){
-    	  document.bbsForm.searchValue.value = document.getElementById('searchInput').value;
-    	  document.bbsForm.newsFilter.value = newsFilter;
-    	  document.bbsForm.action="/megazine-list-page";
-    	  document.bbsForm.submit();
-      }
-      
-      function goToDetail(newsSeq){
-    	  
-      }
-      
     </script>
   </head>
   <div layout:fragment="content" class="megazine-list-container">
@@ -301,92 +278,16 @@
       <div style="width: 100%">
         <div class="">
           <div class="d-flex justify-content-center" style="width: 100%">
-            <h3>건강매거진</h3>                
+            <h3>건강매거진</h3>
           </div>
-
           <div class="d-flex" style="width: 100%; justify-content: flex-end">
-            <!-- 검색 원래 있던 부분 -->
-          </div>
-          <div class="spacing-height-16"></div>
-             <div id="recommendVideos">
-          <h5>토닥 추천 영상</h5>
-          <div
-            class="d-flex"
-            style="width: 100%; justify-content: space-evenly"
-          >
-            <div class="video-box">
-              <iframe
-                width="172"
-                height="120"
-                src="https://www.youtube.com/embed/LzHMy2ScdhA"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen
-              ></iframe>
-              <p>고혈압 낮추는 효과적 방법</p>
-            </div>
-            
-            <div class="video-box">
-              <iframe
-                width="172"
-                height="120"
-                src="https://www.youtube.com/embed/QhRcs9d2Y9E"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen
-              ></iframe>
-              <p>허리통증 스트레칭</p>
-            </div>
-            <div class="video-box">
-              <iframe
-                width="172"
-                height="120"
-                src="https://www.youtube.com/embed/CD-V4qjCzNc"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen
-              ></iframe>
-              <p>당뇨 혈당관리 주의 음식</p>
-            </div>
-            <div class="video-box">
-              <iframe
-                width="172"
-                height="120"
-                src="https://www.youtube.com/embed/PsjBjPthxcA"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen
-              ></iframe>
-              <p>소식, 한끼가 답인가?</p>
-            </div>
-          </div>
-        </div>
-          <!-- 잘라낸부분 -->
-          <div class="spacing-height-16"></div>
-          <div class="silver-hr"></div>
-          <div class="spacing-height-16"></div>
-
-        <!-- 검색 -->
-        <div class="col tab-container" style="width: 100%; justify-content: flex-end">
- 
-         <div class="search-container">
+            <div class="search-container">
               <input
                 class="form-control mr-sm-2"
                 style="border: none"
-                placeholder="제목,내용,관련증상,진료과를 검색하세요"
-                id="searchInput"
-                name="searchInput"
+                placeholder="검색어를 입력하세요."
               />
-               
-              <div id="search-icon" style="padding: 0px 8px" onclick="search()">
+              <div id="search-icon" style="padding: 0px 8px">
                 <svg
                   width="16"
                   height="16"
@@ -409,30 +310,137 @@
                   </defs>
                 </svg>
               </div>
-              
             </div>
+          </div>
+          <div class="spacing-height-16"></div>
+          <div class="row d-flex justify-content-between">
+            <div class="col-md-4">
+              <h5>많이 본 글</h5>
+              <div
+                style="
+                  width: calc(100% - 32px);
+                  height: 292px;
+                  background-color: #fff;
+                  position: relative;
+                  overflow: hidden;
+                  border: 1px solid #212529;
+                  padding: 8px 16px 0px 16px;
+                "
+              >
+                <div class="swiper-container">
+                  <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                      <div
+                        style="cursor: pointer"
+                        onclick="window.location.href='http://localhost:8080/megazine-detail-page'"
+                      >
+                        <img src="/image/kakao.png" alt="Slide 1" />
+                      </div>
+                      <div style="height: 142px; background-color: #fff">
+                        <div
+                          class="most-article-title"
+                          style="padding-top: 4px"
+                          onclick="window.location.href='http://localhost:8080/megazine-detail-page'"
+                        >
+                          양약 변비약은 내성 생긴다던데... '한방 변비약'은 덜
+                          독할까?
+                        </div>
+                        <div class="most-article-text" style="padding-top: 4px">
+                          변비약을 먹는 사람들은 조심해야합니다. 변비약을 먹는
+                          사람들은 조심해야합니다. 변비약을 먹는 사람들은
+                          조심해야합니다. 변비약을 먹는 사람들은 조심해야합니다.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="swiper-slide">
+                      <div
+                        onclick="window.location.href='http://localhost:8080/megazine-detail-page'"
+                      >
+                        <img src="/image/naver.png" alt="Slide 2" />
+                      </div>
+                      <div style="height: 142px; background-color: #fff">
+                        <div
+                          class="most-article-title"
+                          style="padding-top: 4px"
+                          onclick="window.location.href='http://localhost:8080/megazine-detail-page'"
+                        >
+                          양약 변비약은 내성 생긴다던데... '한방 변비약'은 덜
+                          독할까?
+                        </div>
+                        <div class="most-article-text" style="padding-top: 4px">
+                          변비약을 먹는 사람들은 조심해야합니다. 변비약을 먹는
+                          사람들은 조심해야합니다. 변비약을 먹는 사람들은
+                          조심해야합니다. 변비약을 먹는 사람들은 조심해야합니다.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="swiper-slide">
+                      <div
+                        onclick="window.location.href='http://localhost:8080/megazine-detail-page'"
+                      >
+                        <img src="/image/google.png" alt="Slide 3" />
+                      </div>
+                      <div style="height: 142px; background-color: #fff">
+                        <div
+                          class="most-article-title"
+                          style="padding-top: 4px"
+                          onclick="window.location.href='http://localhost:8080/megazine-detail-page'"
+                        >
+                          양약 변비약은 내성 생긴다던데... '한방 변비약'은 덜
+                          독할까?
+                        </div>
+                        <div class="most-article-text" style="padding-top: 4px">
+                          변비약을 먹는 사람들은 조심해야합니다. 변비약을 먹는
+                          사람들은 조심해야합니다. 변비약을 먹는 사람들은
+                          조심해야합니다. 변비약을 먹는 사람들은 조심해야합니다.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="swiper-bottom-box">
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-pagination" style="height: 16px"></div>
+                    <div class="swiper-button-next"></div>
+                  </div>
+                </div>
+              </div>
             </div>
-            
-            <!-- 검색 -->
-            
-            
-         <div class="spacing-height-16"></div>
+            <script>
+              var swiper = new Swiper(".swiper-container", {
+                navigation: {
+                  nextEl: ".swiper-button-next",
+                  prevEl: ".swiper-button-prev",
+                },
+                slidesPerView: 1,
+                pagination: {
+                  el: ".swiper-pagination",
+                  type: "fraction",
+                },
+              });
+            </script>
+            <div class="col-md-7">
+              <h5>토닥 차트</h5>
+              <div
+                style="width: 100%; height: 300px; background-color: #a9aeb1"
+              ></div>
+            </div>
+          </div>
+          <div class="spacing-height-16"></div>
           <div
             class="col tab-container"
             `
             style="background-color: #fff; height: 48px"
           >
             <div class="d-flex align-items-center" style="width: 400px">
-              <div class="tab tab-active" onclick="search(1)" id="_newsFilter" name="_newsFilter" >추천순</div>
-              <div style="width: 1px; height: 16px; background-color: #fff"></div>
-              <div  class="tab" onclick="search(2)" id="_newsFilter" name="_newsFilter" >조회순</div>
-              <div style="width: 1px; height: 16px; background-color: #fff"></div>
-              <div  class="tab" onclick="search(3)" id="_newsFilter" name="_newsFilter" >추천순</div>
+              <div class="tab tab-active" id="recommendTab">추천순</div>
+              <div
+                style="width: 1px; height: 16px; background-color: #fff"
+              ></div>
+              <div id="recentTab" class="tab">최신순</div>
             </div>
           </div>
           <div class="spacing-height-16"></div>
-          
-          
           <div>
             <div
               style="
@@ -443,15 +451,35 @@
                 margin: 0 auto;
               "
             >
-
-              
-              
-        <div th:each="megazine: ${list}">
-            <div class="megazine"  th:onclick="goToDetail([[${megazine.newsSeq}]])">
+              <div class="megazine">
                 <div class="megazine-content">
-                  <p class="megazine-title" th:text="${megazine.newsTitle}"></p>
-                  <p class="megazine-text" th:text="${megazine.newsSubtitle}"></p>
-                  <p class="megazine-date" th:text="${megazine.newsUpdateDate}"></p>
+                  <p class="megazine-title">
+                    사랑니 발치 전 꼭 알아두세요! 사랑니 발치 부작용, 주의사항은
+                    꼭 참고하셔야합니다.
+                  </p>
+                  <p class="megazine-text">
+                    사랑니 발치를 계획하고 잇다면 부작용, 주의사항 등에 대해
+                    미리 챙겨두세요.
+                  </p>
+                  <p class="megazine-date">2024.03.21</p>
+                </div>
+                <div class="megazine-box" style="background: #bdbdbd">
+                  <img
+                    class="megazine-image"
+                    src="https://d2m9duoqjhyhsq.cloudfront.net/marketingContents/article/article997-01.jpg"
+                  />
+                </div>
+              </div>
+              <div class="megazine">
+                <div class="megazine-content">
+                  <p class="megazine-title">
+                    가다실 9가 접종 효과, 방법, 보험 여부까지! 가다실의 모든것
+                  </p>
+                  <p class="megazine-text">
+                    가다실 9가 접종 후 주의할 점과 자주 묻는 질문들에 대해
+                    정리해왔어요.
+                  </p>
+                  <p class="megazine-date">2024.03.25</p>
                 </div>
                 <div class="megazine-box" style="background: #bdbdbd">
                   <img
@@ -459,13 +487,7 @@
                     src="https://d2m9duoqjhyhsq.cloudfront.net/marketingContents/article/article996-01.jpg"
                   />
                 </div>
-              
-             </div> 
-            </div>
-              
-              
-              
-              
+              </div>
             </div>
             <div class="d-flex justify-content-center" id="pagingBox">
               <div><i class="fa-solid fa-chevron-left"></i></div>
@@ -476,35 +498,72 @@
               <div class="paging">5</div>
               <div><i class="fa-solid fa-chevron-right"></i></div>
             </div>
-            
-           <!-- 글쓰기 버튼 --> 
-           <div class="spacing-height-16"></div> 
-		   <div class="d-flex justify-content-end" style="width: 100%">
-           <button id="btnWrite" class="btn btn-primary d-flex justify-content-center" style="border: none;width: 100px;background-color:  rgb(169, 174, 177);" onclick="">글쓰기</button>
-           </div>
-           <!-- 글쓰기 버튼 --> 
-            
-             <div class="spacing-height-16"></div> 
           </div>
         </div>
         <div class="silver-hr"></div>
-        
-        
-                      
-        
-        
-		<!-- 영상 원래 있던 위치 -->
-		<form id="bbsForm" name="bbsForm" method="get">
-			<input type="hidden" id="curPage" name="curPage" th:value="${curPage}">
-			<input type="hidden" id="searchValue" name="searchValue" th:value="${searchValue}">
-			<input type="hidden" id="newsFilter" name="newsFilter" th:value="${newsFilter}">
-		</form>
-		
+        <div id="recommendVideos">
+          <h5>오늘의 추천 영상</h5>
+          <div
+            class="d-flex"
+            style="width: 100%; justify-content: space-evenly"
+          >
+            <div class="video-box">
+              <iframe
+                width="172"
+                height="120"
+                src="https://www.youtube.com/embed/_YlSWr3-0_Q?si=dLqKdCcyLxsbLzKz"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
+              <p>푸바오 안녕 푸바오 안녕 푸바오 안녕 푸바오 안녕 푸바오 안녕</p>
+            </div>
+            <div class="video-box">
+              <iframe
+                width="172"
+                height="120"
+                src="https://www.youtube.com/embed/_YlSWr3-0_Q?si=dLqKdCcyLxsbLzKz"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
+              <p>푸바오 안녕</p>
+            </div>
+            <div class="video-box">
+              <iframe
+                width="172"
+                height="120"
+                src="https://www.youtube.com/embed/_YlSWr3-0_Q?si=dLqKdCcyLxsbLzKz"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
+              <p>푸바오 안녕</p>
+            </div>
+            <div class="video-box">
+              <iframe
+                width="172"
+                height="120"
+                src="https://www.youtube.com/embed/_YlSWr3-0_Q?si=dLqKdCcyLxsbLzKz"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
+              <p>푸바오 안녕</p>
+            </div>
+          </div>
+        </div>
         <div class="spacing-height-16"></div>
         <div class="spacing-height-16"></div>
       </div>
     </div>
   </div>
-  
-  
 </html>

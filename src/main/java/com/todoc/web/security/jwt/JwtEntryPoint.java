@@ -16,7 +16,6 @@ public class JwtEntryPoint implements AuthenticationEntryPoint
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,AuthenticationException authException) throws IOException, ServletException 
     {
-        // JWT 토큰이 만료되었을 때 로그인 페이지로 리디렉션
-        response.sendRedirect("/login");
+        response.sendRedirect("/token/api");
     }
 }

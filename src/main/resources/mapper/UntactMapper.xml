@@ -37,26 +37,8 @@
         <result column="REVIEW_REGDATE" property="reviewRegdate"/>
         <result column="REVIEW_GRADE" property="reviewGrade"/>
         <result column="USER_NAME" property="userName"/>
-        <!-- 예약 -->
-        <result column="RESERVATION_SEQ" property="reservationSeq"/>
-        <result column="USER_IDENTITY" property="userIdentity"/>
-        <result column="RESERVATION_DATE" property="reservationDate"/>
-        
 	</resultMap>
-	
-	<resultMap type="com.todoc.web.dto.Reserve" id="reserveResultMap">
-        <result column="RESERVATION_SEQ" property="reservationSeq"/>
-        <result column="USER_EMAIL" property="userEmail"/>
-        <result column="CLINIC_INSTINUM" property="clinicInstinum"/>
-        <result column="RESERVATION_DATE" property="reservationDate"/>
-        <result column="RESERVATION_TIME" property="reservationTime"/>
-        <result column="RESERVATION_SYMPTOM" property="reservationSymptom"/>
-        <result column="RESERVATION_FLAG" property="reservationFlag"/>
-        <result column="REGDATE" property="regDate"/>
-        <result column="CLINIC_NAME" property="clinicName"/>
-        <result column="RESERVATION_STATUS" property="reservationStatus"/>
-	</resultMap>
-	
+		
 	<!-- 비대면 병원 리스트 -->
 	<select id="subjectList" parameterType="com.todoc.web.dto.Untact" resultMap="untactResultMap">
 		SELECT * FROM  (
@@ -85,9 +67,6 @@
 			</if>
 			<if test="searchWord != null and searchWord != ''">
 			AND (A.CLINIC_SUBJECT LIKE '%' || #{searchWord} ||'%' OR A.CLINIC_SYMPTOM LIKE '%' || #{searchWord} ||'%' OR A.CLINIC_NAME LIKE '%' || #{searchWord} ||'%')
-			</if>
-			<if test="location != null and location != ''">
-			AND CLINIC_ADDR LIKE '%' || #{location} || '%' 
 			</if>
 		) Z
 		WHERE RNUM <![CDATA[>=]]> #{startRow} 
@@ -124,110 +103,51 @@
 
 	<!-- 페이징 -->
 	<select id="subjectListCount" parameterType="com.todoc.web.dto.Untact" resultType="int">
-		SELECT COUNT(*) FROM  (
-				SELECT 
-				<choose>
-	        		<when test="sortType == 'grade'">
-	           			ROW_NUMBER() OVER(ORDER BY CASE WHEN C.REVIEW_GRADE IS NULL THEN 1 ELSE 0 END, C.REVIEW_GRADE DESC) AS RNUM,	
-					</when>
-	        		<when test="sortType == 'review'">
-	           			ROW_NUMBER() OVER(ORDER BY CASE WHEN C.REVIEW_SEQ IS NULL THEN 1 ELSE 0 END, C.REVIEW_SEQ DESC) AS RNUM,
-					</when>
-					<otherwise>
-				        <if test="sortType == null">
-		           			ROW_NUMBER() OVER(ORDER BY A.CLINIC_INSTINUM DESC) AS RNUM,
-				        </if>
-					</otherwise>
-				</choose>
-				ROUND(C.REVIEW_GRADE,1) AS REVIEW_GRADE, C.REVIEW_SEQ, A.CLINIC_INSTINUM, A.CLINIC_DOCTOR, A.CLINIC_NAME, A.CLINIC_TIME, A.CLINIC_STATUS, A.CLINIC_NIGHT, B.FILE_ORG_NAME
-			FROM TD_CLINIC A
-			LEFT OUTER JOIN TD_CLINIC_FILE B ON A.CLINIC_INSTINUM = B.CLINIC_INSTINUM
-			LEFT OUTER JOIN (SELECT CLINIC_INSTINUM, AVG(REVIEW_GRADE) AS REVIEW_GRADE, COUNT(review_content) AS REVIEW_SEQ FROM TD_REVIEW GROUP BY CLINIC_INSTINUM) C ON A.CLINIC_INSTINUM = C.CLINIC_INSTINUM
-			WHERE 1=1
-			<if test="clinicSubject != null and clinicSubject != ''">     
-			AND A.CLINIC_SUBJECT LIKE '%' || #{clinicSubject} || '%'   
-			</if>
-			<if test="clinicSymptom != null and clinicSymptom != ''">     
-			AND A.CLINIC_SYMPTOM LIKE '%' || #{clinicSymptom} || '%'
-			</if>
-			<if test="searchWord != null and searchWord != ''">
-			AND (A.CLINIC_SUBJECT LIKE '%' || #{searchWord} ||'%' OR A.CLINIC_SYMPTOM LIKE '%' || #{searchWord} ||'%' OR A.CLINIC_NAME LIKE '%' || #{searchWord} ||'%')
-			</if>
-			<if test="location != null and location != ''">
-			AND CLINIC_ADDR LIKE '%' || #{location} || '%' 
-			</if>
-		) Z
+	SELECT COUNT(*) FROM  (
+			SELECT 
+			<choose>
+        		<when test="sortType == 'grade'">
+           			ROW_NUMBER() OVER(ORDER BY CASE WHEN C.REVIEW_GRADE IS NULL THEN 1 ELSE 0 END, C.REVIEW_GRADE DESC) AS RNUM,	
+				</when>
+        		<when test="sortType == 'review'">
+           			ROW_NUMBER() OVER(ORDER BY CASE WHEN C.REVIEW_SEQ IS NULL THEN 1 ELSE 0 END, C.REVIEW_SEQ DESC) AS RNUM,
+				</when>
+				<otherwise>
+			        <if test="sortType == null">
+	           			ROW_NUMBER() OVER(ORDER BY A.CLINIC_INSTINUM DESC) AS RNUM,
+			        </if>
+				</otherwise>
+			</choose>
+			ROUND(C.REVIEW_GRADE,1) AS REVIEW_GRADE, C.REVIEW_SEQ, A.CLINIC_INSTINUM, A.CLINIC_DOCTOR, A.CLINIC_NAME, A.CLINIC_TIME, A.CLINIC_STATUS, A.CLINIC_NIGHT, B.FILE_ORG_NAME
+		FROM TD_CLINIC A
+		LEFT OUTER JOIN TD_CLINIC_FILE B ON A.CLINIC_INSTINUM = B.CLINIC_INSTINUM
+		LEFT OUTER JOIN (SELECT CLINIC_INSTINUM, AVG(REVIEW_GRADE) AS REVIEW_GRADE, COUNT(review_content) AS REVIEW_SEQ FROM TD_REVIEW GROUP BY CLINIC_INSTINUM) C ON A.CLINIC_INSTINUM = C.CLINIC_INSTINUM
+		WHERE 1=1
+		<if test="clinicSubject != null and clinicSubject != ''">     
+		AND A.CLINIC_SUBJECT LIKE '%' || #{clinicSubject} || '%'   
+		</if>
+		<if test="clinicSymptom != null and clinicSymptom != ''">     
+		AND A.CLINIC_SYMPTOM LIKE '%' || #{clinicSymptom} || '%'
+		</if>
+		<if test="searchWord != null and searchWord != ''">
+		AND (A.CLINIC_SUBJECT LIKE '%' || #{searchWord} ||'%' OR A.CLINIC_SYMPTOM LIKE '%' || #{searchWord} ||'%' OR A.CLINIC_NAME LIKE '%' || #{searchWord} ||'%')
+		</if>
+	) Z
 	</select>
 	
 	<insert id="insertReservation" parameterType="com.todoc.web.dto.Reserve">
-		<selectKey resultType="long" keyProperty="reservationSeq" order="BEFORE" >
-         	SELECT SEQ_TD_RESERVATION.NEXTVAL FROM DUAL
-		</selectKey>
-		INSERT INTO TD_RESERVATION (
-	    	RESERVATION_SEQ, USER_EMAIL, CLINIC_INSTINUM, RESERVATION_DATE, RESERVATION_TIME, RESERVATION_SYMPTOM, RESERVATION_FLAG, REGDATE, RESERVATION_STATUS
-		) VALUES (
-		    #{reservationSeq},
-		    #{userEmail},
-		    #{clinicInstinum},
-		    #{reservationDate},
-		    #{reservationTime},
-		    #{reservationSymptom},
-		    'U',
-		    SYSDATE,
-		    '예약확인'
-		)
+	INSERT INTO TD_RESERVATION (
+    	RESERVATION_SEQ, USER_EMAIL, CLINIC_INSTINUM, RESERVATION_DATE, RESERVATION_TIME, RESERVATION_SYMPTOM, RESERVATION_FLAG, REGDATE, RESERVATION_STATUS
+	) VALUES (
+	    (SELECT MAX(RESERVATION_SEQ)+1 FROM TD_RESERVATION),
+	    #{userEmail},
+	    #{clinicInstinum},
+	    #{reservationDate},
+	    #{reservationTime},
+	    #{reservationSymptom},
+	    'U',
+	    SYSDATE,
+	    '예약확인'
+	)
 	</insert>
-	
-	<select id="reserveCheck" parameterType="com.todoc.web.dto.Reserve" resultMap="reserveResultMap">
-		SELECT
-		    A.RESERVATION_SEQ,
-		    A.USER_EMAIL,
-		    A.CLINIC_INSTINUM,
-		    TO_CHAR(A.RESERVATION_DATE, 'YYYY-MM-DD') RESERVATION_DATE,
-		    A.RESERVATION_TIME,
-		    A.RESERVATION_SYMPTOM,
-		    A.RESERVATION_FLAG,
-		    A.RESERVATION_STATUS,
-		    B.CLINIC_NAME
-		FROM TD_RESERVATION A, TD_CLINIC B
-		WHERE A.CLINIC_INSTINUM = B.CLINIC_INSTINUM
-		AND A.USER_EMAIL = #{userEmail}
-		AND A.RESERVATION_DATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
-		AND A.RESERVATION_STATUS = '예약확인'
-	</select>
-	
-	<select id="precriptionWrite" parameterType="com.todoc.web.dto.Untact" resultMap="untactResultMap">
-		SELECT
-		    A.CLINIC_INSTINUM,
-		    A.CLINIC_PHONE,
-		    A.CLINIC_NAME,
-		    A.CLINIC_DOCTOR,
-		    B.RESERVATION_SEQ,
-		    C.USER_NAME,
-		    C.USER_IDENTITY
-		FROM
-		    TD_CLINIC A, TD_RESERVATION B, TD_USER C
-		WHERE A.CLINIC_INSTINUM = B.CLINIC_INSTINUM
-		AND B.USER_EMAIL = C.USER_EMAIL
-		AND A.USER_EMAIL = #{userEmail}
-		AND B.RESERVATION_SEQ = #{reservationSeq}
-	</select>
-	
-	<insert id="prescriptionInsert" parameterType="com.todoc.web.dto.Presc">
-		INSERT INTO TD_PRESCRIPTION(
-	    	PRESCRIPTION_SEQ, PRESCRIPTION_DATE, CLINIC_INSTINUM, MEDICINE_NAME, RESERVATION_SEQ, MEDICINE_DOSE, MEDICINE_ORDER
-		) VALUES (
-		    #{prescriptionSeq},
-		    SYSDATE,
-		    #{clinicInstinum},
-		    #{medi},
-		    #{reservationSeq},
-		    #{dose},
-		    #{order}
-		)
-	</insert>
-	<select id="getprescriptionSeq" resultType="int">
-		SELECT NVL(MAX(PRESCRIPTION_SEQ), 0) +1 FROM TD_PRESCRIPTION
-	</select>
-	
 </mapper>

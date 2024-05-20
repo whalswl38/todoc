@@ -29,7 +29,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.thymeleaf.util.StringUtils;
 
 import com.todoc.web.dto.ClinicContact;
-import com.todoc.web.dto.Paging;
 import com.todoc.web.dto.ReservationContact;
 import com.todoc.web.security.jwt.JwtAuthorizationFilter;
 import com.todoc.web.security.jwt.JwtProperties;
@@ -45,13 +44,14 @@ public class ClinicContactController {
 	
 	private final JwtAuthorizationFilter jwtFilter;
 	
-	public ClinicContactController(JwtAuthorizationFilter jwtFilter){
+	public ClinicContactController(JwtAuthorizationFilter jwtFilter)
+	{
 		this.jwtFilter = jwtFilter;
 	}
+
 	private static final Logger log = LoggerFactory.getLogger(ClinicContactController.class);
 	
-	private static final int LIST_COUNT = 3;
-	private static final int PAGE_COUNT = 5;
+	
 
 	//과목선택
 	@GetMapping("/clinic-contact-subject-page")
@@ -67,20 +67,19 @@ public class ClinicContactController {
 	
 	
 
-	 //리스트 페이지 다이렉트 없애기ㅣ
+	 //리스트 페이지 다이렉트
 	 
-//	 @GetMapping("/clinic-contact-list-page") 
-//	 public String clinicListDirect(Model model) {
-//		 List<ClinicContact> list = new ArrayList<>(); 
-//		 ClinicContact search=new ClinicContact(); 
-//		 list = clinicContactService.clinicList();
-//	 
-//	 model.addAttribute("clinicList", list); 
-//	 model.addAttribute("search",search);
-//	 
-//	 return "contact/clinicList"; 
-//	 }
-//	 
+	 @GetMapping("/clinic-contact-list-page") 
+	 public String clinicListDirect(Model model) {
+		 List<ClinicContact> list = new ArrayList<>(); 
+		 ClinicContact search=new ClinicContact(); 
+		 list = clinicContactService.clinicList();
+	 
+	 model.addAttribute("clinicList", list); model.addAttribute("search",search);
+	 
+	 return "contact/clinicList"; 
+	 }
+	 
 	
 	//리스트 페이지 카테고리
 	@GetMapping("/clinic-contact-category-list")
@@ -93,14 +92,9 @@ public class ClinicContactController {
 			@RequestParam(value = "guValue",required=false) Integer guValue,    
 			@RequestParam(value = "isOpening", required = false) String isOpening,
 			@RequestParam(value = "locationValue", required = false) String locationValue,
-			@RequestParam(value = "curPage", required = false) Integer curPage,
 			Model model){
 		List<ClinicContact> list = new ArrayList<>();
 		ClinicContact search=new ClinicContact();
-		long totalCount = 0;
-		Paging paging = null;
-		
-		
 		search.setCategory(category);
 		search.setSearchValue(searchValue);
 		search.setClinicNight(clinicNight);
@@ -119,7 +113,12 @@ public class ClinicContactController {
 		}else {
 			search.setGuValue(guValue); 
 		}
+		
+			
 
+		
+		
+	
 		
 		List runningNumList = new ArrayList<>();
 		runningNumList = clinicContactService.clinicRunningList();
@@ -135,34 +134,7 @@ public class ClinicContactController {
 			search.setRunningNumList(runningNumList);
 		}
 		
-		totalCount = clinicContactService.listCount(search);
-		System.out.println("totalCount :" + totalCount);
-		System.out.println("curPage :" + curPage);
-		
-		
-		if(totalCount > 0) {
-			if(curPage==null) {
-				curPage = 1;
-			}
-			paging = new Paging("/clinic-contact-category-list", totalCount, LIST_COUNT,PAGE_COUNT, curPage, "curgPage");
-			search.setStartRow(paging.getStartRow());
-			search.setEndRow(paging.getEndRow());
-			
-		}
-
-		
 		list = clinicContactService.clinicListCategory(search);
-//		System.out.println("list : " +list);
-//		System.out.println("paging : " +paging);
-//		System.out.println("paging.getStartRow() : " +paging.getStartRow());
-//		System.out.println("paging.getEndRow() : " +paging.getEndRow());
-//		System.out.println("search.getStartRow(): " +search.getStartRow());
-//		System.out.println("search.getEndRow(): " +search.getEndRow());
-//		System.out.println("paging.getStartPage() : " +paging.getStartPage());
-//		System.out.println("paging.getEndPage() : " +paging.getEndPage());
-//		System.out.println("curPage: " +curPage);
-		
-		
 
 		model.addAttribute("search",search);
 		model.addAttribute("clinicList", list);
@@ -172,87 +144,11 @@ public class ClinicContactController {
 		model.addAttribute("guValue", guValue);
 		model.addAttribute("isOpening", isOpening);
 		model.addAttribute("runningNumList", runningNumList);
-		model.addAttribute("curPage",curPage);
-		model.addAttribute("paging",paging);
-		
-		
+		model.addAttribute("locationValue", locationValue);
 
 		return "contact/clinicList";
 	}
 
-	
-//	//리스트 무한스크롤 ajax 용
-//	 @GetMapping("/loadMoreClinics")
-//	    @ResponseBody
-//	    public List<ClinicContact> loadMoreClinics(@RequestParam(value = "category", required = false) String category,
-//				@RequestParam(value = "searchValue", required = false) String searchValue,
-//				@RequestParam(value = "clinicNight", required = false) String clinicNight,
-//				@RequestParam(value = "clinicWeekend", required = false) String clinicWeekend, 
-//				@RequestParam(value = "textSearch", required = false) String textSearch, 
-//				@RequestParam(value = "guValue",required=false) Integer guValue,    
-//				@RequestParam(value = "isOpening", required = false) String isOpening,
-//				@RequestParam(value = "locationValue", required = false) String locationValue,
-//				@RequestParam(value = "startRow", required = false) Integer startRow,
-//				@RequestParam(value = "endRow", required = false) Integer endRow,
-//				Model model){
-//			List<ClinicContact> list = new ArrayList<>();
-//			ClinicContact search=new ClinicContact();
-//			search.setCategory(category);
-//			search.setSearchValue(searchValue);
-//			search.setClinicNight(clinicNight);
-//			search.setClinicWeekend(clinicWeekend);
-//			search.setTextSearch(textSearch);
-//			
-//			//구 지역 검색 인덱스 로 변환(현재위치구/선택구)
-//			if(locationValue != null) {
-//				int locationIndex = search.getGuList().indexOf(locationValue);
-//
-//				if (locationIndex != -1) {
-//				    search.setGuValue(locationIndex); 
-//				} else {
-//				}
-//				
-//			}else {
-//				search.setGuValue(guValue); 
-//			}
-//
-//			
-//			List runningNumList = new ArrayList<>();
-//			runningNumList = clinicContactService.clinicRunningList();
-//			for(int i = 0; i < runningNumList.size();i++) {  
-//			}
-//			
-//			//영업중인 병원 번호 리스트
-//			if("Y".equals(isOpening)) {
-//				if(runningNumList == null || runningNumList.isEmpty()) {
-//					runningNumList.add(0, "");
-//					search.setRunningNumList(runningNumList);
-//				}
-//				search.setRunningNumList(runningNumList);
-//			}
-//			
-//			//무한스크롤 페이징
-//			Integer _startRow = 1;
-//			Integer _endRow = 3;
-//			if(startRow!=null) {
-//				if(endRow !=null) {
-//					_startRow = startRow;
-//					_endRow = endRow;
-//
-//				}
-//			}
-//			search.setStartRow(_startRow);
-//			search.setEndRow(_endRow);
-//			
-//			list = clinicContactService.clinicListCategory(search);
-//		
-//	        
-//	        return list;
-//	    }
-//	 
-	 
-	 
-	 
 
 	@GetMapping("/clinic-contact-detail-page")
 	public String clinicDetail(@RequestParam("clinicInstinum") String clinicInstinum, Model model) {
@@ -338,7 +234,6 @@ public class ClinicContactController {
     	
     	String token = jwtFilter.extractJwtFromCookie(request);
     	String userEmail = jwtFilter.getUsernameFromToken(token);
-    	
 
     	if(!StringUtils.isEmpty(userEmail)) {
     		
@@ -402,22 +297,8 @@ public class ClinicContactController {
     	return ResponseEntity.ok(timeSlots);
     }
     
-//
-//   
-//    @GetMapping("/clinics")
-//    public List<ClinicContact> getClinics(
-//                                          @RequestParam(value = "category", required = false) String category,
-//                                          @RequestParam(value = "searchValue", required = false) String searchValue,
-//                                          @RequestParam(value = "clinicNight", required = false) String clinicNight,
-//                                          @RequestParam(value = "clinicWeekend", required = false) String clinicWeekend,
-//                                          @RequestParam(value = "textSearch", required = false) String textSearch,
-//                                          @RequestParam(value = "guName", required = false) String guName,
-//                                          @RequestParam(value = "runningNumList", required = false) List<String> runningNumList,
-//                                  		@RequestParam(value = "startRow", required = false) Integer startRow,
-//                                		@RequestParam(value = "endRow", required = false) Integer endRow) {
-//
-//    	return clinicContactService.getClinics(startRow, endRow, category, searchValue, clinicNight, clinicWeekend, textSearch, guName, runningNumList);
-//    }
+   
+
 
     
 

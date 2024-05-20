@@ -32,6 +32,7 @@ public class ClinicContact {
 	private String clinicNight;
 	private String clinicWeekend;
 	
+	
 	private String searchValue;	
 	private String category;
 	private String textSearch;	
@@ -39,13 +40,8 @@ public class ClinicContact {
 	private String guName;
 	private List runningNumList;
 	private List<String> guList;
+	
 	private String closeFlag;
-	
-	private long startRow;
-	private long endRow;
-	
-	private String fileName;	
-	private String fileOrgName;	
 	
 
     public ClinicContact() {

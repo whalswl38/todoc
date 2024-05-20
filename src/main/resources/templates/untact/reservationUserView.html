@@ -28,7 +28,7 @@
       }
 
       .lnb-active {
-        color: royalblue;
+        color: red;
       }
 
       .clicked-background {
@@ -79,26 +79,12 @@
 
       .status-icon-active {
         color: #fff;
-        background-color: royalblue;
+        background-color: rgb(247, 103, 7);
         border: none;
       }
 
       .status-active {
-        color: royalblue;
-      }
-      
-      .filter-sort {
-        background-color: rgb(247, 249, 250);
-        border-radius: 20px;
-        padding: 10px 20px 10px 20px ;
-        font-size: 14px;
-        color: rgb(141, 146, 151);
-        font-weight: 500;
-        width: 70px;
-        text-align: center;
-        align-content: center;
-        cursor: pointer;
-        margin: 0 auto;
+        color: rgb(247, 103, 7);
       }
     </style>
     <script>
@@ -134,7 +120,7 @@
         </ul>
       </div>
       <div style="padding: 8px; width: 450px">
-        <div class="reservation-details" th:each="reserve : ${rsve}">
+        <div class="reservation-details">
           <h4>예약을 확인하고 있어요.</h4>
           <p style="color: rgb(141, 146, 151)">
             병원이 예약을 확인하면, 카톡으로 알려드릴게요
@@ -238,9 +224,9 @@
             <div class="d-flex justify-content-between p-1">
               <div>
                 <div style="color: rgb(141, 146, 151)">
-                  <p th:text="${reserve.clinicName}"></p>
+                  <p>일등이비인후과의원</p>
                 </div>
-                <!-- <div><p>이현호 의사</p></div> -->
+                <div><p>이현호 의사</p></div>
               </div>
               <div>
                 <button
@@ -261,21 +247,22 @@
 
           <div class="reservation-date-time">
             <div style="color: rgb(141, 146, 151)"><p>예약시간</p></div>
-            <p th:text="${reserve.reservationDate + ' ' + reserve.reservationTime}"></p>
+            <p>24.03.22(금), 18:00</p>
             <div class="silver-hr"></div>
           </div>
           <div class="p-2 d-flex align-items-center justify-content-between">
             <div id="cancelReservation" style="cursor: pointer">
               <p>
-                <i class="fa-regular fa-calendar-xmark"></i>&nbsp;&nbsp;
-                예약 취소는 마이페이지에서 가능합니다.
+                <i class="fa-regular fa-calendar-xmark"></i>&nbsp;&nbsp;예약
+                취소하기
               </p>
             </div>
 
             <div style="cursor: pointer">
-              <i class="fa-solid fa-chevron-right" style="color: rgb(141, 146, 151)"></i>
-              <!-- todo : 마이페이지로 링크 이동 -->
-              
+              <i
+                class="fa-solid fa-chevron-right"
+                style="color: rgb(141, 146, 151)"
+              ></i>
             </div>
           </div>
           <div class="silver-hr-block"></div>
@@ -284,16 +271,11 @@
               진료 정보
             </div>
             <div style="color: rgb(141, 146, 151)"><p>증상</p></div>
-            <p th:text="${reserve.reservationSymptom}"></p>
+            <p>ㅇㅇㅇㅇ</p>
           </div>
         </div>
         <div class="spacing-height-16"></div>
         <div class="spacing-height-16"></div>
-        <div class="filter-sort" style="color: royalblue; background-color: #e0ecff; border: 1px solid royalblue; align-content: center;">
-	        <a href="/main-page" style="text-decoration: none; color: inherit; text-align: center;">
-	            확인
-	        </a>
-	    </div>
       </div>
     </div>
   </div>

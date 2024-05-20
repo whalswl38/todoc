@@ -1,0 +1,12 @@
+.metadata/
+bin/*
+.gradle/*
+.gradle/8.7/*
+tmp/
+*.tmp
+*.bak
+*.swp
+.settings/
+.loadpath
+.classpath
+.project

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.todoc.web.dto.Paging;
+import com.todoc.web.dto.Presc;
 import com.todoc.web.dto.Reserve;
 import com.todoc.web.dto.Untact;
 import com.todoc.web.dto.User;
@@ -348,6 +349,41 @@ public class UntactController {
         return "untact/pdf";
     }
     
+    @PostMapping("/prescriptionInsert")
+    public String prescriptionInsert(Model model, HttpServletRequest request, HttpServletResponse response) {
+    	String reservationSeq =request.getParameter("reservationSeq");
+    	String clinicInstinum = request.getParameter("clinicInstinum");
+    	String dose = request.getParameter("dose");
+    	Presc presc = new Presc();
+    	int res= 0;
+    	
+    	List<String> list = new ArrayList<String>();
+    	for(int i = 1; i<=6; i++) {
+    		if(!(StringUtil.isEmpty(request.getParameter("medi"+i)) || request.getParameter("medi"+i).equals("")))
+    			list.add(request.getParameter("medi"+i));
+    	}
+		int idx = 1;
+		String prescriptionSeq = String.valueOf(untactService.getprescriptionSeq());
+    	for(Object var  : list) {
+    		presc.setPrescriptionSeq(prescriptionSeq);
+    		presc.setMedi((String)var);
+    		presc.setClinicInstinum(clinicInstinum);
+    		presc.setDose(dose);
+    		presc.setReservationSeq(Integer.parseInt(reservationSeq));
+    		presc.setOrder(String.valueOf(idx++));
+    		res += untactService.prescriptionInsert(presc);
+    	}
+    	//insert 결과값
+    	if(res > 0) { //성공했을때,
+    		return "untact/prescriptionList";
+    	} else { //실패했을때,
+    		return "untact/prescriptionList";
+    	}
+    	
+    	
+    	
+    }
+    
     @GetMapping("/medicine-page")
     public String test31(Model model, HttpServletRequest request, HttpServletResponse response) {
     	String token = jwtFilter.extractJwtFromCookie(request);
@@ -364,5 +400,6 @@ public class UntactController {
     	
     	return "untact/prescription";
     }
+
 
 }

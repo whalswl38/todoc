@@ -56,7 +56,7 @@
         <result column="CLINIC_NAME" property="clinicName"/>
         <result column="RESERVATION_STATUS" property="reservationStatus"/>
 	</resultMap>
-		
+	
 	<!-- 비대면 병원 리스트 -->
 	<select id="subjectList" parameterType="com.todoc.web.dto.Untact" resultMap="untactResultMap">
 		SELECT * FROM  (
@@ -202,6 +202,7 @@
 		    A.CLINIC_PHONE,
 		    A.CLINIC_NAME,
 		    A.CLINIC_DOCTOR,
+		    B.RESERVATION_SEQ,
 		    C.USER_NAME,
 		    C.USER_IDENTITY
 		FROM
@@ -211,4 +212,22 @@
 		AND A.USER_EMAIL = #{userEmail}
 		AND B.RESERVATION_SEQ = #{reservationSeq}
 	</select>
+	
+	<insert id="prescriptionInsert" parameterType="com.todoc.web.dto.Presc">
+		INSERT INTO TD_PRESCRIPTION(
+	    	PRESCRIPTION_SEQ, PRESCRIPTION_DATE, CLINIC_INSTINUM, MEDICINE_NAME, RESERVATION_SEQ, MEDICINE_DOSE, MEDICINE_ORDER
+		) VALUES (
+		    #{prescriptionSeq},
+		    SYSDATE,
+		    #{clinicInstinum},
+		    #{medi},
+		    #{reservationSeq},
+		    #{dose},
+		    #{order}
+		)
+	</insert>
+	<select id="getprescriptionSeq" resultType="int">
+		SELECT NVL(MAX(PRESCRIPTION_SEQ), 0) +1 FROM TD_PRESCRIPTION
+	</select>
+	
 </mapper>

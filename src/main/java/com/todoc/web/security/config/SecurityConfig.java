@@ -15,7 +15,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todoc.web.security.jwt.JwtAuthorizationFilter;
-
 import com.todoc.web.security.jwt.JwtEntryPoint;
 import com.todoc.web.security.jwt.JwtTokenProvider;
 import com.todoc.web.security.jwt.UserPrincipalDetailsService;

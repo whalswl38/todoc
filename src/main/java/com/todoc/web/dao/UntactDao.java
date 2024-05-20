@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.todoc.web.dto.Presc;
 import com.todoc.web.dto.Reserve;
 import com.todoc.web.dto.Untact;
 
@@ -22,5 +23,9 @@ public interface UntactDao {
 	Reserve reserveCheck(Reserve rsve);
 	
 	Untact precriptionWrite(Untact untact);
+
+	int prescriptionInsert(Presc presc);
+
+	int getprescriptionSeq();
 
 }

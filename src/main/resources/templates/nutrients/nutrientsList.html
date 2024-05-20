@@ -86,7 +86,7 @@
       }
 
       .each-nutrient {
-        width: 180px;
+        width: 140px;
         cursor: pointer;
       }
 
@@ -101,7 +101,9 @@
       }
 
       .each-nutrient-image {
+        width: 100%;
         height: 100%;
+        object-fit: cover;
       }
 
       .each-nutrient-text {
@@ -151,7 +153,6 @@
         { name: "간건강", img: "image/medical-icon/gan.png" },
         { name: "스태미나", img: "image/medical-icon/stemina.png" }
       ];
-
 
       const ingredientObjArr = [
         { name: "글루타치온", img: "image/medical-icon/glu.png" },
@@ -214,12 +215,7 @@
       function goToDetail() {
         window.location.href = "http://localhost:8099/nutrients-detail-page";
       }
-      $(document).ready(function(){
-    	 $("#writeBtn").on("click", function(){
-    		 location.href="/admin/nutrients-write";
-    	 });   
-    	 });
-   </script> 	
+    </script>
   </head>
   <div layout:fragment="content" class="nutrients-list-container">
     <div style="padding: 8px; width: 768px">
@@ -230,11 +226,11 @@
             style="background-color: white; position: relative; height: 48px"
           >
             <div class="d-flex align-items-center" style="gap: 16px">
-              <div class="tab tab-active" id="functionTab">성분별</div>
+              <div class="tab tab-active" id="functionTab">기능별</div>
               <div
                 style="width: 1px; height: 16px; background-color: #fff"
               ></div>
-              <div id="nutrientTab" class="tab">기능별</div>
+              <div id="nutrientTab" class="tab">성분별</div>
             </div>
             <div class="search-container">
               <input
@@ -272,49 +268,9 @@
             style="display: flex; gap: 8px; padding: 4px 0px"
           ></div>
         </div>
-                        
         <div class="silver-hr"></div>
-        <div sec:authorize="hasAuthority('ROLE_ADMIN')">
-                      <button
-			            style="
-			              background-color: #0d6efd;
-			              padding: 5px 6px;
-			              border-radius: 8px;
-			              color: #fff;
-			              margin:3px;
-			              text-align: center;
-			              cursor: pointer;
-			              width:100px;
-			              float: right;
-			              border:none;
-			            "
-			            id="writeBtn"
-			          >
-			            글작성
-			          </button>
-			          <button
-			            style="
-			              background-color: #0d6efd;
-			              padding: 5px 6px;
-			              border-radius: 8px;
-			              color: #fff;
-			              margin:3px;
-			              text-align: center;
-			              cursor: pointer;
-			              width:100px;
-			              float: right;
-			              border:none;
-			            "
-			            onclick="edit()"
-			            id="writeBtn"
-			          >
-			            편집
-			          </button><br>
-		</div>	          
-        <div id="nutrients-list-box" style="padding: 4px 0px; float:center;">	          
-          
-          <div class="container" style="gap: 16px">
-            <div th:each="supple: ${list}">
+        <div id="nutrients-list-box" style="padding: 4px 0px">
+          <div class="row d-flex" style="gap: 16px">
             <div class="each-nutrient">
               <div class="each-nutrient-image-box">
                 <img
@@ -326,13 +282,6 @@
                   <i class="fa-regular fa-heart like"></i>
                 </div>
               </div>
-<<<<<<< HEAD
-              <div class="each-nutrient-text" style="float:center; " onclick="goToDetail()">
-                [[${supple.suppleCompany}]] :: [[${supple.suppleName}]]
-              </div>
-            </div>
-          </div>
-=======
               <div class="each-nutrient-text" onclick="goToDetail()">
                 Now Foods, 비타민-6 함유
               </div>
@@ -444,14 +393,7 @@
                 Now Foods, 비타민-6 함유
               </div>
             </div>
->>>>>>> minjicho
           </div>
-          
-          <div class="row d-flex" style="gap: 16px">
-          </div>
-          
-          </div>
-          
           <div class="spacing-height-16"></div>
           <div
             style="
@@ -465,7 +407,7 @@
               cursor: pointer;
             "
           >
-            + 더보기
+            더보기
           </div>
         </div>
         <div class="spacing-height-16"></div>
@@ -473,11 +415,4 @@
       </div>
     </div>
   </div>
-  
-  <form name="suppleForm" id="suppleForm" method="post">
-  	<input type="hidden" id="searchType" value="" />
-  	<input type="hidden" id="searchValue" value="" />
-  	<input type="hidden" id="suppleSeq" value="" />
-  	<input type="hidden" id="curPage" value="" />
-  </form>
 </html>

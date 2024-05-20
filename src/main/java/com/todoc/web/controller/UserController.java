@@ -68,6 +68,9 @@ public class UserController
 	@PostMapping("/medicalSign")
 	public String medicalSign(@Valid SignUpDto signUpDto, BindingResult bindingResult, Model model,@ModelAttribute MultipartFile clinicFile,@ModelAttribute MultipartFile stampFile) throws IOException
 	{	
+    	log.error("clinicFile : " + clinicFile);
+    	log.error("stampFile : " + stampFile);
+    	
 		if(bindingResult.hasErrors())
 		{
 			model.addAttribute("signUpDto", signUpDto);
@@ -77,6 +80,7 @@ public class UserController
 		Clinic clinic  = new Clinic();
 		Pharmacy pharmacy = new Pharmacy();
 		String type = "";
+		
 		
 		if(signUpDto.getUserType().equals("병의원"))
 		{
@@ -175,6 +179,7 @@ public class UserController
 				return "login/medicalRegister";
 			}
 		}
+		
 	}
     
     // 일반 회원 회원가입 페이지

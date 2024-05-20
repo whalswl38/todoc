@@ -80,9 +80,6 @@
           $(this).addClass("clicked-background");
         });
         
-        $("#medicalBtn").click(function (){
-        	window.location.href = "http://localhost:8099/room-page";
-        });
       });
     </script>
   </head>
@@ -227,7 +224,8 @@
                 opacity: 0.6;
                 cursor:pointer;
               "
-              id="medicalBtn"
+              th:onclick="|location.href='@{room-page(userEmail=${userEmail})}'|"
+
             >
             진료실 입장하기
             </div>

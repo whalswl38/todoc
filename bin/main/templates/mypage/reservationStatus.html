@@ -309,14 +309,14 @@
 	          class="toggle-option selected"
 	          onclick="toggleSwitch('left')"
 	        >
-	          진료대기중
+	          비대면진료
 	        </div>
 	        <div
 	          id="medical-user"
 	          class="toggle-option"
 	          onclick="toggleSwitch('right')"
 	        >
-	          진료완료
+	          대면진료
 	        </div>
      	 </div>
       
@@ -344,18 +344,18 @@
 									<th>예약시간</th>
 									<th>진료실 입장하기</th>
 								</tr>
-								<tr th:each="list : ${list}">
+								<tr th:each="list : ${list}" th:if="${list.status == '예약확인'}">
 									<td th:text="${list.reservationSeq}"></td>	
 									<td th:text="${list.userName}"></td>
 									<td th:text="${list.reservationSymptom}"></td>
-									<td th:text="${list.status}">진료대기중</td>
-									<td th:text="|${list.reservationDate}&nbsp;&nbsp;${list.reservationTime}|">02.22 15:22</td>
+									<td th:text="${list.status}"></td>
+									<td th:text="|${list.reservationDate}&nbsp;&nbsp;${list.reservationTime}|"></td>
 									<td>
 										<p style="padding:1; cursor:pointer;" th:onclick="fn_approve([[${list.reservationSeq}]])"><i class="fa-regular fa-square-check"></i>&nbsp;&nbsp;예약승인하기</p>
                 						<p style="padding:0; cursor:pointer;" th:onclick="fn_cancel([[${list.reservationSeq}]])"><i class="fa-regular fa-calendar-xmark"></i>&nbsp;&nbsp;예약취소하기</p>
                 					</td>
+                					
 								</tr>
-								
 						</table>
 				</div>
 				          

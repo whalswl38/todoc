@@ -52,7 +52,7 @@
 
 <div>
 		<!-- 룸 아이디 번호를 입력하는 input -->
-    <input type="hidden" id="roomIdInput"  value="test1"/>
+    <input type="hidden" id="roomIdInput"  th:value="${contactUserEmail}"/>
 		<!-- 룸 아이디를 입력후 클릭하는 button -->
     <button type="button" id="enterRoomBtn">enter Room</button>
 		<!-- enterRoomBtn 클릭시 나타남, Streams 정보를 담은 Peer 를 웹소켓 ( 시그널링 )   -->

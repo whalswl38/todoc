@@ -178,6 +178,8 @@ public class UserService
 		insertClinicFile.setFileSize(fileSize);
 		insertClinicFile.setClinicInstinum(clinic.getClinicInstinum());
 		
+		
+		
 		try
 		{
 			return userDao.insertClinicFile(insertClinicFile);

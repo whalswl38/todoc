@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.todoc.web.dto.ClinicContact;
 import com.todoc.web.dto.ReservationContact;
 import com.todoc.web.dto.User;
+import com.todoc.web.security.dto.SignUpDto;
 import com.todoc.web.security.jwt.JwtAuthorizationFilter;
 import com.todoc.web.service.ClinicContactService;
 import com.todoc.web.service.ContactLogService;
@@ -341,9 +342,40 @@ public class MypageController {
     
     //의사 회원정보수정
     @GetMapping("/medicalUpdate-page")
-    public String mypageMedical(Model model)
+    public String mypageMedical(HttpServletRequest request, Model model)
     {
-    	return "mypage/medicalUpdate";
+    	String token = jwtFilter.extractJwtFromCookie(request);
+    	String userEmail = jwtFilter.getUsernameFromToken(token);
+    	
+    	if(userEmail != null)
+    	{
+    		ClinicContact clinic = clinicContactService.clinicfindByEmail(userEmail);
+    		
+    		if(clinic != null)
+    		{
+    			model.addAttribute("clinic", clinic);
+    		}
+    		else
+    		{
+    			return "redirect:/main-page";
+    		}
+    	}
+    	else
+    	{
+    		return "redirect:/login-page";
+    	}
+    	
+    	model.addAttribute("signUpDto", new SignUpDto());
+    	
+        return "mypage/medicalUpdate";
+    }
+    
+    //의사 회원정보 수정 ajax
+    @PostMapping("/mypage/medicalUpdate")
+    @ResponseBody
+    public String mypageMedicalUpdate()
+    {
+    	return "";
     }
     
 }

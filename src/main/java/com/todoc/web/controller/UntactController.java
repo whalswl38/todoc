@@ -79,7 +79,7 @@ public class UntactController {
     	String searchWord = request.getParameter("searchWord");
     	String sortType = request.getParameter("sortType");
     	String location = request.getParameter("location");  	
-    	
+    	String status = request.getParameter("status");  	
     	
     	
     	long curPage = 1; 
@@ -95,13 +95,11 @@ public class UntactController {
     	if(searchWord != null)
     	untact.setSearchWord(searchWord);
     	
-    	if(sortType != null) {
-    		untact.setSortType(sortType);
-    	} 
+    	if(sortType != null)
+    	untact.setSortType(sortType);
 
-    	if(location != null) {
-    		untact.setLocation(location);
-    	} 
+    	if(location != null)
+    	untact.setLocation(location);
     	
 		int totalCount = untactService.subjectListCount(untact);
 		if (totalCount > 0) {
@@ -115,6 +113,7 @@ public class UntactController {
 	    		String[] dtm = val.getClinicTime().split(",");
 	    		val.setClinicTime(dtm[dayOfWeekIndex-1]);
 	    		clinicTime = dtm[dayOfWeekIndex-1];
+
 	    		if (clinicTime.equals("휴무")) {
 	    			val.setClinicStatus("N");
 	    			val.setClinicNight("N");
@@ -136,6 +135,18 @@ public class UntactController {
 	    		}
 	    		dtmList.add(val);
 	    	}
+	    	
+	    	List statusList = new ArrayList();
+	    	//진료중 클릭했을때,
+	    	if(!StringUtil.isEmpty(status)) {
+	    		//기존 N ,Y 데이터 모두 가져와서 Y 데이터만 다시 리스트 넣어서 뿌릴거
+	    		for(Untact val : dtmList) {
+	    			if(val.getClinicStatus().equals("Y")) {
+	    				statusList.add(val);
+	    			}
+	    		}
+	    		dtmList = statusList;
+	    	}
 	    	model.addAttribute("subject", dtmList);
 		}
 		
@@ -147,7 +158,7 @@ public class UntactController {
   
     //비대면-병원상세
     @GetMapping("/select-clinic-detail-page")
-    public String test8(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+    public String clinicDetail(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 		String clinicInstinum = request.getParameter("clinicInstinum");
 		List<Untact> reviewList2 = new ArrayList<Untact>(); 
 		Untact untact = new Untact(); 
@@ -184,8 +195,8 @@ public class UntactController {
     }
     
     //비대면-병원예약
-    @GetMapping("/clinic-reserve-page")
-    public String test9(Model model, HttpServletRequest request) {
+    @GetMapping("/clinic-reserve-application-page")
+    public String clinicReserveApp(Model model, HttpServletRequest request) {
     	String token = jwtFilter.extractJwtFromCookie(request);
     	String userEmail = jwtFilter.getUsernameFromToken(token);
     	
@@ -246,7 +257,7 @@ public class UntactController {
     //비대면-진료예약
     @PostMapping("/clinic-reserve-page")
     @ResponseBody
-    public String test11(HttpServletRequest request, HttpServletResponse response) {
+    public String clinicReserve(HttpServletRequest request, HttpServletResponse response) {
     	String token = jwtFilter.extractJwtFromCookie(request);
     	String userEmail = jwtFilter.getUsernameFromToken(token);
     	
@@ -294,7 +305,7 @@ public class UntactController {
 
     //비대면-결제
     @GetMapping("/clinic-reserve-payment-page")
-    public String test10(HttpServletRequest request, HttpServletResponse response) {
+    public String clinicReservePay(HttpServletRequest request, HttpServletResponse response) {
     	String token = jwtFilter.extractJwtFromCookie(request);
     	String userEmail = jwtFilter.getUsernameFromToken(token);
     	
@@ -303,13 +314,33 @@ public class UntactController {
     
     
     @GetMapping("/clinic-reserve-user-page")
-    public String test12() {
+    public String clinicReserveUser(Model model, HttpServletRequest request, HttpServletResponse response) {
+    	String token = jwtFilter.extractJwtFromCookie(request);
+    	String userEmail = jwtFilter.getUsernameFromToken(token);
+    	
+    	Reserve rsve = new Reserve();
+    	
+    	if(!StringUtil.isEmpty(userEmail)) {
+    		rsve.setUserEmail(userEmail);
+    	}
+    	
+    	rsve = untactService.reserveCheck(rsve);
+    	
+    	model.addAttribute("rsve", rsve);
+    	
     	return "untact/reservationUserView";
     }
     
+    //안쓸예정
     @GetMapping("/clinic-reserve-doctor-page")
     public String test13() {
         return "untact/reservationDoctorView";
+    }
+    
+    //약국리스트
+    @GetMapping("/select-pharm-page")
+    public String pharmList() {
+    	return "untact/pharmacyList";
     }
     
     @GetMapping("/pdf-page")
@@ -318,9 +349,19 @@ public class UntactController {
     }
     
     @GetMapping("/medicine-page")
-    public String test31(HttpServletRequest request, HttpServletResponse response) {
+    public String test31(Model model, HttpServletRequest request, HttpServletResponse response) {
     	String token = jwtFilter.extractJwtFromCookie(request);
     	String userEmail = jwtFilter.getUsernameFromToken(token);
+    	
+    	Untact untact = new Untact(); 
+    	Reserve rsve = new Reserve();
+    	
+    	untact.setUserEmail(userEmail);
+    	//todo: 예약에서 시퀀스 받아오기
+    	untact.setReservationSeq(16);
+    	untact = untactService.precriptionWrite(untact);
+    	model.addAttribute("untact", untact);
+    	
     	return "untact/prescription";
     }
 

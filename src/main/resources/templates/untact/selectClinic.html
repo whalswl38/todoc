@@ -226,42 +226,51 @@
                 $(".paging-active").removeClass("paging-active");
                 $(this).addClass("paging-active");
             });
+            
         });
 
         function goToDetail(clinicInstinum) {
-            window.location.href = "http://localhost:8099/select-clinic-detail-page?clinicInstinum=" + clinicInstinum;
+            window.location.href = "/select-clinic-detail-page?clinicInstinum=" + clinicInstinum;
         }
 
         function setSort(sort) {
             $("#sort").removeClass("clicked-background");
-            var sortType; // sortType 변수를 정의합니다.
+            var sortType; 
             var location;
+            var status;
+            
             
            if($("#location").hasClass("clicked-background")){
-        	   location = $("#location-text").text(location);
+               location = $("#location-text").text();
            }else{
         	   location = "";
            }
-            
+           if($("#ing").hasClass("clicked-background")){
+        	   status = "Y";
+           }else{
+        	   status = "";
+           }
+      
             
             if (sort != null && sort != "") {
                 $("#sort-text").text(sort);
                 $("#sort").addClass("clicked-background");
                 if (sort === "평점 높은 순") {
-                    sortType = "grade"; // sortType을 grade로 설정합니다.
+                    sortType = "grade"; 
                 } else if (sort === "리뷰 많은 순") {
-                    sortType = "review"; // sortType을 review로 설정합니다.
+                    sortType = "review"; 
                 } else {
-                    sortType = ""; // 기본값으로 빈 문자열을 설정합니다.
+                    sortType = ""; 
                 }
                 $.ajax({
                     type: "GET",
                     url: "/select-clinic-page",
                     data: {
                         sortType: sortType,
-                        location : location
+                        location : location,
+                        status : status
                     }, 
-                    success: function(data) { // 성공 콜백 함수의 인자를 data로 맞춤
+                    success: function(data) { 
                         var newContent = $(data).find("#root").html();
                         $('#root').html(newContent);
                     },
@@ -288,20 +297,75 @@
             $('#sortModal').modal('hide');
         } */
 
-        function setLocation(location) {
-        	var sortType;
-        	if($("#sort").hasClass("clicked-background")){
+        function setStatus(){
+        	var sortType; 
+            var location;
+            var status; 
+        	
+            // 정렬방식 세팅
+            if($("#sort").hasClass("clicked-background")){
         		if ($("#sort-text").text() === "평점 높은 순") {
-                    sortType = "grade"; // sortType을 grade로 설정합니다.
+                    sortType = "grade"; 
                 } else if ($("#sort-text").text() === "리뷰 많은 순") {
-                    sortType = "review"; // sortType을 review로 설정합니다.
+                    sortType = "review"; 
                 } else {
-                    sortType = ""; // 기본값으로 빈 문자열을 설정합니다.
+                    sortType = ""; 
                 }
         	}else{
         		sortType = "";
         	}
+        	// 같이 던질 로케이션 값 세팅
+        	if($("#location").hasClass("clicked-background")){
+               	 location = $("#location-text").text();
+               }else{
+            	   location = "";
+               }
+               
+        	//진료중 값 세팅 빈값이면 검색안하게끔
+        	if($("#ing").hasClass("clicked-background")){
+                status = "";
+        	}else{
+                status = "Y";
+        	}
         	
+        	$.ajax({
+                type: "GET",
+                url: "/select-clinic-page",
+                data: {
+                	location: location,
+                    sortType: sortType,
+                    status: status
+                }, 
+                success: function(data) { 
+                    var newContent = $(data).find("#root").html();
+                    $('#root').html(newContent);
+                },
+                error: function(xhr, status, error) {
+                    console.error('오류 발생');
+                }
+            });
+        }
+        
+        function setLocation(location) {
+        	var sortType;
+        	var status;
+        	
+        	if($("#sort").hasClass("clicked-background")){
+        		if ($("#sort-text").text() === "평점 높은 순") {
+                    sortType = "grade"; 
+                } else if ($("#sort-text").text() === "리뷰 많은 순") {
+                    sortType = "review"; 
+                } else {
+                    sortType = ""; 
+                }
+        	}else{
+        		sortType = "";
+        	}
+        	   if($("#ing").hasClass("clicked-background")){
+            	   status = $("#-text").text();
+               }else{
+            	   status = "";
+               }
         	
             $("#location").removeClass("clicked-background");
             if (location != null && location != "") {
@@ -320,9 +384,10 @@
                 url: "/select-clinic-page",
                 data: {
                 	location: location,
-                    sortType: sortType
+                    sortType: sortType,
+                    status : status
                 }, 
-                success: function(data) { // 성공 콜백 함수의 인자를 data로 맞춤
+                success: function(data) { 
                     var newContent = $(data).find("#root").html();
                     $('#root').html(newContent);
                 },
@@ -330,9 +395,6 @@
                     console.error('오류 발생');
                 }
             });
-            
-            
-            
         }
         
         function setCurPage(data){
@@ -402,8 +464,7 @@
                             <i class="fa-solid fa-location-crosshairs" style="font-size: 12px"></i>
                             <span id="location-text">현재 내 위치</span>
                         </div>
-                        <div class="filter-box">진료중</div>
-                        <div class="filter-box">야간진료</div>
+                        <div id="ing" class="filter-box" th:onclick="setStatus();">진료중</div>
                     </div>
                     <div class="spacing-height-16"></div>
                     <div class="spacing-height-16"></div>
@@ -440,25 +501,6 @@
 	                    </div>
                     </div>
                 </div>
-                <!-- 페이징 영역 -->
-<!-- 				<nav>
-			        <ul class="pagination justify-content-center">
-				     	<th:block th:if="${paging != null}">
-				     		<th:block th:if="${paging.prevBlockPage gt 0}">
-			         			<li class="page-item"><a class="page-link" href="javascript:void(0)" th:onclick="fn_list(${paging.prevBlockPage})">이전블럭</a></li>
-							</th:block>
-							<th:block th:each="i : ${#numbers.sequence(paging.startPage, paging.endPage)}">
-								<th:block th:if="${i != curPage}">
-									<li class="page-item"><a class="page-link" th:onclick="'setCurPage(' + ${i} + ')'" href="javascript:void(0)" th:text="${i}" ></a></li>
-								</th:block>
-								<th:block th:if="${i == curPage}"> 
-									<li class="page-item active"><a class="page-link" href="javascript:void(0)" style="cursor:default;" th:text="${i}"></a></li>
-								</th:block>
-							</th:block>
-				     	</th:block>
-			     	</ul>
-				</nav> -->
-				
 				 <div class="page_wrap">
 				     <div class="page_nation">
 				     <th:block th:if="${paging != null}">
@@ -488,9 +530,6 @@
                         <h5 class="modal-title" id="sortModalLabel">어떤 기준으로 정렬할까요?</h5>
                     </div>
                     <div class="modal-body">
-<!--                         <div class="sort-box" onclick="setSort('가까운순')" data-bs-dismiss="modal">
-                            가까운순
-                        </div> -->
                         <div class="sort-box" onclick="setSort('평점 높은 순')" data-bs-dismiss="modal">
                             평점 높은 순
                         </div>
@@ -544,7 +583,7 @@
             </div>
         </div>
 
-		<div class="map_wrap">
+		<div class="map_wrap" style="display:none">
 		    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
 		    <div class="hAddr">
 		        <span class="title">지도중심기준 행정동 주소정보</span>
@@ -554,7 +593,7 @@
 		<script type="text/javascript">
 			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 			    mapOption = {
-			        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+			        center: new kakao.maps.LatLng(37.5565072,126.9195033), // 지도의 중심좌표
 			        level: 1 // 지도의 확대 레벨
 			    };  
 			
@@ -623,6 +662,6 @@
 			    }    
 			}
 		</script>
-		</div>
+	</div>
 </body>
 </html>

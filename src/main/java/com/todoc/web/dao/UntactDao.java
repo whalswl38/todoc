@@ -18,5 +18,9 @@ public interface UntactDao {
 	int subjectListCount(Untact untact);
 
 	int insertReservation(Reserve rsve);
+	
+	Reserve reserveCheck(Reserve rsve);
+	
+	Untact precriptionWrite(Untact untact);
 
 }

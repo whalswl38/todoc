@@ -43,6 +43,7 @@ dependencies {
    
    // json
    implementation 'org.json:json:20210307'
+   implementation 'com.google.code.gson:gson:2.7'
    
    // sms
    implementation group: 'net.nurigo', name: 'javaSDK', version: '2.2'
@@ -50,6 +51,11 @@ dependencies {
    // jwt
    implementation 'com.auth0:java-jwt:4.2.1'
    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+   
+   //PDF
+	implementation 'com.itextpdf:itextpdf:5.5.13.3'
+	implementation 'com.itextpdf.tool:xmlworker:5.5.13.3'
+	implementation 'com.itextpdf:pdfa:7.2.3'
 }
 
 tasks.named('test') {

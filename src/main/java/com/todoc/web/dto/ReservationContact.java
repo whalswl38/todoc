@@ -16,7 +16,10 @@ public class ReservationContact {
 	
 	
 	
-	
+	//예약확인 리스트
+	private String userName;
+	private String clinicDoctor;
+	private String clinicName;
 
 
 	

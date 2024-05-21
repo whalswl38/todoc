@@ -584,6 +584,125 @@ public class ClinicContactService {
 		 return "N";
 	 }
 	
+	//예약확인 리스트
+		 public List<ReservationContact> reservationList(String clinicInstinum)
+		 {
+			 List<ReservationContact> list = null;
+			 
+			 try
+			 {
+				 list = clinicContactDao.reservationList(clinicInstinum);
+			 }
+			 catch(Exception e)
+			 {
+				 logger.error("[ClinicContactService] reservationList Exception",e);
+			 }
+			 return list;
+		 }
+		 
+		 
+		 //예약확인 의사 상세
+		 public ClinicContact clinicListView(String userEmail)
+		 {
+			 ClinicContact clinic = null;
+			 
+			 try
+			 {
+				 clinic = clinicContactDao.clinicListView(userEmail);
+			 }
+			 catch(Exception e)
+			 {
+				 logger.error("[ClinicContactService] clinicListView Exception",e);
+			 }
+			 
+			 return clinic;
+		 }
+		 
+		 //예약리스트 예약승인
+		 public int reservationApprove(long reservationSeq)
+		 {
+			 int count = 0;
+			 
+			 try
+			 {
+				 count = clinicContactDao.reservationApprove(reservationSeq);
+			 }
+			 catch(Exception e)
+			 {
+				 logger.error("[ClinicContactService] reservationApprove Exception",e);
+			 }
+			 
+			 return count;
+		 }
+		 
+		 //예약리스트 예약취소
+		 public int reservationCancel(long reservationSeq)
+		 {
+			 int count = 0;
+			 
+			 try
+			 {
+				 count = clinicContactDao.reservationCancel(reservationSeq);
+			 }
+			 catch(Exception e)
+			 {
+				 logger.error("[ClinicContactService] reservationCancel Exception",e);
+			 }
+			 
+			 return count;
+		 }
+		 
+		 //예약승인 리스트 토탈카운트
+		 public int reservationListTotal(String clinicInstinum)
+		 {
+			 int count = 0;
+			 
+			 try
+			 {
+				 count = clinicContactDao.reservationListTotal(clinicInstinum);
+			 }
+			 catch(Exception e)
+			 {
+				 logger.error("[ClinicContactService] reservationListTotal Exception",e);
+			 }
+			 
+			 return count;
+		 }
+		 
+		 //진료 대기 리스트 토탈카운트
+		 public int contactListTotal(String clinicInstinum)
+		 {
+			 int count = 0;
+			 
+			 try
+			 {
+				 count = clinicContactDao.contactListTotal(clinicInstinum);
+			 }
+			 catch(Exception e)
+			 {
+				 logger.error("[ClinicContactService] contactListTotal Exception",e);
+			 }
+			 
+			 return count;
+		 }
+		 
+		 
+		 //이메일로 병원 정보 불러오기
+		 public ClinicContact clinicfindByEmail(String userEmail)
+		 {
+			 ClinicContact clinic = null;
+			 
+			 try
+			 {
+				 clinic = clinicContactDao.clinicfindByEmail(userEmail);
+			 }
+			 catch(Exception e)
+			 {
+				 logger.error("[ClinicContactService] clinicfindByEmail Exception",e);
+			 }
+			 
+			 return clinic;
+		 }
 	
 	
 }

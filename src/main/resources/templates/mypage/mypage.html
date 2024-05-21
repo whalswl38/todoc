@@ -39,7 +39,7 @@
 
       .status-process {
         width: 54px;
-        height: 2px;
+        height: 1px;
         margin-top: 8px;
         background-color: #a9aeb1;
         position: absolute;
@@ -62,9 +62,16 @@
         margin-bottom: 4px;
       }
 
-      .status-active {
-        color: royalblue;
-      }
+      @keyframes blink-effect {
+		  50% {
+		    opacity: 0;
+		  }
+		}
+
+		.blink {
+		  animation: blink-effect 1s step-end infinite;
+		
+		}
     </style>
     <script>
       $(document).ready(function () {
@@ -73,9 +80,6 @@
           $(this).addClass("clicked-background");
         });
         
-        $("#medicalBtn").click(function (){
-        	window.location.href = "http://localhost:8099/room-page";
-        });
       });
     </script>
   </head>
@@ -121,35 +125,42 @@
           
           <div class="d-flex justify-content-between align-items-center" >
             <div><h4>진료 신청</h4></div>
+            
             <div>
-              <h6 style="color: dodgerblue; cursor: pointer">진료 취소</h6>
+              <h6 style="color: red; cursor: pointer">진료 취소</h6>
             </div>
+            
           </div>
 
+		
           <div class="spacing-height-16"></div>
+          
+          
           <div
             class="status-container d-flex justify-content-center"
-            style="gap: 40px"
+            style="gap: 80px"
           >
             <div class="status" style="flex-direction: column">
               <div class="status-icon">
                 <i
                   class="fa-solid fa-circle"
-                  style="color: rgb(141, 146, 151)"
+                  style="color: royalblue; )"
                 ></i>
               </div>
-              <div>접수</div>
-              <div class="status-process"></div>
+              <div >접수</div>	
+              <div class="status-process"
+               	style="width: 90px; right: -88px"
+               ></div>
             </div>
 
             <div class="status" style="flex-direction: column">
-              <div class="status-icon status-icon-active">
+              <div class="status-icon">
                 <i class="fa-solid fa-circle" ></i>
               </div>
-              <div class="status-active">접수완료</div>
+              <div class="status">접수완료</div>	<!-- 예약확인 처음 진료신청하고나면 -->
               <div
                 class="status-process"
-                style="width: 76px; right: -64px"
+                style="width: 90px; right: -89px"
               ></div>
             </div>
 
@@ -157,13 +168,14 @@
               <div class="status-icon">
                 <i
                   class="fa-solid fa-circle"
-                  style="color: rgb(141, 146, 151)"
+                  style="color: rgb(141, 146, 151); 
+                  			"
                 ></i>
               </div>
-              <div>진료실 입장</div>
+              <div>진료실 입장</div>			<!-- 예약확정 예약승인누르면 -->
               <div
                 class="status-process"
-                style="width: 68px; right: -44px"
+                style="width: 90px; right: -73px"
               ></div>
             </div>
             <div class="status" style="flex-direction: column">
@@ -212,13 +224,24 @@
                 opacity: 0.6;
                 cursor:pointer;
               "
-              id="medicalBtn"
+              th:onclick="|location.href='@{room-page(userEmail=${userEmail})}'|"
+
             >
             진료실 입장하기
             </div>
           </div>
           
           </div>
+			
+			
+			<!-- 
+			<div style="width:700px; height:150px;     border-radius: 8px; bold_
+				    padding: 16px; display: inline;
+				    text-align: center;">
+    		<h2>진료신청중이 아닙니다.</h2>
+    		</div>
+    		-->
+		
           
           <div class="silver-hr"></div>
 

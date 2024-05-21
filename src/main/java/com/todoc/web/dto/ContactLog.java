@@ -21,5 +21,5 @@ public class ContactLog {
     private int payPrice;
     private String payDate;
     
-  
+    private long reviewSeq;
 }

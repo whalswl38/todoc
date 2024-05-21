@@ -149,7 +149,103 @@
 		   AND RESERVATION_DATE = #{reservationDate}
 	</select>
 	
-
+	<!-- 예약확인 리스트 -->
+	<select id="reservationList" parameterType="String" resultMap="ReservationContactMap">
+		SELECT RESERVATION_SEQ,
+		        USER_EMAIL,
+		        USER_NAME,
+		        CLINIC_DOCTOR,
+		        CLINIC_NAME,
+		        CLINIC_INSTINUM,
+		        RESERVATION_DATE,
+		        RESERVATION_TIME,
+		        RESERVATION_SYMPTOM,
+		        RESERVATION_FLAG,
+		        REGDATE,
+		        STATUS
+		  FROM ( SELECT ROWNUM RNUM,
+		                RESERVATION_SEQ,
+		                USER_EMAIL,
+		                USER_NAME,
+		                CLINIC_DOCTOR,
+		                CLINIC_NAME,
+		                CLINIC_INSTINUM,
+		                RESERVATION_DATE,
+		                RESERVATION_TIME,
+		                RESERVATION_SYMPTOM,
+		                RESERVATION_FLAG,
+		                REGDATE,
+		                STATUS
+		          FROM ( SELECT A.RESERVATION_SEQ RESERVATION_SEQ,
+		                        NVL(A.USER_EMAIL, '') USER_EMAIL,
+		                        NVL(B.USER_NAME, '') USER_NAME,
+		                        NVL(C.CLINIC_DOCTOR, '') CLINIC_DOCTOR,
+		                        NVL(C.CLINIC_NAME, '') CLINIC_NAME,
+		                        NVL(A.CLINIC_INSTINUM, '') CLINIC_INSTINUM,
+		                        NVL(TO_CHAR(A.RESERVATION_DATE, 'YYYY.MM.DD'), '') RESERVATION_DATE,
+		                        NVL(A.RESERVATION_TIME, '') RESERVATION_TIME,
+		                        NVL(A.RESERVATION_SYMPTOM, '') RESERVATION_SYMPTOM,
+		                        NVL(A.RESERVATION_FLAG, '') RESERVATION_FLAG,
+		                        NVL(TO_CHAR(A.REGDATE, 'YYYY.MM.DD HH24:MI'), '') REGDATE,
+		                        NVL(A.RESERVATION_STATUS, '') STATUS
+		                  FROM TD_RESERVATION A, TD_USER B, TD_CLINIC C
+		                 WHERE A.USER_EMAIL = B.USER_EMAIL
+		                   AND A.CLINIC_INSTINUM = C.CLINIC_INSTINUM
+		                   AND A.CLINIC_INSTINUM = #{value}
+		                 ORDER BY A.RESERVATION_TIME ASC, A.RESERVATION_SEQ ASC))
+		 WHERE RNUM <![CDATA[>=]]> 0
+			   AND RNUM <![CDATA[<=]]> 10
+		
+	</select>
+	
+	
+	<select id="clinicListView" parameterType="String" resultMap="ClinicContactMap">
+		SELECT CLINIC_INSTINUM,
+			   NVL(CLINIC_DOCTOR, ''), CLINIC_DOCTOR,
+			   NVL(CLINIC_NAME, '') CLINIC_NAME
+		   FROM TD_CLINIC
+		 WHERE USER_EMAIL = #{value}
+	</select>
+	
+	<!-- 예약리스트에서 예약 승인 -->
+	<update id="reservationApprove" parameterType="long">
+			UPDATE TD_RESERVATION
+			   SET RESERVATION_STATUS = '예약확정'
+			 WHERE RESERVATION_SEQ = #{value}
+	</update>
+	
+	<!-- 예약리스트에서 예약 취소 -->
+	<update id="reservationCancel" parameterType="long">
+			UPDATE TD_RESERVATION
+			   SET RESERVATION_STATUS = '예약취소'
+			 WHERE RESERVATION_SEQ = #{value}
+	</update>
+	
+	<!-- 예약승인/취소 리스트 토탈카운트 -->
+	<select id="reservationListTotal" parameterType="String" resultType="int">
+		SELECT COUNT(CLINIC_INSTINUM)
+		  FROM TD_RESERVATION
+		 WHERE RESERVATION_STATUS = '예약확인'
+		   AND CLINIC_INSTINUM = #{value}
+	</select>
+	
+	<!-- 진료 대기 리스트 -->
+	<select id="contactListTotal" parameterType="String" resultType="int">
+		SELECT COUNT(CLINIC_INSTINUM)
+		  FROM TD_RESERVATION
+		 WHERE RESERVATION_STATUS = '예약확정'
+		   AND CLINIC_INSTINUM = #{value}
+	</select>
+	
+	<!-- 이메일로 의사 정보 불러오기 -->
+	<select id="clinicfindByEmail" parameterType="String" resultMap="ClinicContactMap">
+		SELECT USER_EMAIL,
+		       CLINIC_DOCTOR,
+		       CLINIC_NAME,
+		       CLINIC_INSTINUM
+		  FROM TD_CLINIC
+		 WHERE USER_EMAIL = #{value}
+	</select>
 	
 
 	

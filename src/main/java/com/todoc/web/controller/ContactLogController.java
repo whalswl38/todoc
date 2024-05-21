@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.todoc.web.dao.Paging;
 import com.todoc.web.dto.ContactLog;
 import com.todoc.web.security.jwt.JwtAuthorizationFilter;
 import com.todoc.web.service.ContactLogService;
@@ -72,28 +71,26 @@ public class ContactLogController {
 	 @GetMapping("/medical-history-detail-page")
 	    public String contactViewList(HttpServletRequest request, Model model, @RequestParam(value="contactSeq", defaultValue="0") long contactSeq) 
 	 	{
-		 	logger.error("contactSeq : " + contactSeq);
 		 	 
 		 	ContactLog contactLog = null;
-		 	Paging paging = null;
 		 	
 			 String token = jwtFilter.extractJwtFromCookie(request);
 	    	 String userEmail = jwtFilter.getUsernameFromToken(token);
-		    
-	    	 int totalCount = 0;
-	    	 
-	    	 totalCount = contactLogService.contactLogTotal(userEmail);
 	    	 
 	    	 
 	    	 if(!userEmail.isEmpty())
 	    	 {
-	    		 if(totalCount > 0 && contactSeq != 0)
+	    		 if(contactSeq != 0)
 	    		 {
 	    			 contactLog = contactLogService.contactViewList(contactSeq);
 	    			 
-	    			 if(contactLog != null)
+	    			 int reviewCheck = contactLogService.contactSeqCheck(contactSeq);
+	    			 
+	    			 
+	    			 if(contactLog != null && reviewCheck != 0)
 	    			 {
 	    				 model.addAttribute("contactLog", contactLog);
+	    				 model.addAttribute("reviewSeq", reviewCheck);
 	    			 }
 	    		 }
 	    	 }

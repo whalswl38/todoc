@@ -27,5 +27,7 @@ public class Review {
 	
 	private int startRow;
 	private int endRow;
+	
+	private long contactSeq;
 }
 

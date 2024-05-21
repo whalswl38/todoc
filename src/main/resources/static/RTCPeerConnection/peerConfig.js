@@ -237,7 +237,7 @@ const setLocalAndSendMessage = (pc ,sessionDescription) =>{
 document.querySelector('#enterRoomBtn').addEventListener('click', async () =>{
     await startCam();
 
-
+	
     roomId = document.querySelector('#roomIdInput').value;
     document.querySelector('#roomIdInput').disabled = true;
     document.querySelector('#enterRoomBtn').disabled = true;
@@ -258,6 +258,7 @@ document.querySelector('#enterRoomBtn').addEventListener('click', async () =>{
     }
     
     roomId = document.querySelector('#roomIdInput').value;
+    console.log("roomId : " + roomId);
     document.querySelector('#roomIdInput').disabled = true;
     document.querySelector('#enterRoomBtn').disabled = true;
 	

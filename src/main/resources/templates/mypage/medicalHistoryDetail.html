@@ -145,12 +145,30 @@
               <div>
                 <h4 style="margin-bottom: 0">진료</h4>
               </div>
+              
+              
               <div
                 class="review-btn"
                 th:onclick="|location.href='@{review-page(contactSeq=${contactLog.contactSeq})}'|"
+                th:if="${reviewSeq == 0}"
               >
                 리뷰작성
               </div>
+              
+            
+               <div
+                class="review-btn"
+                style="	color: rgb(141, 146, 151);
+    					background: rgb(247, 249, 250);
+    					border: 1px solid;
+    					pointer-events: none;
+    					"
+    			th:if="${reviewSeq != 0}"
+              >
+                작성완료
+              </div>
+             
+              
             </div>
             <div class="spacing-height-8"></div>
             <div style="color: rgb(141, 146, 151)">
@@ -184,7 +202,7 @@
             <div class="spacing-height-16"></div>
             <div>
               <div style="font-weight: 500">진료비</div>
-              <div><h5 th:text="|${#numbers.formatInteger(contactLog.payPrice, 0, 'COMMA')}원|"></h5></div>
+              <div><h5>5,500원</h5></div>
               <div style="color: rgb(141, 146, 151)">
                 <p style="padding: 8px 0px 0px 0px" th:text="|승인일시 : ${contactLog.payDate}|">
                 </p>

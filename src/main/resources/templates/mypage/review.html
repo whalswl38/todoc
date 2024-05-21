@@ -235,10 +235,12 @@
        			return;
        		}
         	
+        	var contactSeq = [[${contactSeq}]];
         	var reviewWrite = {
         			reviewTitle : $("#diagnosis-title").val(),
  	        	 	reviewContent : $("#diagnosis-comments").val(),
- 	        	 	reviewGrade : $("input[name=rating]:checked").val()
+ 	        	 	reviewGrade : $("input[name=rating]:checked").val(),
+ 	        	 	contactSeq : contactSeq
         	}
         	
         	$.ajax({
@@ -272,7 +274,7 @@
 	    	       },
 	    	       error: function(xhr,err)
 	    	       {
-	                  alert("관리자에게 문의하세요.");
+	                  alert("리뷰작성 실패");
 	    	       }
 	    	    });
         });
@@ -329,6 +331,7 @@
                   placeholder="예시) 몸살 감기"
                   class="form-control"
                 />
+                <input type="hidden" id="contactSeq"  />
               </div>
               <div
                 class="d-flex"

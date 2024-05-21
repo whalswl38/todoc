@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.todoc.web.dao.UntactDao;
+import com.todoc.web.dto.Presc;
 import com.todoc.web.dto.Reserve;
 import com.todoc.web.dto.Untact;
 
@@ -136,4 +137,21 @@ public class UntactService {
 	public int insertReservation(Reserve rsve) {
 		return untactDao.insertReservation(rsve);
 	}
+	
+	public Reserve reserveCheck(Reserve rsve) {
+		 return untactDao.reserveCheck(rsve);
+	}
+	
+	public Untact precriptionWrite(Untact untact) {
+		return untactDao.precriptionWrite(untact);
+	}
+
+	public int prescriptionInsert(Presc presc) {
+		return untactDao.prescriptionInsert(presc);
+	}
+
+	public int getprescriptionSeq() {
+		return untactDao.getprescriptionSeq();
+	}
+	
 }

@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class Reserve {
-	private String reservationSeq;
+	private long reservationSeq;
 	private String userEmail;
 	private String clinicInstinum;
 	private String reservationDate;

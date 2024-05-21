@@ -10,12 +10,12 @@
     <title>Custom Header Example</title>
     <style>
         @font-face {
-	    font-family: 'GmarketSansMedium';
-	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-	    font-weight: normal;
-	    font-style: normal;
-		}
-	</style>
+       font-family: 'GmarketSansMedium';
+       src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+       font-weight: normal;
+       font-style: normal;
+      }
+   </style>
   </head>
   <body>
     <header th:fragment="header">
@@ -48,7 +48,7 @@
             <li sec:authorize="hasAuthority('ROLE_MEDICAL')">
               <a href="/medical" th:href="@{/medical}">medical</a>
             </li>
-     		<li sec:authorize="hasAuthority('ROLE_USER')">
+           <li sec:authorize="hasAuthority('ROLE_USER')">
               <a href="/user" th:href="@{/mypage-page}">마이페이지</a>
             </li>
             <li sec:authorize="isAuthenticated()">
@@ -56,7 +56,7 @@
             <!-- <li sec:authorize="hasAuthority('ROLE_ADMIN')">
               <a href="/admin" th:href="@{/admin}">Admin</a>
             </li> -->
-            
+
             
             <li sec:authorize="isAuthenticated()">
               <a href="/user" th:href="@{/logout}">로그아웃</a>

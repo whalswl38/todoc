@@ -113,7 +113,7 @@ public class MegazinesController {
 	    	if(userEmail == null) {
 	    		return "login/login";
 	    	}else {
-	    		if(!"ADMIN".equals(userService.findByEmail(userEmail))) {
+	    		if(!"ADMIN".equals(userService.findByEmail(userEmail).getUserType())) {
 	    			return "redirect:/logout";
 	    		}
 	    	}

@@ -20,8 +20,6 @@ import com.todoc.web.security.jwt.JwtAuthorizationFilter;
 import com.todoc.web.service.MegazinesService;
 import com.todoc.web.service.UserService;
 
-
-
 @Controller
 @RequestMapping
 public class MegazinesController {
@@ -113,7 +111,7 @@ public class MegazinesController {
 	    	if(userEmail == null) {
 	    		return "login/login";
 	    	}else {
-	    		if(!"ADMIN".equals(userService.findByEmail(userEmail))) {
+	    		if(!"ADMIN".equals(userService.findByEmail(userEmail).getUserType())) {
 	    			return "redirect:/logout";
 	    		}
 	    	}

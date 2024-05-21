@@ -11,6 +11,7 @@
 		<result column="REVIEW_GRADE" property="reviewGrade" />
 		<result column="USER_NAME" property="userName" />
 		<result column="CLINIC_INSTINUM" property="clinicInstinum" />
+		<result column="CONTACT_SEQ" property="contactSeq" />
 	</resultMap>
 	
 	<!-- 리뷰리스트 -->
@@ -41,7 +42,8 @@
 			       REVIEW_GRADE,
 			       USER_NAME,
 			       CLINIC_NAME,
-			       CLINIC_DOCTOR
+			       CLINIC_DOCTOR,
+			       CONTACT_SEQ
 			  FROM(SELECT ROWNUM RNUM,
 			               REVIEW_SEQ,
 			               USER_EMAIL,
@@ -51,7 +53,8 @@
 			               REVIEW_GRADE,
 			               USER_NAME,
 			               CLINIC_NAME,
-			               CLINIC_DOCTOR
+			               CLINIC_DOCTOR,
+			               CONTACT_SEQ
 			          FROM (SELECT A.REVIEW_SEQ,
 			                       NVL(B.USER_EMAIL, '') USER_EMAIL,
 			                       NVL(A.REVIEW_TITLE, '') REVIEW_TITLE,
@@ -60,7 +63,8 @@
 			                       NVL(A.REVIEW_GRADE, '') REVIEW_GRADE,
 			                       NVL(B.USER_NAME, '') USER_NAME,
 			                       NVL(C.CLINIC_NAME, '') CLINIC_NAME,
-			                       NVL(C.CLINIC_DOCTOR, '') CLINIC_DOCTOR
+			                       NVL(C.CLINIC_DOCTOR, '') CLINIC_DOCTOR,
+			                       NVL(A.CONTACT_SEQ, '') CONTACT_SEQ
 			                  FROM TD_REVIEW A, TD_USER B, TD_CLINIC C
 			                 WHERE A.USER_EMAIL = B.USER_EMAIL
 			                   AND A.CLINIC_INSTINUM = C.CLINIC_INSTINUM

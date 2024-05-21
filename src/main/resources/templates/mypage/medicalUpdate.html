@@ -5,7 +5,7 @@
   layout:decorate="~{layouts/layout}"
 >
   <head>
-    <title>Registration Form</title>
+    <title>Mypage Medical</title>
     <style>
       .container {
         max-width: 768px;
@@ -227,6 +227,7 @@
     		  
         	  if($.trim($("#userType").val()).length <= 0)
               {
+        		  ("$")
         		  document.getElementById('typeError').innerHTML = "가입유형을 선택하셔야합니다.";
         		  return;
               }
@@ -518,9 +519,10 @@
         </div><br><br>
 		</div>
 		
-		<div class="col-md-12">
+		<div class="row d-flex justify-content-between">
+        <div class="col-md-8">
         <div class="input-group">
-            <span class="input-group-text wide-span" ><span style="color: red; margin-right: 4px;">*</span>가입유형</span>
+            <span class="input-group-text wide-span" >가입유형</span>
             <div class="d-flex justify-content-center align-items-center require-background">
               <div class="form-check">
                 <input name="medicalType" class="form-check-input" type="radio" value="병의원" onclick="div_show(this.value)" checked>
@@ -540,7 +542,7 @@
           <p id="typeError"></p>
           
           <div class="input-group">
-            <span class="input-group-text short-span" ><span style="color: red; margin-right: 4px;">*</span>진료방식</span>
+            <span class="input-group-text wide-span" >진료방식</span>
             <div class="d-flex justify-content-center align-items-center  require-background">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" name="contact" id="visitCheck" value="대면" onclick='getCheckboxValue()'>
@@ -560,7 +562,7 @@
       	  <p id="contactError"></p>
       	  
       	  <div class="input-group" id="weekendNight">
-            <span class="input-group-text short-span" ><span style="color: red; margin-right: 4px;"></span> 추가 진료여부</span>
+            <span class="input-group-text wide-span" ><span style="color: red; margin-right: 4px;"></span> 추가 진료여부</span>
             <div class="d-flex justify-content-center align-items-center  require-background">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" name="nightWeekend" id="weekendCheck">
@@ -579,17 +581,18 @@
           <input type="hidden" th:field="*{night}" value="" class="form-control" />
           <input type="hidden" th:field="*{weekend}" value="" class="form-control" />
       
-          <div class="input-group">
-            <span class="input-group-text short-span" ><span style="color: red; margin-right: 4px;">*</span>요양기관번호</span>
+          <div class="input-group" >
+            <span class="input-group-text wide-span" ><span style="color: red; margin-right: 4px;">*</span>요양기관번호</span>
             <input
               type="text"
               placeholder=""
-              th:field="*{institutionNum}" class="form-control"
+              class="form-control"
+              th:value="${clinic.clinicInstinum}"
             />
-            <span class="input-group-text" style="background-color: #fff; border-left: none;"><button id="regC" type="button" style="width: 84px; font-size: 12px; border-radius: 4px;" onclick="checkInstitution()">가입여부 확인</button></span>
+            <span class="input-group-text" style="background-color: #fff; border-left: none;" ><button id="regC" type="button" style="width: 84px; font-size: 12px; border-radius: 4px;" onclick="checkInstitution()">가입여부 확인</button></span>
           </div>
           <div class="input-group">
-            <span class="input-group-text short-span" ><span style="color: red; margin-right: 4px;">*</span>요양기관명</span>
+            <span class="input-group-text wide-span" >요양기관명</span>
             <input
               type="text"
               placeholder=""
@@ -601,8 +604,8 @@
           <p id="institutionError"></p>
           
           <div class="input-group">
-            <span class="input-group-text short-span" 
-              ><span style="color: red; margin-right: 4px;">*</span>사업자등록번호</span
+            <span class="input-group-text wide-span" 
+              >사업자등록번호</span
             >
             <input
               type="text"
@@ -613,29 +616,28 @@
           <p th:if="${#fields.hasErrors('regNum')}" th:errors="*{regNum}" id="error">Incorrect date</p>
           
           <div class="input-group">
-            <span class="input-group-text short-span" ><span style="color: red; margin-right: 4px;">*</span>이메일</span>
+            <span class="input-group-text wide-span" >이메일</span>
             <div class="d-flex align-items-center  require-background-bottom">
               <div class="input-group" style="padding: 8px; width: 80%;">
-                <input type="text" th:field="*{userEmail}" class="form-control" placeholder="" >
+                <input type="text"  class="form-control" placeholder=""  th:value="test">
               </div>
-           <span class="input-group-text" style="background-color: #fff; border-left: none;"><button id="emailC" type="button" style="width: 84px; font-size: 12px; border-radius: 4px;" onclick="checkDuplicateEmail()">이메일 중복검색</button></span>
             </div>
           </div>
           <p th:if="${#fields.hasErrors('userEmail')}" th:errors="*{userEmail}" id="error">Incorrect date</p>
           <p id="emailError"></p>
           
            <div class="input-group">
-            <span class="input-group-text short-span" ><span style="color: red; margin-right: 4px;">*</span>비밀번호</span>
+            <span class="input-group-text wide-span" >비밀번호</span>
             <input
-              type="password"
-              placeholder="영문+숫자 각 1자 이상 포함하여 9~12자"
-              th:field="*{userPwd}" class="form-control"
+              type="text"
+              style="cursor:pointer; color:royalblue; text-align:center; font-weight: 700; "
+              class="form-control"
+              th:onclick="|location.href='@{/login/findPwd'}|"
+              value="비밀번호 재설정하러가기"
             />
-            <span class="input-group-text">          
-              <div class="password-hide" style="display: block" onclick="togglePasswordHide()"><i class="fa-solid fa-eye"></i></div>
-              <div class="password-unhide" style="display: none" onclick="togglePasswordHide()"><i class="fa-solid fa-eye-slash"></i></div></span>
           </div>
           <p th:if="${#fields.hasErrors('userPwd')}" th:errors="*{userPwd}" id="error">Incorrect date</p>
+        </div>
         
       </div>
         
@@ -848,7 +850,7 @@
           <p th:if="${#fields.hasErrors('symptop')}" th:errors="*{symptop}" id="error">Incorrect date</p>
           
           <div class="input-group">
-            <span class="input-group-text short-span" ><span style="color: red; margin-right: 4px;">*</span>전화번호</span>
+            <span class="input-group-text wide-span" ><span style="color: red; margin-right: 4px;">*</span>전화번호</span>
             <div class="d-flex align-items-center  require-background-bottom">
               <div class="input-group" style="padding: 8px; width: 50%;">
                 <input type="text" class="form-control"    id="phone1"          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >
@@ -970,6 +972,7 @@
      </button>
      
     <br><br></div>
+    
 
   </body>
 </html>

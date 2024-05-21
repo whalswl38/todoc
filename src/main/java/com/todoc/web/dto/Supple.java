@@ -13,7 +13,8 @@ public class Supple
 	private String suppleCaution;
 	private String suppleFormula;
 	private String suppleCompany;
-	private String suppleFunction;
+	private String suppleFunction; // 성분
+	private String suppleEfficacy; // 기능
 	private String suppleDose;
 	private String suppleRegdate;
 	private String suppleLink;
@@ -21,4 +22,12 @@ public class Supple
 	private String suppleTitle;
 	
 	private List<SuppleFile> suppleFile;
+	
+	// 페이징
+	private String searchType;
+	private String searchValue;
+	private long curPage;
+	
+	// 성분 또는 기능 값
+	private String function;
 }

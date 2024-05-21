@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.todoc.web.dto.ClinicContact;
@@ -164,6 +165,21 @@ public class MypageController {
     	}
 		
 	}
+	
+	//진료실입장
+	 @GetMapping("/room-page")
+     public String roomStream(HttpServletRequest request, Model model, @RequestParam(value="userEmail", defaultValue="") String contactUserEmail) 
+	 {
+		 String token = jwtFilter.extractJwtFromCookie(request);
+	     String userEmail = jwtFilter.getUsernameFromToken(token);
+	     
+	     model.addAttribute("userEmail", userEmail);
+	     model.addAttribute("contactUserEmail", contactUserEmail);
+	     
+	     logger.error("userEmail : " + userEmail);
+	     
+         return "chat/stream";
+     }
 	
 	//진료대기 리스트
 	@GetMapping("/reservationList-page")

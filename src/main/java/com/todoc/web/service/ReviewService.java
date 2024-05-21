@@ -35,6 +35,4 @@ public class ReviewService {
 	{
 		return reviewDao.reviewInsert(review);
 	}
-	
-	
 }

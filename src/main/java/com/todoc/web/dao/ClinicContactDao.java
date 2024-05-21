@@ -10,11 +10,15 @@ import com.todoc.web.dto.ReservationContact;
 
 @Mapper
 public interface ClinicContactDao {
-	//병원 리스트 조회 (total 쿼리로 바꿔보기)
+	/*희주*/
+	//병원 리스트 조회 
 	public List <ClinicContact> clinicList();
 	
 	//병원 리스트 조회(category)
 	public List <ClinicContact> clinicListCategory(ClinicContact search);
+	
+	//게시물 수
+	public long listCount(ClinicContact search);
 	
 	//병원 리스트 total
 	public List<ClinicContact> clinicListTotal(ClinicContact search);
@@ -34,6 +38,7 @@ public interface ClinicContactDao {
 	//해당날짜 이미 예약된 시간대 찾기
 	public List<ReservationContact> reservedTime(ReservationContact reservation);
 	
+	/*승준*/
 	//예약확인 리스트
 	List<ReservationContact> reservationList(String clinicInstinum);
 
@@ -54,6 +59,8 @@ public interface ClinicContactDao {
 	
 	//이메일로 병원정보 불러오기
 	ClinicContact clinicfindByEmail(String userEmail);
+	
+	
 
 	
 	

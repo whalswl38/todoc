@@ -45,8 +45,8 @@
             <li sec:authorize="hasAuthority('ROLE_ADMIN')">
               <a href="/admin" th:href="@{/admin}">관리자페이지</a>
             </li>
-            <li sec:authorize="hasAuthority('ROLE_MEDICAL')">
-              <a href="/medical" th:href="@{/medical}">medical</a>
+          <li sec:authorize="hasAuthority('ROLE_MEDICAL')">
+              <a href="/medical" th:href="@{/medical-mypage}">마이페이지</a>
             </li>
            <li sec:authorize="hasAuthority('ROLE_USER')">
               <a href="/user" th:href="@{/mypage-page}">마이페이지</a>

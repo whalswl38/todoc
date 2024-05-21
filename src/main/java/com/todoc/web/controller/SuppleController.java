@@ -58,10 +58,10 @@ public class SuppleController
 			, @RequestParam("suppleName") String suppleName, @RequestParam("suppleTitle") String suppleTitle, @RequestParam("suppleRaw") String suppleRaw, 
 			@RequestParam("suppleCaution") String suppleCaution, @RequestParam("suppleFormula") String suppleFormula,
 			@RequestParam("suppleCompany") String suppleCompany,@RequestParam("suppleFunction") String suppleFunction,
-			@RequestParam("suppleDose") String suppleDose, @RequestParam("suppleLink") String suppleLink)
+			@RequestParam("suppleDose") String suppleDose, @RequestParam("suppleLink") String suppleLink, @RequestParam("suppleEfficacy") String suppleEfficacy)
 	{
 		if(!suppleDose.isEmpty() && !suppleCaution.isEmpty() && !suppleCompany.isEmpty() && !suppleFormula.isEmpty()
-				&& !suppleFunction.isEmpty() && !suppleLink.isEmpty() && !suppleName.isEmpty() && !suppleRaw.isEmpty())
+				&& !suppleFunction.isEmpty() && !suppleLink.isEmpty() && !suppleName.isEmpty() && !suppleRaw.isEmpty() && !suppleEfficacy.isEmpty())
 		{
 			Supple supple = new Supple();
 
@@ -71,6 +71,7 @@ public class SuppleController
 			supple.setSuppleCompany(suppleCompany);
 			supple.setSuppleFormula(suppleFormula);
 			supple.setSuppleFunction(suppleFunction);
+			supple.setSuppleEfficacy(suppleEfficacy);
 			supple.setSuppleLink(suppleLink);
 			supple.setSuppleName(suppleName);
 			supple.setSuppleRaw(suppleRaw);

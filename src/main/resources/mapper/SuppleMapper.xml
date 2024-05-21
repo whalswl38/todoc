@@ -10,6 +10,7 @@
 		<result column="SUPPLE_FORMULA" property="suppleFormula" />
 		<result column="SUPPLE_COMPANY" property="suppleCompany" />
 		<result column="SUPPLE_FUNCTION" property="suppleFunction" />
+		<result column="SUPPLE_EFFICACY" property="suppleEfficacy" />
 		<result column="SUPPLE_DOSE" property="suppleDose" />
 		<result column="SUPPLE_REGDATE" property="suppleRegdate" />
 		<result column="SUPPLE_LINK" property="suppleLink" />
@@ -34,13 +35,13 @@
         SELECT ROWNUM RNUM, SUPPLE_SEQ, NVL(SUPPLE_NAME,'') SUPPLE_NAME, NVL(SUPPLE_RAW,'') SUPPLE_RAW,
 		    NVL(SUPPLE_CAUTION,'') SUPPLE_CAUTION, NVL(SUPPLE_FORMULA,'') SUPPLE_FORMULA, NVL(SUPPLE_COMPANY,'') SUPPLE_COMPANY,
 		    NVL(SUPPLE_FUNCTION,'') SUPPLE_FUNCTION, NVL(SUPPLE_DOSE,'') SUPPLE_DOSE, NVL(SUPPLE_REGDATE,'') SUPPLE_REGDATE,
-		    NVL(SUPPLE_LINK,'') SUPPLE_LINK, NVL(SUPPLE_STATUS, 'N') SUPPLE_STATUS, NVL(SUPPLE_TITLE,'') SUPPLE_TITLE
+		    NVL(SUPPLE_LINK,'') SUPPLE_LINK, NVL(SUPPLE_STATUS, 'N') SUPPLE_STATUS, NVL(SUPPLE_TITLE,'') SUPPLE_TITLE, NVL(SUPPLE_EFFICACY,'') SUPPLE_EFFICACY
            FROM (
 		SELECT
 		    SUPPLE_SEQ, NVL(SUPPLE_NAME,'') SUPPLE_NAME, NVL(SUPPLE_RAW,'') SUPPLE_RAW,
 		    NVL(SUPPLE_CAUTION,'') SUPPLE_CAUTION, NVL(SUPPLE_FORMULA,'') SUPPLE_FORMULA, NVL(SUPPLE_COMPANY,'') SUPPLE_COMPANY,
 		    NVL(SUPPLE_FUNCTION,'') SUPPLE_FUNCTION, NVL(SUPPLE_DOSE,'') SUPPLE_DOSE, NVL(SUPPLE_REGDATE,'') SUPPLE_REGDATE,
-		    NVL(SUPPLE_LINK,'') SUPPLE_LINK, NVL(SUPPLE_STATUS, 'N') SUPPLE_STATUS, NVL(SUPPLE_TITLE,'') SUPPLE_TITLE
+		    NVL(SUPPLE_LINK,'') SUPPLE_LINK, NVL(SUPPLE_STATUS, 'N') SUPPLE_STATUS, NVL(SUPPLE_TITLE,'') SUPPLE_TITLE, NVL(SUPPLE_EFFICACY,'') SUPPLE_EFFICACY
 		FROM TD_SUPPLE
 		WHERE SUPPLE_STATUS = 'Y'
         ORDER BY SUPPLE_SEQ DESC
@@ -56,7 +57,7 @@
 		    SUPPLE_SEQ, NVL(SUPPLE_NAME,'') SUPPLE_NAME, NVL(SUPPLE_RAW,'') SUPPLE_RAW,
 		    NVL(SUPPLE_CAUTION,'') SUPPLE_CAUTION, NVL(SUPPLE_FORMULA,'') SUPPLE_FORMULA, NVL(SUPPLE_COMPANY,'') SUPPLE_COMPANY,
 		    NVL(SUPPLE_FUNCTION,'') SUPPLE_FUNCTION, NVL(SUPPLE_DOSE,'') SUPPLE_DOSE, NVL(TO_CHAR(SUPPLE_REGDATE,'YY.MM.DD'),'') SUPPLE_REGDATE,
-		    NVL(SUPPLE_LINK,'') SUPPLE_LINK, NVL(SUPPLE_STATUS, 'N') SUPPLE_STATUS, NVL(SUPPLE_TITLE,'') SUPPLE_TITLE
+		    NVL(SUPPLE_LINK,'') SUPPLE_LINK, NVL(SUPPLE_STATUS, 'N') SUPPLE_STATUS, NVL(SUPPLE_TITLE,'') SUPPLE_TITLE, NVL(SUPPLE_EFFICACY,'') SUPPLE_EFFICACY
 		FROM TD_SUPPLE
 		WHERE SUPPLE_SEQ = #{value}
 	</select>
@@ -86,10 +87,10 @@
 		    SUPPLE_SEQ, SUPPLE_NAME, SUPPLE_RAW,
 		    SUPPLE_CAUTION, SUPPLE_FORMULA, SUPPLE_COMPANY,
 		    SUPPLE_FUNCTION, SUPPLE_DOSE, SUPPLE_REGDATE,
-		    SUPPLE_LINK, SUPPLE_STATUS
+		    SUPPLE_LINK, SUPPLE_STATUS, SUPPLE_EFFICACY
 		)
 		VALUES (#{suppleTitle}, #{suppleSeq}, #{suppleName}, #{suppleRaw},
-		 		#{suppleCaution}, #{suppleFormula}, #{suppleCompany}, #{suppleFunction}, #{suppleDose}, SYSDATE, #{suppleLink}, 'Y')
+		 		#{suppleCaution}, #{suppleFormula}, #{suppleCompany}, #{suppleFunction}, #{suppleDose}, SYSDATE, #{suppleLink}, 'Y', #{suppleEfficacy})
 	</insert>
 	
 	<!-- 영양제 파일 입력 -->
@@ -120,6 +121,7 @@
 			     SUPPLE_FUNCTION = #{suppleFunction},
 			     SUPPLE_DOSE = #{suppleDose},
 			     SUPPLE_LINK = #{suppleLink},
+			     SUPPLE_EFFICACY = #{suppleEfficacy}
 			WHERE SUPPLE_SEQ = #{suppleSeq}
 	</update>
 
@@ -127,5 +129,12 @@
 	<update id="deleteSupple" parameterType="long" >
 		UPDATE TD_SUPPLE SET SUPPLE_STATUS = 'N' WHERE SUPPLE_SEQ = #{value}
 	</update>
+	
+	<!-- 글 갯수 조호l -->
+	<select id="countSupple" parameterType="com.todoc.web.dto.Supple"  resultType="long" >
+		SELECT COUNT(SUPPLE_SEQ) COUNT
+		   FROM TD_SUPPLE
+		 WHERE SUPPLE_STATUS = 'Y'
+	</select>
 </mapper>
 

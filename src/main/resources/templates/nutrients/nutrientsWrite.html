@@ -368,6 +368,12 @@
 		            $("#suppleFunction").focus();
 		            return;
 		        }
+		        if ($.trim($("#suppleEfficacy").val()).length <= 0)
+		        {
+		            alert("기능을 작성해주세요.");
+		            $("#suppleEfficacy").focus();
+		            return;
+		        }
 		        if ($.trim($("#suppleDose").val()).length <= 0)
 		        {
 		            alert("복용법을 작성해주세요.");
@@ -394,6 +400,7 @@
 		        formData.append('suppleFunction', $("#suppleFunction").val());
 		        formData.append('suppleDose', $("#suppleDose").val());
 		        formData.append('suppleLink', $("#suppleLink").val());
+		        formData.append('suppleEfficacy', $("#suppleEfficacy").val());
 
 		        // 파일 추가
 		        for (var i = 0; i < filesArr.length; i++) 
@@ -523,6 +530,8 @@
 			 <textarea id="suppleCaution" ></textarea><br><br>
 			효능<br>
 			 <textarea id="suppleFunction"></textarea><br><br>
+			기능<br>
+			 <textarea id="suppleEfficacy"></textarea><br><br>
 			복용법<br>
 			 <textarea id="suppleDose"></textarea><br><br>
 			연결 링크<br>

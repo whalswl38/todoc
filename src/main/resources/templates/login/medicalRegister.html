@@ -518,8 +518,7 @@
         </div><br><br>
 		</div>
 		
-		<div class="row d-flex justify-content-between">
-        <div class="col-md-8">
+		<div class="col-md-12">
         <div class="input-group">
             <span class="input-group-text wide-span" ><span style="color: red; margin-right: 4px;">*</span>가입유형</span>
             <div class="d-flex justify-content-center align-items-center require-background">
@@ -541,7 +540,7 @@
           <p id="typeError"></p>
           
           <div class="input-group">
-            <span class="input-group-text wide-span" ><span style="color: red; margin-right: 4px;">*</span>진료방식</span>
+            <span class="input-group-text short-span" ><span style="color: red; margin-right: 4px;">*</span>진료방식</span>
             <div class="d-flex justify-content-center align-items-center  require-background">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" name="contact" id="visitCheck" value="대면" onclick='getCheckboxValue()'>
@@ -561,7 +560,7 @@
       	  <p id="contactError"></p>
       	  
       	  <div class="input-group" id="weekendNight">
-            <span class="input-group-text wide-span" ><span style="color: red; margin-right: 4px;"></span> 추가 진료여부</span>
+            <span class="input-group-text short-span" ><span style="color: red; margin-right: 4px;"></span> 추가 진료여부</span>
             <div class="d-flex justify-content-center align-items-center  require-background">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" name="nightWeekend" id="weekendCheck">
@@ -581,7 +580,7 @@
           <input type="hidden" th:field="*{weekend}" value="" class="form-control" />
       
           <div class="input-group">
-            <span class="input-group-text wide-span" ><span style="color: red; margin-right: 4px;">*</span>요양기관번호</span>
+            <span class="input-group-text short-span" ><span style="color: red; margin-right: 4px;">*</span>요양기관번호</span>
             <input
               type="text"
               placeholder=""
@@ -590,7 +589,7 @@
             <span class="input-group-text" style="background-color: #fff; border-left: none;"><button id="regC" type="button" style="width: 84px; font-size: 12px; border-radius: 4px;" onclick="checkInstitution()">가입여부 확인</button></span>
           </div>
           <div class="input-group">
-            <span class="input-group-text wide-span" ><span style="color: red; margin-right: 4px;">*</span>요양기관명</span>
+            <span class="input-group-text short-span" ><span style="color: red; margin-right: 4px;">*</span>요양기관명</span>
             <input
               type="text"
               placeholder=""
@@ -637,7 +636,6 @@
               <div class="password-unhide" style="display: none" onclick="togglePasswordHide()"><i class="fa-solid fa-eye-slash"></i></div></span>
           </div>
           <p th:if="${#fields.hasErrors('userPwd')}" th:errors="*{userPwd}" id="error">Incorrect date</p>
-        </div>
         
       </div>
         

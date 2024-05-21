@@ -24,6 +24,7 @@ public class SuppleController
 	@Autowired
 	private SuppleService suppleService;
 	
+	// 리스트 페이지로 이동
     @GetMapping("/nutrients-list-page")
     public String nutriListPage(Model model) 
     {
@@ -33,21 +34,24 @@ public class SuppleController
         return "nutrients/nutrientsList";
     }
     
+    // 글 상세보기
     @GetMapping("/nutrients-detail-page")
-    public String nutriDetailPage(Model model) 
+    public String nutriDetailPage(@RequestParam("suppleSeq") long suppleSeq, Model model) 
     {
-    	Supple supple = suppleService.selectSupple(1);
+    	Supple supple = suppleService.selectSupple(suppleSeq);
     	log.info(supple.getSuppleCaution());
     	model.addAttribute("supple", supple);
         return "nutrients/nutrientsDetail";
     }
     
-    @GetMapping("/admin/nutrients-write")
+    // 글 작성 페이지
+    @GetMapping("/nutrients-write")
     public String write()
     {
     	return "nutrients/nutrientsWrite";
     }
     
+    // 글 저장
 	@PostMapping("/nutri/save")
 	@ResponseBody
 	public ResponseEntity<?> saveSupple(@RequestParam("uploadFile") MultipartFile[] multipartFile
@@ -79,6 +83,7 @@ public class SuppleController
 		return ResponseEntity.ok(404);
 	}
 	
+	// 글 삭제
 	@PostMapping("/nutri/delete")
 	@ResponseBody
 	public ResponseEntity<?> deleteNutri(@RequestParam("suppleSeq") String suppleSeq)

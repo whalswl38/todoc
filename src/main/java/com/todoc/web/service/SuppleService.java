@@ -33,15 +33,20 @@ public class SuppleService
 	public List<Supple> suppleList(Supple supple)
 	{		
 		List<Supple> list = suppleDao.suppleList(supple);
-		List<SuppleFile> fileList = suppleDao.selectSuppleFile(supple.getSuppleSeq());
-		
+		for (Supple s : list) {
+			List<SuppleFile> fileList = suppleDao.selectSuppleFile(s.getSuppleSeq());
+			s.setSuppleFile(fileList);
+		}
 		return list;
 	}
 	
 	// 글번호로 글 조회
 	public Supple selectSupple(long suppleSeq)
 	{
-		return suppleDao.selectSupple(suppleSeq);
+		Supple supple = suppleDao.selectSupple(suppleSeq);
+		List<SuppleFile> fileList = suppleDao.selectSuppleFile(suppleSeq);
+		supple.setSuppleFile(fileList);
+		return supple;
 	}
 	
 	// 글 등록 (다중 첨부파일)
@@ -106,8 +111,30 @@ public class SuppleService
 	@Transactional
 	public int deleteSupple(long suppleSeq)
 	{
+		// 첨부파일 목록 조회
+		List<SuppleFile> fileList = suppleDao.selectSuppleFile(suppleSeq);
+
 		// 파일 삭제
+		for (SuppleFile file : fileList) 
+		{
+			File delFile = new File(suppleFileUploadDir + file.getFileName());
+			
+			if (delFile.exists()) 
+			{
+				if (!delFile.delete()) 
+				{
+					log.error("[SuppleService] Failed to delete file: " + file.getFileName());
+					return 0;
+				}
+			}
+		}
+
+		// DB에서 첨부파일 정보 삭제
+		int deleteFileCount = suppleDao.deleteSuppleFile(suppleSeq);
+
+		// DB에서 글 삭제
+		int deleteCount = suppleDao.deleteSupple(suppleSeq);
 		
-		return suppleDao.deleteSupple(suppleSeq);
+		return (deleteFileCount >= 0 && deleteCount > 0) ? 1 : 0;
 	}
 }

@@ -473,8 +473,8 @@
 			searchWord = $("#searchWord").val();
 			subject = $("#subject").val();
 			symptom = $("#symptom").val();
-			alert("sortType=" + sortType + " status=" + status + " location="+ location + " curPage=" + curPage + " searchWord="
-					+ searchWord+" subject="+subject + " symptom="+symptom);
+/* 			alert("sortType=" + sortType + " status=" + status + " location="+ location + " curPage=" + curPage + " searchWord="
+					+ searchWord+" subject="+subject + " symptom="+symptom); */
 			$.ajax({
 				type : "GET",
 				url : "/select-clinic-page",
@@ -586,7 +586,7 @@
 	                                </div>
 	                            </div>
 	                            <div class="card-image-box" style="background: #bdbdbd">
-	                                <img class="card-image" th:src="@{/image/__${clinic.fileOrgName}__}" />
+	                                <img class="card-image" th:src="@{${clinic.fileOrgName} != null} ? @{/image/__${clinic.fileOrgName}__} : @{/image/nullprofile.jpg}" />
 	                            </div>
 	                        </div>
 	                        <div style="width: calc(100% - 30px); height: 1px; background: rgb(169, 174, 177); margin: 12px 0px; opacity: 0.4;"></div>

@@ -1,3 +1,13 @@
-body{font-family: AppleSDGothicNeo, sans-serif; font-size:12px; color:#222; background:#fff; height: 100%;}
-p{background-color: #e73a3a;}
-img{border:0; vertical-align:middle;}
+.wrap {width:600px; border:2px solid #000;}
+.wrap h1 {text-align:center; letter-spacing:10px; font-size:27px;}
+.wrap .title {font-size:14px;}
+.wrap .checkbox {display:flex;}
+.wrap .checkbox .numbox {display:flex; margin-right:10px;}
+.wrap .checkbox .num {display:block; width:13px; height:16px; margin-top:2px; font-size:12px; text-align:center; border:1px solid #000;}
+
+table {width: 100%; border-collapse: collapse;}
+th, td {border: 1px solid black; padding: 8px; text-align: center;}
+.brnone {border-right:0px;}
+.blnone {border-left:0px;}
+.bbnone {border-bottom:0px;}
+.br1 {border-right:1px solid #000;}

@@ -31,7 +31,7 @@ public class ItextPdfController {
         ItextPdfDto itextPdfDto = new ItextPdfDto();
 
         // pdf 파일이 저장될 경로 ( Windows 기준 )
-        itextPdfDto.setPdfFilePath("C:\\minji\\pdf");
+        itextPdfDto.setPdfFilePath("C:\\project\\final\\todoc\\src\\main\\resources\\static\\pdf");
 
         // pdf 파일명 ( 테스트를 위해 랜덤으로 생성 )
         itextPdfDto.setPdfFileName(new Random().nextInt() + ".pdf");

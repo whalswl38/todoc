@@ -102,6 +102,9 @@ public class UntactController {
     	if(location != null)
     	untact.setLocation(location);
     	
+    	if(status == null)
+    		status="";
+    	
 		int totalCount = untactService.subjectListCount(untact);
 		if (totalCount > 0) {
 			paging = new Paging("/select-clinic-page", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
@@ -139,7 +142,7 @@ public class UntactController {
 	    	
 	    	List statusList = new ArrayList();
 	    	//진료중 클릭했을때,
-	    	if(!StringUtil.isEmpty(status)) {
+	    	if(status.equals("Y")) {
 	    		//기존 N ,Y 데이터 모두 가져와서 Y 데이터만 다시 리스트 넣어서 뿌릴거
 	    		for(Untact val : dtmList) {
 	    			if(val.getClinicStatus().equals("Y")) {
@@ -151,6 +154,8 @@ public class UntactController {
 	    	model.addAttribute("subject", dtmList);
 		}
 		
+		model.addAttribute("clinicSymptom", symptom);
+		model.addAttribute("clinicSubject", subject);
 		model.addAttribute("untact", untact);
     	model.addAttribute("curPage", curPage);
 		model.addAttribute("paging", paging);
@@ -270,30 +275,21 @@ public class UntactController {
     	
     	Reserve rsve = new Reserve();
     	
-    	if(!StringUtil.isEmpty(userEmail)) {
+    	if(!StringUtil.isEmpty(userEmail) && !StringUtil.isEmpty(clinicInstinum) && !StringUtil.isEmpty(symptoms) &&!StringUtil.isEmpty(time)&&!StringUtil.isEmpty(date)) {
     		rsve.setUserEmail(userEmail);
-    	}
-    	
-    	if(!StringUtil.isEmpty(clinicInstinum)) {
     		rsve.setClinicInstinum(clinicInstinum);
-    	}
-    	
-    	if(!StringUtil.isEmpty(symptoms)) {
     		rsve.setReservationSymptom(symptoms);
-    	}
-    	
-    	if(!StringUtil.isEmpty(time)) {
     		rsve.setReservationTime(time);
-    	}
-    	
-    	if(!StringUtil.isEmpty(date)) {
+    		
     		if(date.equals("오늘")){
     			rsve.setReservationDate(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
     		} else {
     			rsve.setReservationDate(LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
     		}
+    	} else {
+    		//TODO : 예약내용 중 null 값 들어올때 처리할 것
     	}
-    	
+
     	int res = 0;
     	if((res = untactService.insertReservation(rsve)) > 0 ) {
     		response.addIntHeader("code", 250);
@@ -379,15 +375,47 @@ public class UntactController {
     	} else { //실패했을때,
     		return "untact/prescriptionList";
     	}
+    }
+    
+    @GetMapping("/prescriptionDetail")
+    public String prescriptionDetail(Model model, HttpServletRequest request, HttpServletResponse response) {
+    	String token = jwtFilter.extractJwtFromCookie(request);
+    	String userEmail = jwtFilter.getUsernameFromToken(token);
+    	//String reseSeq = request.getParameter("reservationSeq");
+    	//Long reservationSeq = Long.parseLong(reseSeq);
+    	List<Presc> prescList = new ArrayList<Presc>(); 
+    	Presc presc = new Presc();
+    	Presc presc2 = new Presc();
+    	
+    	if(!StringUtil.isEmpty(userEmail)) 
+    		presc.setUserEmail(userEmail);
+    	
+    	//todo: 마이페이지에서 seq받아오기
+    	//if(reservationSeq != null) 
+    		presc.setReservationSeq(21);
+    	
+    	prescList = untactService.prescriptionDetail(presc);
+    	presc2.setClinicDoctor(prescList.get(0).getClinicDoctor());
+    	presc2.setClinicInstinum(prescList.get(0).getClinicInstinum());
+    	presc2.setClinicName(prescList.get(0).getClinicName());
+    	presc2.setClinicPhone(prescList.get(0).getClinicPhone());
+    	presc2.setPrescriptionDate(prescList.get(0).getPrescriptionDate());
+    	presc2.setPrescriptionSeq(prescList.get(0).getPrescriptionSeq());
+    	presc2.setUserName(prescList.get(0).getUserName());
+    	presc2.setUserIdentity(prescList.get(0).getUserIdentity());
     	
     	
     	
+    	model.addAttribute("presc2", presc2);
+    	model.addAttribute("prescList", prescList);
+    	return "untact/prescriptionDetail";
     }
     
     @GetMapping("/medicine-page")
     public String test31(Model model, HttpServletRequest request, HttpServletResponse response) {
     	String token = jwtFilter.extractJwtFromCookie(request);
     	String userEmail = jwtFilter.getUsernameFromToken(token);
+    	
     	
     	Untact untact = new Untact(); 
     	Reserve rsve = new Reserve();

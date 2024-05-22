@@ -235,10 +235,13 @@
 
         function setSort(sort) {
             $("#sort").removeClass("clicked-background");
-            var sortType; 
-            var location;
-            var status;
-            
+            var sortType;
+			var status;
+			var curPage;
+			var location;
+			var searchWord;
+			var subject;
+			var symptom;
             
            if($("#location").hasClass("clicked-background")){
                location = $("#location-text").text();
@@ -262,13 +265,22 @@
                 } else {
                     sortType = ""; 
                 }
+                
+                curPage = $("#curPage").val();
+
+    			searchWord = $("#searchWord").val();
+    			subject = $("#subject").val();
+    			symptom = $("#symptom").val();
                 $.ajax({
                     type: "GET",
                     url: "/select-clinic-page",
                     data: {
-                        sortType: sortType,
-                        location : location,
-                        status : status
+                    	location : location,
+    					sortType : sortType,
+    					status   : status,
+    					curPage  : curPage,
+    					subject  : subject,
+    					symptom  : symptom
                     }, 
                     success: function(data) { 
                         var newContent = $(data).find("#root").html();
@@ -298,9 +310,13 @@
         } */
 
         function setStatus(){
-        	var sortType; 
-            var location;
-            var status; 
+        	var sortType;
+			var status;
+			var curPage;
+			var location;
+			var searchWord;
+			var subject;
+			var symptom;
         	
             // 정렬방식 세팅
             if($("#sort").hasClass("clicked-background")){
@@ -327,82 +343,160 @@
         	}else{
                 status = "Y";
         	}
-        	
-        	$.ajax({
-                type: "GET",
-                url: "/select-clinic-page",
-                data: {
-                	location: location,
-                    sortType: sortType,
-                    status: status
-                }, 
-                success: function(data) { 
-                    var newContent = $(data).find("#root").html();
-                    $('#root').html(newContent);
-                },
-                error: function(xhr, status, error) {
-                    console.error('오류 발생');
-                }
-            });
-        }
-        
-        function setLocation(location) {
-        	var sortType;
-        	var status;
-        	
-        	if($("#sort").hasClass("clicked-background")){
-        		if ($("#sort-text").text() === "평점 높은 순") {
-                    sortType = "grade"; 
-                } else if ($("#sort-text").text() === "리뷰 많은 순") {
-                    sortType = "review"; 
-                } else {
-                    sortType = ""; 
-                }
-        	}else{
-        		sortType = "";
-        	}
-        	   if($("#ing").hasClass("clicked-background")){
-            	   status = $("#-text").text();
-               }else{
-            	   status = "";
-               }
-        	
-            $("#location").removeClass("clicked-background");
-            if (location != null && location != "") {
-                $("#location-text").text(location);
-                $("#location").addClass("clicked-background");
-            } else {
-                // 특정 태그에 kakao 맵으로 받아온 주소 저장해서 보내기
-                locaArr = $("#centerAddr").text().split(' ');
-                location = locaArr[0] + " " + locaArr[1];
-                $("#location-text").text(location);
-                $("#location").addClass("clicked-background");
-            }
-            
-            $.ajax({
-                type: "GET",
-                url: "/select-clinic-page",
-                data: {
-                	location: location,
-                    sortType: sortType,
-                    status : status
-                }, 
-                success: function(data) { 
-                    var newContent = $(data).find("#root").html();
-                    $('#root').html(newContent);
-                },
-                error: function(xhr, status, error) {
-                    console.error('오류 발생');
-                }
-            });
-        }
-        
-        function setCurPage(data){
-        	$("#curPage").val(data);
-        	$("#searchWord").submit();
-        }
-        
-    </script>
+      
+        	curPage = $("#curPage").val();
+        	searchWord = $("#searchWord").val();
+			subject = $("#subject").val();
+			symptom = $("#symptom").val();
+		$.ajax({
+				type : "GET",
+				url : "/select-clinic-page",
+				data : {
+					location : location,
+					sortType : sortType,
+					status   : status,
+					curPage  : curPage,
+					subject  : subject,
+					symptom  : symptom
+				},
+				success : function(data) {
+					var newContent = $(data).find("#root").html();
+					$('#root').html(newContent);
+				},
+				error : function(xhr, status, error) {
+					console.error('오류 발생');
+				}
+			});
+		}
+
+		function setLocation(location) {
+			var sortType;
+			var status;
+			var curPage;
+			var searchWord;
+			var subject;
+			var symptom;
+
+			if ($("#sort").hasClass("clicked-background")) {
+				if ($("#sort-text").text() === "평점 높은 순") {
+					sortType = "grade";
+				} else if ($("#sort-text").text() === "리뷰 많은 순") {
+					sortType = "review";
+				} else {
+					sortType = "";
+				}
+			} else {
+				sortType = "";
+			}
+			if ($("#ing").hasClass("clicked-background")) {
+				status = "Y";
+			} else {
+				status = "";
+			}
+
+			$("#location").removeClass("clicked-background");
+			if (location != null && location != "") {
+				$("#location-text").text(location);
+				$("#location").addClass("clicked-background");
+			} else {
+				// 특정 태그에 kakao 맵으로 받아온 주소 저장해서 보내기
+				locaArr = $("#centerAddr").text().split(' ');
+				location = locaArr[0] + " " + locaArr[1];
+				$("#location-text").text(location);
+				$("#location").addClass("clicked-background");
+			}
+			curPage = $("#curPage").val();
+			searchWord = $("#searchWord").val();
+			subject = $("#subject").val();
+			symptom = $("#symptom").val();
+			$.ajax({
+				type : "GET",
+				url : "/select-clinic-page",
+				data : {
+					location : location,
+					sortType : sortType,
+					status   : status,
+					curPage  : curPage,
+					subject  : subject,
+					symptom  : symptom
+				},
+				success : function(data) {
+					var newContent = $(data).find("#root").html();
+					$('#root').html(newContent);
+				},
+				error : function(xhr, status, error) {
+					console.error('오류 발생');
+				}
+			});
+		}
+
+		function setCurPage(data) {
+			var sortType;
+			var status;
+			var curPage;
+			var location;
+			var searchWord;
+			var subject;
+			var symptom;
+			
+			//평점/리뷰순세팅
+			if ($("#sort").hasClass("clicked-background")) {
+				if ($("#sort-text").text() === "평점 높은 순") {
+					sortType = "grade";
+				} else if ($("#sort-text").text() === "리뷰 많은 순") {
+					sortType = "review";
+				} else {
+					sortType = "";
+				}
+			} else {
+				sortType = "";
+			}
+			
+			//진료중세팅
+			if ($("#ing").hasClass("clicked-background")) {
+				status = "Y";
+			} else {
+				status = "";
+			}
+			
+			//위치
+			if ($("#location").hasClass("clicked-background")) {
+				location = $("#location-text").text();
+			} else {
+				location = "";
+			}
+			
+			
+			curPage = data;
+			$("#curPage").val(data);
+
+			searchWord = $("#searchWord").val();
+			subject = $("#subject").val();
+			symptom = $("#symptom").val();
+			alert("sortType=" + sortType + " status=" + status + " location="+ location + " curPage=" + curPage + " searchWord="
+					+ searchWord+" subject="+subject + " symptom="+symptom);
+			$.ajax({
+				type : "GET",
+				url : "/select-clinic-page",
+				data : {
+					location : location,
+					sortType : sortType,
+					status   : status,
+					curPage  : curPage,
+					subject  : subject,
+					symptom  : symptom
+				},
+				success : function(data) {
+					var newContent = $(data).find("#root").html();
+					$('#root').html(newContent);
+				},
+				error : function(xhr, status, error) {
+					console.error('오류 발생');
+				}
+			});
+			//$("#searchWord").submit();
+		}
+	</script>
 </head>
 <body>
     <div layout:fragment="content" class="select-item-container">
@@ -419,10 +513,6 @@
                     <li class="lnb-item">
                         <a class="lnb-link lnb-active" th:href="@{/select-clinic-page}">병원 리스트</a>
                     </li>
-                    <!-- 테스트 후 삭제 예정 코드 -->
-                    <li class="lnb-item">
-                        <a class="lnb-link lnb-active" th:href="@{/medicine-page}">처방전</a>
-                    </li>
                 </ul>
             </div>
             <div style="padding: 8px; width: 100%">
@@ -436,7 +526,7 @@
                             </button>
                             <div class="" style="position: relative; width: 100%">
                                 <form id="searchWord" action="/select-clinic-page" method="get">
-                                    <input tabindex="0" placeholder="증상, 질병, 병원을 검색해보세요" name="searchWord" th:value="${searchWord}" style="background-color: rgb(247, 249, 250); height: 28px; border: 0px; border-radius: 16px; padding: 8px 8px 8px 16px; width: calc(100% - 16px);"/>
+                                    <input id="searchWord" tabindex="0" placeholder="증상, 질병, 병원을 검색해보세요" name="searchWord" th:value="${searchWord}" style="background-color: rgb(247, 249, 250); height: 28px; border: 0px; border-radius: 16px; padding: 8px 8px 8px 16px; width: calc(100% - 16px);"/>
                                     <div class="" style="position: absolute; top: 4px; right: 0px">
                                         <button type="submit" class="" style="padding: 4px; border: 0; background-color: transparent; color: rgb(141, 146, 151);">
                                             <div width="24" class="">
@@ -446,6 +536,8 @@
                                     </div>
                                     <input type="hidden" id="curPage" name="curPage" th:value="${paging.curPage}">                     
                                     <input type="hidden" id="sortType" name="sortType" th:value="${sortType}">
+                                    <input type="hidden" id="subject" name="subject" th:value="${clinicSubject}">
+                                    <input type="hidden" id="symptom" name="symptom" th:value="${clinicSymptom}">
                                 </form>
                             </div>
                         </div>
@@ -499,8 +591,7 @@
 	                        </div>
 	                        <div style="width: calc(100% - 30px); height: 1px; background: rgb(169, 174, 177); margin: 12px 0px; opacity: 0.4;"></div>
 	                    </div>
-                    </div>
-                </div>
+                  
 				 <div class="page_wrap">
 				     <div class="page_nation">
 				     <th:block th:if="${paging != null}">
@@ -518,6 +609,8 @@
 				     </th:block>
 				     </div>
 				 </div>
+				   </div>
+                </div>
                 <div class="spacing-height-16"></div>
                 <div class="spacing-height-16"></div>
             </div>

@@ -75,8 +75,8 @@ public class UntactService {
 		        	untact.setClinicSubject("신경외과");
 		        	break;
 		        default :
-		        	throw new NullPointerException("Error Invalid Code");
-		    }
+		        	untact.setClinicSubject("");
+		        	}
 				//증상
 				if(untact.getClinicSymptom() != null)
 				switch (untact.getClinicSymptom()) {
@@ -129,7 +129,7 @@ public class UntactService {
 		        	untact.setClinicSymptom("두통");
 		        	break;
 		        default :
-		        	throw new NullPointerException("Error Invalid Code");
+		        	untact.setClinicSymptom("");
 		    }
 		return untactDao.subjectListCount(untact);
 	}
@@ -152,6 +152,10 @@ public class UntactService {
 
 	public int getprescriptionSeq() {
 		return untactDao.getprescriptionSeq();
+	}
+
+	public List<Presc> prescriptionDetail(Presc presc) {
+		return untactDao.prescriptionDetail(presc);
 	}
 	
 }

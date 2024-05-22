@@ -309,14 +309,14 @@
 	          class="toggle-option selected"
 	          onclick="toggleSwitch('left')"
 	        >
-	          비대면진료
+	          진료대기
 	        </div>
 	        <div
 	          id="medical-user"
 	          class="toggle-option"
 	          onclick="toggleSwitch('right')"
 	        >
-	          대면진료
+	          진료완료
 	        </div>
      	 </div>
       
@@ -354,12 +354,9 @@
 										<p style="padding:1; cursor:pointer;" th:onclick="fn_approve([[${list.reservationSeq}]])"><i class="fa-regular fa-square-check"></i>&nbsp;&nbsp;예약승인하기</p>
                 						<p style="padding:0; cursor:pointer;" th:onclick="fn_cancel([[${list.reservationSeq}]])"><i class="fa-regular fa-calendar-xmark"></i>&nbsp;&nbsp;예약취소하기</p>
                 					</td>
-                					
 								</tr>
 						</table>
 				</div>
-				          
-
         </div>
         <div class="spacing-height-16"></div>
         <div class="spacing-height-16"></div>

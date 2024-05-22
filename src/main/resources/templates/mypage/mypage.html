@@ -79,14 +79,17 @@
           $(".clicked-background").removeClass("clicked-background");
           $(this).addClass("clicked-background");
         });
-        
       });
+      
+      function prec(){
+    	  window.location.href = "/prescriptionDetail";
+      }
     </script>
   </head>
   <div layout:fragment="content" class="mypage-container">
     <div class="spacing-height-16"></div>
     <div class="d-flex justify-content-between" style="gap: 32px">
-      <div style="padding: 8px; width: 800px">
+      <div style="padding: 8px; width: 600px">
         <div class="mypage-details">
           <div
             style="
@@ -94,9 +97,9 @@
               padding: 8px;
             "
           >
-            <h2>마이페이지</h2>
+            <h3>마이페이지</h3>
           </div>
-          <div class="d-flex justify-content-between p-3">
+          <div class="d-flex justify-content-between p-3" style="width:600px">
             <div
               class="d-flex justify-content-center align-items-center"
               style="flex: 1; flex-direction: column"
@@ -125,7 +128,7 @@
           
           <div class="d-flex justify-content-between align-items-center" >
             <div><h4>진료 신청</h4></div>
-            
+              
             <div>
               <h6 style="color: red; cursor: pointer">진료 취소</h6>
             </div>
@@ -144,7 +147,7 @@
               <div class="status-icon">
                 <i
                   class="fa-solid fa-circle"
-                  style="color: royalblue; )"
+                  style="color: royalblue;")
                 ></i>
               </div>
               <div >접수</div>	
@@ -270,6 +273,17 @@
           <div class="p-2 d-flex align-items-center justify-content-between">
             <div style="cursor: pointer">
               <p>나의 문의내역</p>
+            </div>
+            <div style="cursor: pointer">
+              <i
+                class="fa-solid fa-chevron-right"
+                style="color: rgb(141, 146, 151)"
+              ></i>
+            </div>
+          </div>
+          <div class="p-2 d-flex align-items-center justify-content-between">
+            <div style="cursor: pointer" id="precs" onclick="prec()">
+              <p>처방전</p>
             </div>
             <div style="cursor: pointer">
               <i

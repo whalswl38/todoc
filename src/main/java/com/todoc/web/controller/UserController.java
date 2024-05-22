@@ -96,18 +96,15 @@ public class UserController
 				clinic.setClinicZipcode(signUpDto.getZipcode());
 				clinic.setClinicAddr(signUpDto.getAddr());
 
-				if(signUpDto.getContactType().contains("대면"))
+				if(signUpDto.getContactType().equals("대면") || signUpDto.getContactType().equals("C"))
 				{
 					type = "C";
 				}
-				else if(signUpDto.getContactType().contains("비대면"))
+				else if(signUpDto.getContactType().equals("비대면") || signUpDto.getContactType().equals("U"))
 				{
 					type = "U";
 				}
-				else if(signUpDto.getContactType().contains(","))
-				{
-					type = "C, U";
-				}
+
 
 				clinic.setUserEmail(signUpDto.getUserEmail());
 				clinic.setClinicContactFlag(type);
@@ -124,8 +121,8 @@ public class UserController
 					if(userService.insertClinicFile(clinicFile, clinic) > 0)
 					{
 						if(userService.insertStampFile(stampFile, clinic) > 0)
-						{							
-							return "redirect:/login-page";
+						{	
+							return "login/login";
 						}
 					}
 				}
@@ -161,7 +158,7 @@ public class UserController
 				
 				if(userService.insertPharmacy(pharmacy) > 0)
 				{
-					return "redirect:/login-page";
+					return "login/login";
 				}
 				
 				model.addAttribute("signUpDto", signUpDto);

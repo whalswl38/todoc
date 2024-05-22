@@ -7,7 +7,7 @@ public class JwtProperties
     public static final String SECRET = "jdn3920ei20eei39u38ne03u8neqjd3e98uhfuqfq";
     
     // accessToken 유지시간
-    public static final int EXPIRATION_TIME = 1000*60*60; // 1 시간
+    public static final int EXPIRATION_TIME = 1000*60*60*3; // 3시간
     
     // refreshToken 유지시간
     public static final int REFRESH_EXPIRATION_TIME = 1000*60*60*24*14; // 2주

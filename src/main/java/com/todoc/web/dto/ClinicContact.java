@@ -45,7 +45,9 @@ public class ClinicContact {
 	private long endRow;
 	
 	private String fileName;	
-	private String fileOrgName;	
+	private String fileOrgName;
+	
+	//
 	
 
     public ClinicContact() {
@@ -78,7 +80,7 @@ public class ClinicContact {
     }
 	
 	
-
+    
 	
 	
 }

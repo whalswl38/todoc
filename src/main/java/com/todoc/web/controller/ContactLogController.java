@@ -84,10 +84,12 @@ public class ContactLogController {
 	    		 {
 	    			 contactLog = contactLogService.contactViewList(contactSeq);
 	    			 
+	    			 logger.error("contactLog : " + contactLog);
+	    			 
 	    			 int reviewCheck = contactLogService.contactSeqCheck(contactSeq);
 	    			 
 	    			 
-	    			 if(contactLog != null && reviewCheck != 0)
+	    			 if(contactLog != null && reviewCheck >= 0)
 	    			 {
 	    				 model.addAttribute("contactLog", contactLog);
 	    				 model.addAttribute("reviewSeq", reviewCheck);

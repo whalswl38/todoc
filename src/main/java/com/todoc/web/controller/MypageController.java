@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.todoc.web.dto.ClinicContact;
+import com.todoc.web.dto.Institution;
 import com.todoc.web.dto.ReservationContact;
 import com.todoc.web.dto.User;
 import com.todoc.web.security.dto.SignUpDto;
@@ -72,12 +75,18 @@ public class MypageController {
 	    	{
 	    		User user = userService.findByEmail(userEmail);
 	    		
+	    		//마이페이지 예약내역
+	    		ReservationContact clinicContact = clinicContactService.mypageReservationList(userEmail);
+	    		
+				logger.error("clinicContact : " + clinicContact );
+				
 	    		if(user != null)
 	    		{
 			    	if(contactTotalCount >= 0)
 			    	{
 			    		model.addAttribute("contactTotalCount", contactTotalCount);
 			    		model.addAttribute("userEmail", userEmail);
+			    		model.addAttribute("clinicContact", clinicContact);
 			    	}
 			    	
 			    	if(reviewTotalCount >= 0)
@@ -168,17 +177,41 @@ public class MypageController {
 	
 	//진료실입장
 	 @GetMapping("/room-page")
-     public String roomStream(HttpServletRequest request, Model model, @RequestParam(value="userEmail", defaultValue="") String contactUserEmail) 
+     public String roomStream(HttpServletRequest request, Model model, @RequestParam(value="reservationSeq", defaultValue="") long reservationSeq) 
 	 {
 		 String token = jwtFilter.extractJwtFromCookie(request);
 	     String userEmail = jwtFilter.getUsernameFromToken(token);
 	     
-	     model.addAttribute("userEmail", userEmail);
-	     model.addAttribute("contactUserEmail", contactUserEmail);
+	     if(userEmail != null)
+	     {
+	    	 ReservationContact clinic = clinicContactService.resrvationClickMapping(reservationSeq);
+	    	 String doctorEmail = clinic.getDoctorEmail();
+	    	 String clinicEmail = clinic.getUserEmail();
+	    	 
+	    	 logger.error("+++++++++++++++++++++++++++++");
+	    	 logger.error("clinic  : " + clinic);
+	    	 logger.error("userEmail : " + userEmail);
+	    	 
+	    	 if(clinic != null)
+	    	 {
+	    		 model.addAttribute("userEmail", userEmail);
+	    		 model.addAttribute("doctorEmail", doctorEmail);
+	    		 model.addAttribute("clinicEmail", clinicEmail);
+	    		 
+	    		 if(clinicContactService.reservationStatusUpdate(reservationSeq) > 0)
+	    		 {
+	    			 return "chat/stream";
+	    		 }
+	    	 }
+	    	 
+	    	 model.addAttribute("userEmail", userEmail);
+	     }
+	     else
+	     {
+	    	 return "redirect:/login-page";
+	     }
 	     
-	     logger.error("userEmail : " + userEmail);
-	     
-         return "chat/stream";
+	     return "main/main";
      }
 	
 	//진료대기 리스트
@@ -363,13 +396,18 @@ public class MypageController {
     	String token = jwtFilter.extractJwtFromCookie(request);
     	String userEmail = jwtFilter.getUsernameFromToken(token);
     	
+    	
     	if(userEmail != null)
     	{
     		ClinicContact clinic = clinicContactService.clinicfindByEmail(userEmail);
     		
+    		
+    		
     		if(clinic != null)
     		{
     			model.addAttribute("clinic", clinic);
+    			
+    			logger.error("clinic : " + clinic);
     		}
     		else
     		{
@@ -392,6 +430,80 @@ public class MypageController {
     public String mypageMedicalUpdate()
     {
     	return "";
+    }
+    
+    
+    @ResponseBody
+	@PostMapping("/medicalSign/checkInstitutionUpdate")
+	public ResponseEntity<?> checkInstitution(@RequestParam("institutionNum") String institutionNum)
+	{				
+	    if (institutionNum.isEmpty()) 
+	    {
+	        return ResponseEntity.badRequest().body("조회하신 값이 올바르지 않습니다.");
+	    }
+	    
+	    Institution institution = userService.findInstitution(institutionNum);
+	    
+	    if (institution == null) 
+	    {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 요양기관은 가입되지 않았습니다.");
+	    }
+	    
+	    return ResponseEntity.ok(institution);
+	}
+    
+    
+    // 채팅 연결종료
+    @ResponseBody
+    @PostMapping("/streamEnd")
+    public int streamEnd(@RequestBody ReservationContact reservationSeq, HttpServletRequest request)
+    {
+    	String token = jwtFilter.extractJwtFromCookie(request);
+    	String userEmail = jwtFilter.getUsernameFromToken(token);
+    	
+    	if(userEmail != null)
+    	{
+    		if(clinicContactService.streamEnd(reservationSeq.getReservationSeq()) > 0)
+    		{
+    			return 0;
+    		}
+    		else
+    		{
+    			return 1;
+    		}
+    	}
+    	else
+    	{
+    		return 1;
+    	}
+    	
+    }
+    
+    //진료 취소
+    @ResponseBody
+    @PostMapping("/contactCancel")
+    public int contactCancel(@RequestParam("reservationSeq") long reservationSeq, HttpServletRequest request)
+    {
+    	String token = jwtFilter.extractJwtFromCookie(request);
+    	String userEmail = jwtFilter.getUsernameFromToken(token);
+    	
+    	logger.error("+++++++++++++++");
+    	logger.error("reservationSeq : " + reservationSeq);
+    	
+    	if(userEmail != null)
+    	{
+    		if(clinicContactService.contactCancel(reservationSeq) > 0)
+    		{
+    			return 0;
+    		}
+    		else
+    		{
+    			return 1;
+    		}
+    	}
+    	
+    	
+    	return 1;
     }
     
 }

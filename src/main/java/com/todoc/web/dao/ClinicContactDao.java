@@ -61,8 +61,23 @@ public interface ClinicContactDao {
 	ClinicContact clinicfindByEmail(String userEmail);
 	
 	
-
+	/////////////////////////// 5/22 승준코드
+	//testTime
+	ClinicContact testTime(String userEmail);
 	
+	//마이페이지 진료내역 불러오기
+	ReservationContact mypageReservationList(String userEmail);
 	
-
+	//예약번호로 리스트
+	ReservationContact resrvationClickMapping(long reservationSeq);
+	
+	//예약상태 진료입장으로 변경
+	int reservationStatusUpdate(long reservationSeq);
+	
+	//예약상태 진료완료
+	int streamEnd(long reservationSeq);
+		
+	//예약취소
+	int contactCancel(long reservationSeq);
+	//////////////////////////////////////////////////////////////// 승준
 }

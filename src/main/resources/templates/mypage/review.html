@@ -199,16 +199,12 @@
           const ratingVal = $("input[name=rating]:checked").val();
           const diagnosisTitleLength = $("#diagnosis-title").val().length;
           const diagnosisCommentsLength = $("#diagnosis-comments").val().length;
-          const goodPointLength = $(
-            "input:checkbox[class=good-point-checkbox]:checked"
-          ).length;
 
           const canSubmit =
             ratingVal > 0 &&
             diagnosisTitleLength >= 2 &&
-            diagnosisCommentsLength >= 15 &&
-            goodPointLength > 0 &&
-            goodPointLength <= 3;
+            diagnosisCommentsLength >= 15;
+            
           if (canSubmit) {
             $("#submit-btn").attr("disabled", false);
           } else {
@@ -254,6 +250,7 @@
 	  	                if(response == 0) 
 	  	                {
 	  	                	alert("리뷰를 작성하였습니다.");
+	  	                	location.href="/review-detail-page";
 	    	            } 
 	  	                else if(response == 1)
 	  	                {
@@ -261,15 +258,15 @@
 	    	            } 
 	  	                else if(response == 2)
 	  	                {
-	    	                location.href = "/main-page"; // 얘는 소셜로그인이라서 회원정보 수정으로 이동
+	  	                	location.href = "/mypage-page";
 	    	            }
 	  	                else if(response == 3)
 	  	                {
-	    	                location.href = "/main-page";
+	    	                location.href = "/mypage-page";
 	    	            }
 	  	                else if(response == 4)
 	  	                {
-	    	                location.href = "/main-page"; // 의사, 약사
+	    	                location.href = "/mypage-page";
 	    	            }
 	    	       },
 	    	       error: function(xhr,err)
@@ -366,106 +363,11 @@
                 >
               </div>
             </div>
-            <div>
-              <label class="p-2"
-                >의사 선생님의 어떤 점이 좋으셨나요?
-                <span>(최대 3개)</span></label
-              >
-              <div class="p-2">
-                <div class="good-point d-flex" style="gap: 8px">
-                  <div class="d-flex align-items-center">
-                    <input
-                      type="checkbox"
-                      class="good-point-checkbox"
-                      id="check1"
-                    />
-                    <label for="check1"></label>
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <span>증상을 쉽게 설명해주셨어요.</span>
-                  </div>
-                </div>
-              </div>
-              <div class="p-2">
-                <div class="good-point d-flex" style="gap: 8px">
-                  <div class="d-flex align-items-center">
-                    <input
-                      type="checkbox"
-                      class="good-point-checkbox"
-                      id="check2"
-                    />
-                    <label for="check2"></label>
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <span>꼼꼼하게 진단해주셨어요.</span>
-                  </div>
-                </div>
-              </div>
-              <div class="p-2">
-                <div class="good-point d-flex" style="gap: 8px">
-                  <div class="d-flex align-items-center">
-                    <input
-                      type="checkbox"
-                      class="good-point-checkbox"
-                      id="check3"
-                    />
-                    <label for="check3"></label>
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <span>차후에 대해 걱정해주셨어요.</span>
-                  </div>
-                </div>
-              </div>
-              <div class="p-2">
-                <div class="good-point d-flex" style="gap: 8px">
-                  <div class="d-flex align-items-center">
-                    <input
-                      type="checkbox"
-                      class="good-point-checkbox"
-                      id="check4"
-                    />
-                    <label for="check4"></label>
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <span>친절하게 알려주셨어요.</span>
-                  </div>
-                </div>
-              </div>
-              <div class="p-2">
-                <div class="good-point d-flex" style="gap: 8px">
-                  <div class="d-flex align-items-center">
-                    <input
-                      type="checkbox"
-                      class="good-point-checkbox"
-                      id="check5"
-                    />
-                    <label for="check5"></label>
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <span>정확하게 처방해주셨어요.</span>
-                  </div>
-                </div>
-              </div>
-              <div class="p-2">
-                <div class="good-point d-flex" style="gap: 8px">
-                  <div class="d-flex align-items-center">
-                    <input
-                      type="checkbox"
-                      class="good-point-checkbox"
-                      id="check6"
-                    />
-                    <label for="check6"></label>
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <span>진료 후 문의도 잘 받아주셔요.</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
           </div>
         </div>
         <div class="spacing-height-16"></div>
-        <div class="silver-hr"></div>
+        
         <div class="form-group d-flex justify-content-center">
           <button id="submit-btn" class="btn btn-primary p-2" disabled>
             등록

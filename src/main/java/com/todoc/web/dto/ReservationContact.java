@@ -19,7 +19,10 @@ public class ReservationContact {
 	private String userName;
 	private String clinicDoctor;
 	private String clinicName;
+	private String status;
 	
+	//추가
+	private String doctorEmail;
 	
 	
 	

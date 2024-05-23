@@ -1,7 +1,12 @@
+
+
 //let video = document.querySelector('#remoteStream');
 let localStreamElement = document.querySelector('#localStream');
-const myKey = Math.random().toString(36).substring(2, 11);
-//const myKey = "test1";
+//const myKey = Math.random().toString(36).substring(2, 11);
+const myKey = document.querySelector("#otherKey").value;
+const userEmail = document.querySelector("#userEmail").value;
+const doctorEmail = document.querySelector("#doctorEmail").value;
+
 let pcListMap = new Map();
 let roomId;
 let userIdList = [];
@@ -59,11 +64,6 @@ const startCam = async () =>{
 
 
 const connectSocket = async () =>{
-    //원래 위치
-    //const socket = new SockJS('/signaling');	//endpoint
-    //stompClient = Stomp.over(socket);
-    //stompClient.debug = null;
-	
 	
     stompClient.connect({}, function () {
         console.log('Connected to WebRTC server');
@@ -269,13 +269,6 @@ document.querySelector('#enterRoomBtn').addEventListener('click', async () =>{
 
 // 스트림 버튼 클릭시 , 다른 웹 key들 웹소켓을 가져 온뒤에 offer -> answer -> iceCandidate 통신
 // peer 커넥션은 pcListMap 으로 저장
-/* 원래코드
-document.querySelector('#startSteamBtn').addEventListener('click', async () =>{
-	console.log("startsteamBtn click 실행");
-    await stompClient.send(`/app/call/key`, {}, {});
-	console.log("callKey 111111111111111");
-    setTimeout(() =>{
-*/
 
 
 async function startStream(){
@@ -291,7 +284,7 @@ async function startStream(){
 
         });
 
-    },1000);
+    },2000);
 }
 
 /*
@@ -319,9 +312,42 @@ document.querySelector('#endSteamBtn').addEventListener('click', () =>{
    		console.log('ice 상태 변경', pc.iceConnectionState); 
 	});
 	
-	alert("연결이 종료되었습니다.");
-	location.href = "/mypage-page";
+	if(userEmail == myKey)
+	{
+		alert("연결이 종료되었습니다.");
+		location.href = "/mypage-page";
+	}
 	
+	if(doctorEmail == myKey)
+	{
+    	var reservationSeq = {
+    			reservationSeq : document.querySelector("#reservationSeq").value
+    	}
+    	
+    	$.ajax({
+           type: "POST",
+           url: "/streamEnd",
+           contentType: 'application/json',
+           data: JSON.stringify(reservationSeq),
+           dataType: "json",
+               success: function(response) 
+               {
+  	                if(response == 0) 
+  	                {
+  	                	alert("연결이 종료되었습니다.");
+  	                	location.href = "/reservationList-page";
+    	            } 
+  	                else if(response == 1)
+  	                {
+  	                	alert("오류");
+    	            } 
+    	       },
+    	       error: function(xhr,err)
+    	       {
+                  alert("진료완료 실패");
+    	       }
+    	   });
+	}
 });
 
 

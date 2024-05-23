@@ -7,6 +7,7 @@
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 <style>
@@ -51,8 +52,13 @@
 <body>
 
 <div>
+	<input type="hidden" id="otherKey" th:value="${userEmail}" />
+	<input type="hidden" id="userEmail" th:value="${clinicEmail}" />
+	<input type="hidden" id="doctorEmail" th:value="${doctorEmail}" />
+	<input type="hidden" id="reservationSeq" th:value="${reservationSeq}" />
+	
 		<!-- 룸 아이디 번호를 입력하는 input -->
-    <input type="hidden" id="roomIdInput"  th:value="${contactUserEmail}"/>
+    <input type="hidden" id="roomIdInput"  value="test"/>
 		<!-- 룸 아이디를 입력후 클릭하는 button -->
     <button type="button" id="enterRoomBtn">enter Room</button>
 		<!-- enterRoomBtn 클릭시 나타남, Streams 정보를 담은 Peer 를 웹소켓 ( 시그널링 )   -->

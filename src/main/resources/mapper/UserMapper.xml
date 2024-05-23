@@ -74,7 +74,7 @@
 	<!-- 병원 프로필 사진 테이블 -->
 	<resultMap type="ClinicFile" id="clinicFile" >
 		<id column="FILE_SEQ" property="fileSeq" />
-		<id column="USER_EMAIL" property="userEmail" />
+		<id column="CLINIC_INSTINUM" property="clinicInstinum" />
 		<result column="FILE_ORG_NAME" property="fileOrgName" />
 		<result column="FILE_NAME" property="fileName" />
 		<result column="FILE_EXT" property="fileExt" />
@@ -216,8 +216,9 @@
 		    FILE_SEQ, CLINIC_INSTINUM, FILE_ORG_NAME,
 		    FILE_NAME, FILE_EXT, FILE_SIZE, FILE_REGDATE
 	    ) 
-		VALUES (SELECT NVL(MAX(FILE_SEQ), 0) + 1 
-					  FROM TD_CLINIC_FILE WHERE CLINIC_INSTINUM = #{clinicInstitution}, #{userEmail}, #{fileOrgName}, #{fileName},
+		VALUES ((SELECT NVL(MAX(FILE_SEQ), 0) + 1 
+					  FROM TD_CLINIC_FILE WHERE CLINIC_INSTINUM = #{clinicInstinum}),
+					   #{clinicInstinum}, #{fileOrgName}, #{fileName},
 		              #{fileExt}, #{fileSize}, SYSDATE)
 	</insert>
 	 
@@ -227,8 +228,8 @@
 		    FILE_SEQ, USER_EMAIL, FILE_ORG_NAME,
 		    FILE_NAME,  FILE_EXT,  FILE_SIZE,  FILE_REGDATE
 		)
-		VALUES (SELECT NVL(MAX(FILE_SEQ), 0) + 1 
-					  FROM TD_STAMP_FILE WHERE USER_EMAIL = #{userEmail}, #{userEmail}, #{fileOrgName}, #{fileName},
+		VALUES ((SELECT NVL(MAX(FILE_SEQ), 0) + 1 
+					  FROM TD_STAMP_FILE WHERE USER_EMAIL = #{userEmail}), #{userEmail}, #{fileOrgName}, #{fileName},
 		              #{fileExt}, #{fileSize}, SYSDATE)
 	</insert>
 	

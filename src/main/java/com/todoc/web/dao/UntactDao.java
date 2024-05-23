@@ -27,5 +27,6 @@ public interface UntactDao {
 	int prescriptionInsert(Presc presc);
 
 	int getprescriptionSeq();
-
+	
+	
 }

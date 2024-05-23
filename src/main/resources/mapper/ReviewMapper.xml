@@ -11,7 +11,8 @@
 		<result column="REVIEW_GRADE" property="reviewGrade" />
 		<result column="USER_NAME" property="userName" />
 		<result column="CLINIC_INSTINUM" property="clinicInstinum" />
-		<result column="CONTACT_SEQ" property="contactSeq" />
+		<result column="UNTACT_SEQ" property="contactSeq" />
+		<result column="REVIEW_DEL_FLAG" property="reviewDelFlag" />
 	</resultMap>
 	
 	<!-- 리뷰리스트 -->
@@ -43,7 +44,8 @@
 			       USER_NAME,
 			       CLINIC_NAME,
 			       CLINIC_DOCTOR,
-			       CONTACT_SEQ
+			       CONTACT_SEQ,
+			       REVIEW_DEL_FLAG
 			  FROM(SELECT ROWNUM RNUM,
 			               REVIEW_SEQ,
 			               USER_EMAIL,
@@ -54,7 +56,8 @@
 			               USER_NAME,
 			               CLINIC_NAME,
 			               CLINIC_DOCTOR,
-			               CONTACT_SEQ
+			               CONTACT_SEQ,
+			               REVIEW_DEL_FLAG
 			          FROM (SELECT A.REVIEW_SEQ,
 			                       NVL(B.USER_EMAIL, '') USER_EMAIL,
 			                       NVL(A.REVIEW_TITLE, '') REVIEW_TITLE,
@@ -64,20 +67,19 @@
 			                       NVL(B.USER_NAME, '') USER_NAME,
 			                       NVL(C.CLINIC_NAME, '') CLINIC_NAME,
 			                       NVL(C.CLINIC_DOCTOR, '') CLINIC_DOCTOR,
-			                       NVL(A.CONTACT_SEQ, '') CONTACT_SEQ
+			                       NVL(A.UNTACT_SEQ, '') CONTACT_SEQ,
+			                       NVL(A.REVIEW_DEL_FLAG, '') REVIEW_DEL_FLAG
 			                  FROM TD_REVIEW A, TD_USER B, TD_CLINIC C
 			                 WHERE A.USER_EMAIL = B.USER_EMAIL
 			                   AND A.CLINIC_INSTINUM = C.CLINIC_INSTINUM
-			                   
+			                   AND A.REVIEW_DEL_FLAG = 'N'
 			                   
 			             <if test='userEmail != null'>
 			                   AND B.USER_EMAIL = #{userEmail}
 			             </if>
-			             
-			             
 			                 ORDER BY A.REVIEW_SEQ DESC))
-			 WHERE RNUM <![CDATA[>=]]> #{startRow}
-			   AND RNUM <![CDATA[<=]]> #{endRow}
+			 WHERE RNUM <![CDATA[>=]]> 0
+			   AND RNUM <![CDATA[<=]]> 5
 	</select>
 	
 	
@@ -86,7 +88,7 @@
 		SELECT COUNT(USER_EMAIL)
 		  FROM TD_REVIEW
 		 WHERE USER_EMAIL = #{value}
-	
+		   AND REVIEW_DEL_FLAG = 'N'
 	</select>	
 	
 	<!-- 리뷰작성 -->
@@ -103,7 +105,9 @@
 		    REVIEW_REGDATE,
 		    REVIEW_GRADE,
 		    USER_NAME,
-		    CLINIC_INSTINUM
+		    CLINIC_INSTINUM,
+		    UNTACT_SEQ,
+		    REVIEW_DEL_FLAG
 		) VALUES (
 		    #{userEmail},
 		    #{reviewSeq},
@@ -112,10 +116,40 @@
 		    SYSDATE,
 		    #{reviewGrade},
 		    #{userName},
-		    #{clinicInstinum}
+		    #{clinicInstinum},
+		    #{contactSeq},
+		    'Y'
 		)
 	
 	</insert>
 	
+	
+	
+	<!-- 리뷰번호로 리스트조회 -->
+	<select id="reviewSeqList" parameterType="long" resultMap="reviewResultMap">
+		SELECT *
+		   FROM TD_REVIEW
+		 WHERE REVIEW_SEQ = #{value}
+	
+	</select>
+	
+	
+	<!-- 리뷰 수정-->
+	<update id="reviewUpdate" parameterType="com.todoc.web.dto.Review">
+		UPDATE TD_REVIEW
+		    SET REVIEW_TITLE = #{reviewTitle},
+		        REVIEW_CONTENT = #{reviewContent},
+		        REVIEW_GRADE = #{reviewGrade}
+		 WHERE REVIEW_SEQ = #{reviewSeq}
+			
+	</update>
+	
+	<!-- 리뷰 삭제-->
+	<update id="reviewDelete" parameterType="com.todoc.web.dto.Review">
+		UPDATE TD_REVIEW
+		    SET REVIEW_DEL_FLAG = 'Y'
+		 WHERE REVIEW_SEQ = #{reviewSeq}
+			
+	</update>
  
 </mapper>

@@ -230,4 +230,6 @@
 		SELECT NVL(MAX(PRESCRIPTION_SEQ), 0) +1 FROM TD_PRESCRIPTION
 	</select>
 	
+	<!--  -->
+	
 </mapper>

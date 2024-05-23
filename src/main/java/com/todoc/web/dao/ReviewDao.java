@@ -20,4 +20,13 @@ public interface ReviewDao {
 	
 	//후기 작성
 	int reviewInsert(Review review);
+	
+	//리뷰번호로 리뷰정보
+	Review reviewSeqList(long reviewSeq);
+	
+	//리뷰 수정
+	int reviewUpdate(Review review);
+	
+	//리뷰 수정
+	int reviewDelete(Review review);
 }

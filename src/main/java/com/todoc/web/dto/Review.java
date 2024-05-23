@@ -25,6 +25,8 @@ public class Review {
 	
 	private String clinicInstinum;
 	
+	private String reviewDelFlag;
+	
 	private int startRow;
 	private int endRow;
 	

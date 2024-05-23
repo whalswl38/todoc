@@ -6,7 +6,7 @@
   layout:decorate="~{layouts/layout}"
 >
   <head>
-    <title>마이페이지</title>
+    <title>예약리스트</title>
     <style>
     
     /* 높이값 고정 */
@@ -114,18 +114,6 @@
       }
 
       .register-link,
-      .oauth-login {
-        text-align: center;
-        margin-top: 20px;
-        cursor: pointer;
-      }
-
-      .oauth-login img {
-        width: 36px;
-        height: 36px;
-        margin-right: 10px;
-        vertical-align: middle;
-      }
 
       .find-register {
         display: flex;
@@ -173,32 +161,39 @@
           $(this).addClass("clicked-background");
         });
         
-        $("#medicalBtn").click(function (){
-        	window.location.href = "http://localhost:8099/room-page";
-        });
       });
       
       function toggleSwitch(option) 
       {
-         var leftOption = document.getElementById("normal-user");
-         var rightOption = document.getElementById("medical-user");
-         var oauth = document.getElementById('oauth');
+    	  var leftOption = document.getElementById("normal-user");
+    	    var rightOption = document.getElementById("medical-user");
 
-         leftOption.classList.remove("selected");
-         rightOption.classList.remove("selected");
+    	    leftOption.classList.remove("selected");
+    	    rightOption.classList.remove("selected");
 
-         if (option === "left") 
-         {
-             leftOption.classList.add("selected");
-             oauth.style.visibility = 'visible';
-             document.getElementById("userType").value = "USER";
-         } 
-         else 
-         {
-             rightOption.classList.add("selected");
-             oauth.style.visibility = 'hidden';
-             document.getElementById("userType").value = "MEDICAL";
-         }
+    	    if (option === "left") {
+    	        leftOption.classList.add("selected");
+    	    } else {
+    	        rightOption.classList.add("selected");
+    	    }
+
+    	    var rows = document.querySelectorAll("tr");
+    	    for (var i = 0; i < rows.length; i++) {
+    	        var row = rows[i];
+    	        if (option === "left") {
+    	            if (row.id === "untactBtn") {
+    	                row.style.display = 'revert';
+    	            } else if (row.id === "contactBtn") {
+    	                row.style.display = 'none';
+    	            }
+    	        } else {
+    	            if (row.id === "untactBtn") {
+    	                row.style.display = 'none';
+    	            } else if (row.id === "contactBtn") {
+    	                row.style.display = 'revert';
+    	            }
+    	        }
+    	    }
       }
 
     </script>
@@ -260,8 +255,8 @@
 									<th>진료실 입장하기</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr th:each="list : ${list}" th:if="${list.status == '예약확정'}">
+							<tbody > 
+								<tr id="untactBtn"  th:each="list : ${list}" th:if="${list.status == '예약확정'} and ${list.reservationFlag == 'U'}">
 									<td th:text="${list.reservationSeq}"></td>
 									<td th:text="${list.userName}"></td>
 									<td th:text="${list.reservationSymptom}"></td>
@@ -269,13 +264,25 @@
 									<td th:text="|${list.reservationDate}&nbsp;&nbsp;${list.reservationTime}|"></td>
 									<td>
 									<a style="color:royalblue; font-weight: bold; cursor:pointer;"
-									th:onclick="|location.href='@{room-page(userEmail=${list.userEmail})}'|"
+									th:onclick="|location.href='@{room-page(reservationSeq=${list.reservationSeq})}'|"
 									>입장하기</a></td>
+								</tr>
+								
+								<tr th:each="list : ${list}" th:if="${list.status == '예약확인'} and ${list.status == '진료대기'}">진료목록이 없습니다.</tr>
+								
+								<tr id="contactBtn" style="display:none;" th:each="list : ${list}" th:if="${list.status == '진료완료'}">
+									<td th:text="${list.reservationSeq}"></td>
+									<td th:text="${list.userName}"></td>
+									<td th:text="${list.reservationSymptom}"></td>
+									<td>진료대기중</td>
+									<td th:text="|${list.reservationDate}&nbsp;&nbsp;${list.reservationTime}|"></td>
+									<td>내원예정</td>
 								</tr>
 							</tbody>
 						</table>
 				</div>
-				          
+				
+				
 
         </div>
         <div class="spacing-height-16"></div>

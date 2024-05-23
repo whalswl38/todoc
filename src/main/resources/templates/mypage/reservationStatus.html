@@ -6,7 +6,7 @@
   layout:decorate="~{layouts/layout}"
 >
   <head>
-    <title>마이페이지</title>
+    <title>예약 승인/취소 리스트</title>
     <style>
     
     /* 높이값 고정 */
@@ -173,33 +173,45 @@
           $(this).addClass("clicked-background");
         });
         
-        $("#medicalBtn").click(function (){
-        	window.location.href = "http://localhost:8099/room-page";
-        });
       });
       
       function toggleSwitch(option) 
       {
-         var leftOption = document.getElementById("normal-user");
-         var rightOption = document.getElementById("medical-user");
-         var oauth = document.getElementById('oauth');
+    	    var leftOption = document.getElementById("normal-user");
+    	    var rightOption = document.getElementById("medical-user");
 
-         leftOption.classList.remove("selected");
-         rightOption.classList.remove("selected");
+    	    leftOption.classList.remove("selected");
+    	    rightOption.classList.remove("selected");
 
-         if (option === "left") 
-         {
-             leftOption.classList.add("selected");
-             oauth.style.visibility = 'visible';
-             document.getElementById("userType").value = "USER";
-         } 
-         else 
-         {
-             rightOption.classList.add("selected");
-             oauth.style.visibility = 'hidden';
-             document.getElementById("userType").value = "MEDICAL";
-         }
+    	    if (option === "left") 
+    	    {
+    	        leftOption.classList.add("selected");
+    	        const row = document.getElementById('untactBtn');
+    	        const row2 = document.getElementById('contactBtn');
+    	        
+    	        if (row !== null) {
+    	            row.style.display = 'revert';
+    	        }
+    	        if (row2 !== null) {
+    	            row2.style.display = 'none';
+    	        }
+    	    } 
+    	    else 
+    	    {
+    	        rightOption.classList.add("selected");
+    	             
+    	        const row = document.getElementById('untactBtn'); // 수정된 부분
+    	        const row2 = document.getElementById('contactBtn');
+    	             
+    	        if (row !== null) {
+    	            row.style.display = 'none';
+    	        }
+    	        if (row2 !== null) {
+    	            row2.style.display = 'revert'; 
+    	        }
+    	    }
       }
+
       
       function fn_approve(reservationSeq)
       {
@@ -344,7 +356,21 @@
 									<th>예약시간</th>
 									<th>진료실 입장하기</th>
 								</tr>
-								<tr th:each="list : ${list}" th:if="${list.status == '예약확인'}">
+								<tr id="untactBtn" th:each="list : ${list}" th:if="${list.status == '예약확인'} and ${list.reservationFlag == 'U'}">
+									<td th:text="${list.reservationSeq}"></td>	
+									<td th:text="${list.userName}"></td>
+									<td th:text="${list.reservationSymptom}"></td>
+									<td th:text="${list.status}"></td>
+									<td th:text="|${list.reservationDate}&nbsp;&nbsp;${list.reservationTime}|"></td>
+									<td>
+										<p style="padding:1; cursor:pointer;" th:onclick="fn_approve([[${list.reservationSeq}]])"><i class="fa-regular fa-square-check"></i>&nbsp;&nbsp;예약승인하기</p>
+                						<p style="padding:0; cursor:pointer;" th:onclick="fn_cancel([[${list.reservationSeq}]])"><i class="fa-regular fa-calendar-xmark"></i>&nbsp;&nbsp;예약취소하기</p>
+                					</td>
+                					
+								</tr>
+								
+								
+								<tr id="contactBtn" style="display:none;" th:each="list : ${list}" th:if="${list.status == '예약확인'} and ${list.reservationFlag == 'C'}">
 									<td th:text="${list.reservationSeq}"></td>	
 									<td th:text="${list.userName}"></td>
 									<td th:text="${list.reservationSymptom}"></td>

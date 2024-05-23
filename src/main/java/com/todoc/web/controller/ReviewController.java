@@ -89,11 +89,13 @@ public class ReviewController {
 		if(userEmail != null)
 		{
 			review.setUserEmail(userEmail);
-			review.setStartRow(0);
-			review.setEndRow(3);
 			
 			list = reviewService.reviewListPlus(review);
 			
+			for(int i=0; i < list.size(); i++)
+			{
+				logger.error("list : " + list.get(i));
+			}
 		}
 		else
 		{
@@ -109,12 +111,14 @@ public class ReviewController {
 	 @GetMapping("/review-page")
 	    public String reviewView(HttpServletRequest request, Model model, @RequestParam(value="contactSeq", defaultValue="0") long contactSeq) {
 		 	
+		 	logger.error("contactSeq : " + contactSeq);
+		 
 		 	model.addAttribute("contactSeq", contactSeq);
 		 	
 	        return "mypage/review";
 	    }
 	
-	 
+	 //리뷰 작성 ajax
 	 @PostMapping("/reviewWrite")
 	 @ResponseBody
 	 	public int reviewWrite(@RequestBody Review review, HttpServletRequest request, HttpServletResponse response) 
@@ -124,8 +128,10 @@ public class ReviewController {
 	    	
 	    	Review reviewInsert = new Review();
 	    	
-	    	ContactLog contactLog = contactLogService.contactViewList(3);
 	    	
+	    	ContactLog contactLog = contactLogService.contactViewList(review.getContactSeq());
+	    	
+	    	logger.error("contactLog : " + contactLog);
 	    	
 	    	if(userEmail != null)
 	    	{
@@ -140,10 +146,11 @@ public class ReviewController {
 	    			reviewInsert.setReviewGrade(review.getReviewGrade());
 	    			reviewInsert.setClinicInstinum(contactLog.getClinicInstinum());
 	    			reviewInsert.setContactSeq(review.getContactSeq());
-	    				
+	    			
+	    			
 		    		if(!review.getReviewTitle().isEmpty() && !review.getReviewContent().isEmpty() )
 		    		{
-	    				if(reviewService.reviewInsert(review) > 0)
+	    				if(reviewService.reviewInsert(reviewInsert) > 0)
 		    			{
 		    				return 0;
 		    			}
@@ -170,5 +177,100 @@ public class ReviewController {
 		 	
 	 	}
 	 	
-	 	
+	 //리뷰수정 페이지
+	 @GetMapping("/reviewUpdate-page")
+	    public String reviewUpdate(HttpServletRequest request, Model model, @RequestParam(value="reviewSeq", defaultValue="0") long reviewSeq) 
+	   {
+		    String token = jwtFilter.extractJwtFromCookie(request);
+	    	String userEmail = jwtFilter.getUsernameFromToken(token);
+	    	
+	    	
+	    	if(reviewSeq > 0)
+	    	{
+	    		Review review = reviewService.reviewSeqList(reviewSeq);
+	    		
+	    		logger.error("review : " + review);
+	    		
+	    		if(review != null)
+	    		{
+	    			model.addAttribute("review", review);
+	    		}
+	    	}
+		 	
+		 	model.addAttribute("reviewSeq", reviewSeq);
+		 	
+	        return "mypage/reviewUpdate";
+	    }
+	
+	 //리뷰 수정
+	 @PostMapping("/reviewUpdate")
+	 @ResponseBody
+	 	public int reviewUpdate(@RequestBody Review review, HttpServletRequest request, HttpServletResponse response) 
+	    {
+		 	String token = jwtFilter.extractJwtFromCookie(request);
+	    	String userEmail = jwtFilter.getUsernameFromToken(token);
+	    	
+	    	Review reviewUpdate = reviewService.reviewSeqList(review.getReviewSeq());
+	    	
+	    	
+	    	if(userEmail != null)
+	    	{
+    			reviewUpdate.setReviewTitle(review.getReviewTitle());
+    			reviewUpdate.setReviewContent(review.getReviewContent());
+    			reviewUpdate.setReviewGrade(review.getReviewGrade());
+    			
+	    		if(!review.getReviewTitle().isEmpty() && !review.getReviewContent().isEmpty() && review.getReviewGrade() >= 0)
+	    		{
+    				if(reviewService.reviewUpdate(review) > 0)
+	    			{
+	    				return 0;
+	    			}
+    				else
+    				{
+    					return 1;
+    				}
+	    		}
+	    		else
+	    		{
+	    			return 2;
+	    		}
+	    	}
+	    	else
+	    	{
+	    		return 3;
+	    	}
+		 	
+	 	}
+	 
+	 
+	 @PostMapping("/reviewDelete")
+	 @ResponseBody
+	 	public int reviewDelete(@RequestParam("reviewSeq") long reviewSeq, HttpServletRequest request) 
+	    {
+		 	String token = jwtFilter.extractJwtFromCookie(request);
+	    	String userEmail = jwtFilter.getUsernameFromToken(token);
+	    	
+	    	if(userEmail != null)
+	    	{
+	    		Review review = reviewService.reviewSeqList(reviewSeq);
+	    		
+	    		if(review != null)
+	    		{
+	    			if(reviewService.reviewDelete(review) > 0)
+	    			{
+	    				return 0;
+	    			}
+	    			else
+	    			{
+	    				return 1;
+	    			}
+	    		}
+	    		else
+	    		{
+	    			return 2;
+	    		}
+	    	}
+	    	
+	    	return 3;
+	 	}
 }

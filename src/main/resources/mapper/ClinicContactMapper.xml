@@ -347,12 +347,103 @@
 	
 	<!-- 이메일로 의사 정보 불러오기 -->
 	<select id="clinicfindByEmail" parameterType="String" resultMap="ClinicContactMap">
-		SELECT USER_EMAIL,
-		       CLINIC_DOCTOR,
-		       CLINIC_NAME,
-		       CLINIC_INSTINUM
+		SELECT *
 		  FROM TD_CLINIC
 		 WHERE USER_EMAIL = #{value}
 	</select>
 
+
+	<!-- test  5/22 승준코드 ////////////////////////////////////////////////////////////////////// -->
+	<!-- 의사 회원정보수정 할때 근무시간 파싱-->
+	
+	<select id="testTime" parameterType="String" resultMap="ClinicContactMap">
+			SELECT CLINIC_NAME,
+	       CLINIC_TIME
+	  FROM TD_CLINIC
+	 WHERE USER_EMAIL = #{value}
+	
+	</select>
+	
+	<!-- 마이페이지 회원 예약내역 불러오기 -->
+	<select id="mypageReservationList" parameterType="String" resultMap="ReservationContactMap">
+	
+		SELECT RESERVATION_SEQ,
+			   USER_EMAIL,
+			   CLINIC_INSTINUM,
+			   RESERVATION_DATE,
+			   RESERVATION_TIME,
+			   RESERVATION_SYMPTOM,
+			   RESERVATION_FLAG,
+			   REGDATE,
+			   RESERVATION_STATUS,
+			   CLINIC_NAME,
+			   CLINIC_DOCTOR
+	     FROM (SELECT ROWNUM RNUM,
+				 	   RESERVATION_SEQ,
+					   USER_EMAIL,
+					   CLINIC_INSTINUM,
+					   RESERVATION_DATE,
+					   RESERVATION_TIME,
+					   RESERVATION_SYMPTOM,
+					   RESERVATION_FLAG,
+					   REGDATE,
+					   RESERVATION_STATUS,
+					   CLINIC_NAME,
+					   CLINIC_DOCTOR
+			      FROM (SELECT A.RESERVATION_SEQ RESERVATION_SEQ,
+						        NVL(B.USER_EMAIL, '') USER_EMAIL,
+						        NVL(C.CLINIC_INSTINUM, '') CLINIC_INSTINUM,
+						        NVL(TO_CHAR(A.RESERVATION_DATE, 'YYYY.MM.DD'), '') RESERVATION_DATE,
+						        NVL(A.RESERVATION_TIME, '') RESERVATION_TIME,
+						        NVL(A.RESERVATION_SYMPTOM, '') RESERVATION_SYMPTOM,
+						        NVL(A.RESERVATION_FLAG, '') RESERVATION_FLAG,
+						        NVL(A.REGDATE, '') REGDATE,
+						        NVL(A.RESERVATION_STATUS, '') RESERVATION_STATUS,
+						        NVL(C.CLINIC_NAME, '') CLINIC_NAME,
+						        NVL(C.CLINIC_DOCTOR, '') CLINIC_DOCTOR
+						 FROM TD_RESERVATION A, TD_USER B, TD_CLINIC C
+						 WHERE A.CLINIC_INSTINUM = C.CLINIC_INSTINUM
+						   AND A.USER_EMAIL = B.USER_EMAIL
+						   AND A.USER_EMAIL = #{value}
+						   AND A.RESERVATION_STATUS != '진료취소'
+						 ORDER BY A.RESERVATION_DATE ASC, A.RESERVATION_TIME ASC))
+			WHERE RNUM = 1
+	
+	</select>
+	
+	<!-- 예약번호로 정보조회 -->
+	<select id="resrvationClickMapping" parameterType="long" resultMap="ReservationContactMap">
+				SELECT A.RESERVATION_SEQ,
+				       A.USER_EMAIL,
+				       A.CLINIC_INSTINUM,
+				       A.RESERVATION_STATUS,
+				       B.USER_EMAIL DOCTOR_EMAIL
+				  FROM TD_RESERVATION A, TD_CLINIC B
+				 WHERE A.CLINIC_INSTINUM = B.CLINIC_INSTINUM
+				   AND RESERVATION_SEQ = #{value}
+	</select>
+	
+	<!-- 의사가 입장시 진료입장으로 변경 -->
+	<update id="reservationStatusUpdate" parameterType="long">
+	UPDATE TD_RESERVATION
+	    SET RESERVATION_STATUS = '진료대기'
+	 WHERE RESERVATION_SEQ = #{value}
+	</update>
+	
+	<update id="streamEnd" parameterType="long" >
+	
+		UPDATE TD_RESERVATION
+		   SET RESERVATION_STATUS = '진료완료'
+		 WHERE RESERVATION_SEQ = #{value}
+		 
+	</update>
+	
+	
+	<update id="contactCancel" parameterType="long">
+		UPDATE TD_RESERVATION
+		   SET RESERVATION_STATUS = '진료취소'
+		 WHERE RESERVATION_SEQ = #{value}
+	</update>
+	<!-- ///////////////////////////////////////////////////////////////////////////////////////// 승준 -->
+	
 </mapper>

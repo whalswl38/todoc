@@ -18,8 +18,6 @@ import com.todoc.web.dao.ClinicContactDao;
 import com.todoc.web.dto.ClinicContact;
 import com.todoc.web.dto.ReservationContact;
 
-
-
 @Service
 public class ClinicContactService {
 	private static Logger logger = LoggerFactory.getLogger(ClinicContactService.class);
@@ -746,6 +744,104 @@ public class ClinicContactService {
 		 
 		 return clinic;
 	 }
+	 
+	 
+	 ////////////////////////////////////////////////////////////////// 5.20 승준코드
+	//testTime
+	public ClinicContact testTime(String userEmail)
+	{
+		return clinicContactDao.testTime(userEmail);
+	}
+	
+	//마이페이지 진료내역 리스트
+	public ReservationContact mypageReservationList(String userEmail)
+	{
+		ReservationContact clinicContact = null;
+		
+		try
+		{
+			clinicContact = clinicContactDao.mypageReservationList(userEmail);
+		}
+		catch(Exception e)
+		{
+			logger.error("[ClinicContactService] mypageReservationList Exception",e);
+		}
+		
+		return clinicContact;
+	}
+	
+	//예약번호로 예약리스트
+	public ReservationContact resrvationClickMapping(long reservationSeq)
+	{
+		ReservationContact reservation = null;
+		
+		try
+		{
+			reservation = clinicContactDao.resrvationClickMapping(reservationSeq);
+		}
+		catch(Exception e)
+		{
+			logger.error("[ClinicContactService] ReservationContact Exception",e);
+		}
+		
+		return reservation;
+	}
+	
+	//예약상태 진로입장으로 변경
+	public int reservationStatusUpdate(long reservationSeq)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = clinicContactDao.reservationStatusUpdate(reservationSeq);
+		}
+		catch(Exception e)
+		{
+			logger.error("[ClinicContactService] reservationStatusUpdate Exception",e);
+		}
+		
+		return count;
+	}
+	
+	//진료완료로 변경
+		public int streamEnd(long reservationSeq)
+		{
+			int count = 0;
+			
+			try
+			{
+				count = clinicContactDao.streamEnd(reservationSeq);
+			}
+			catch(Exception e)
+			{
+				logger.error("[ClinicContactService] streamEnd Exception",e);
+			}
+			
+			return count;
+		}
+		
+		
+	//진료취소
+	public int contactCancel(long reservationSeq)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = clinicContactDao.contactCancel(reservationSeq);
+		}
+		catch(Exception e)
+		{
+			logger.error("[ClinicContactService] streamEnd Exception",e);
+		}
+		
+		return count;
+	}
+		
+		
+		
+	/////////////////////////////////////////////////////////////////////승준
 }
 
 

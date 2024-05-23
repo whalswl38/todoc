@@ -200,6 +200,21 @@ public class UntactController {
 		return "untact/selectClinicDetail";
     }
     
+    //로그인 체크
+    @GetMapping("/loginCheck")
+    @ResponseBody
+    public String loginCheck(HttpServletRequest request) {
+    	String token = jwtFilter.extractJwtFromCookie(request);
+    	String userEmail = jwtFilter.getUsernameFromToken(token);
+    	
+    	if(userEmail == null) {
+    	    String testString = userEmail.toString(); // 이렇게 하면 널 포인트 에러가 발생할 것입니다.
+    	    return null;
+    	}
+    	
+    	return userEmail;
+    }
+    
     //비대면-병원예약
     @GetMapping("/clinic-reserve-application-page")
     public String clinicReserveApp(Model model, HttpServletRequest request) {
@@ -275,21 +290,27 @@ public class UntactController {
     	
     	Reserve rsve = new Reserve();
     	
-    	if(!StringUtil.isEmpty(userEmail) && !StringUtil.isEmpty(clinicInstinum) && !StringUtil.isEmpty(symptoms) &&!StringUtil.isEmpty(time)&&!StringUtil.isEmpty(date)) {
-    		rsve.setUserEmail(userEmail);
-    		rsve.setClinicInstinum(clinicInstinum);
-    		rsve.setReservationSymptom(symptoms);
-    		rsve.setReservationTime(time);
-    		
-    		if(date.equals("오늘")){
-    			rsve.setReservationDate(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
-    		} else {
-    			rsve.setReservationDate(LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
-    		}
-    	} else {
-    		//TODO : 예약내용 중 null 값 들어올때 처리할 것
-    	}
+    	if(userEmail == null) 
+    		return "login/login";
 
+    	
+    	if(!StringUtil.isEmpty(userEmail) && !StringUtil.isEmpty(clinicInstinum)) {
+	    	if(!StringUtil.isEmpty(symptoms) &&!StringUtil.isEmpty(time)&&!StringUtil.isEmpty(date)) {
+	    		rsve.setUserEmail(userEmail);
+	    		rsve.setClinicInstinum(clinicInstinum);
+	    		rsve.setReservationSymptom(symptoms);
+	    		rsve.setReservationTime(time);
+	    		
+	    		if(date.equals("오늘")){
+	    			rsve.setReservationDate(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+	    		} else {
+	    			rsve.setReservationDate(LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+	    		}
+	    	} else {
+	    		return Integer.toString(200);
+	    	}
+    	}
+    	
     	int res = 0;
     	if((res = untactService.insertReservation(rsve)) > 0 ) {
     		response.addIntHeader("code", 250);

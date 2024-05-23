@@ -291,7 +291,23 @@
         }
 
         function goToClinicReservation() {
-            window.location.href = "/clinic-reserve-application-page?clinicInstinum=" + $("#instinum").val();
+            $.ajax({
+                url: "/loginCheck",
+                type: "GET",
+                success: function(response) {
+                    if (response === null) {
+                    	alert('로그인 후 이용해주세요.');
+                        window.location.href = "/login-page";
+                    } else {
+                        window.location.href = "/clinic-reserve-application-page?clinicInstinum=" + $("#instinum").val();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error occurred while checking login status:", error);
+                    alert('로그인 후 이용해주세요.');
+                    window.location.href = "/login-page";
+                }
+            });
         }
 
         function carousel() {
@@ -380,7 +396,7 @@
                                 </div>
                             </div>
                             <div class="card-image-box" style="background: #bdbdbd">
-                                <img class="card-image" th:src="@{/image/__${clinic.fileOrgName}__}" />
+                                <img class="card-image" th:src="@{${clinic.fileOrgName} != null} ? @{/image/__${clinic.fileOrgName}__} : @{/image/nullprofile.jpg}" />
                             </div>
                         </div>
                     </div>
@@ -547,6 +563,7 @@
                 <div id="clinicReservation" style="width: 100%; background-color:royalblue; color: #fff4e6; border-radius: 12px; padding: 12px 0px; text-align: center; font-size: 18px;" onclick="goToClinicReservation()">
                     진료 신청
                 </div>
+                <br/>
             </div>
             <div class="spacing-height-16"></div>
             <div class="spacing-height-16"></div>

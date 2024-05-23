@@ -125,8 +125,12 @@
                 	if(response >= 1){
 	                    alert('예약이 성공적으로 완료되었습니다.');
 	                    window.location.href = "/clinic-reserve-user-page";
-                	} else {
-                		console.log('예약실패');
+                	} else if (200){
+                		alert('날짜, 시간, 증상을 입력해주세요.');
+                	} else if(250){
+                		alert('예약에 실패했습니다.');
+                	} else if(404){
+                		alert('예약 중 문제가 발생했습니다. 다시 시도해주세요.');
                 	}
                 },
                 error: function(error) {

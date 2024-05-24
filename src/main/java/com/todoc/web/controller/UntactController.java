@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.todoc.web.dto.Paging;
+import com.todoc.web.dto.PayLog;
 import com.todoc.web.dto.Presc;
 import com.todoc.web.dto.Reserve;
 import com.todoc.web.dto.Untact;
@@ -323,9 +324,18 @@ public class UntactController {
 
     //비대면-결제
     @GetMapping("/clinic-reserve-payment-page")
-    public String clinicReservePay(HttpServletRequest request, HttpServletResponse response) {
+    public String clinicReservePay(Model model, HttpServletRequest request, HttpServletResponse response) {		
     	String token = jwtFilter.extractJwtFromCookie(request);
     	String userEmail = jwtFilter.getUsernameFromToken(token);
+    	//TODO: 마이페이지 연결되면 값 바꾸기
+    	String untactSeq = request.getParameter("6"); 
+    	
+    	PayLog payLog = new PayLog();
+    	//TODO: 마이페이지 연결되면 값 바꾸기
+    	payLog.setUntactSeq("6");
+    	payLog.setUserEmail(userEmail);
+    	
+    	model.addAttribute("payLog", payLog);
     	
     	return "untact/clinicReservationPayment";
     }
@@ -335,7 +345,7 @@ public class UntactController {
     public String clinicReserveUser(Model model, HttpServletRequest request, HttpServletResponse response) {
     	String token = jwtFilter.extractJwtFromCookie(request);
     	String userEmail = jwtFilter.getUsernameFromToken(token);
-    	
+
     	Reserve rsve = new Reserve();
     	
     	if(!StringUtil.isEmpty(userEmail)) {

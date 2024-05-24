@@ -117,19 +117,6 @@
         font-weight: 500;
       }
 
-      .like {
-        position: absolute;
-        bottom: 8px;
-        right: 8px;
-        background: #bdbdbd;
-        width: 16px;
-        height: 16px;
-        color: #fff;
-        border-radius: 16px;
-        padding: 4px;
-        cursor: pointer;
-      }
-
       .fa-solid {
         color: red;
       }
@@ -188,6 +175,13 @@
 	   color:#fff;
 	   border:1px solid #42454c;
 	}
+	#t {
+		color:gray;
+		font-size:12px;
+	}
+	#t2 {
+		font-size:16px;
+	}
     </style>
     <script>
       const ingredientObjArr = [
@@ -218,57 +212,98 @@
         { name: "아르기닌", img: "image/medical-icon/bone.png" }
       ];
 
-      $(document).ready(function () {
-        $(".fa-heart").click(function () {
-          $(this).toggleClass("fa-solid");
-          $(this).toggleClass("fa-regular");
-        });
-
-        const defaultArr = functionObjArr;
-        addNutrientsCategory(defaultArr);
-
-        $(".tab").click(function () {
-          $(".tab-active").removeClass("tab-active");
-          $(this).addClass("tab-active");
-          let categoryArr = [];
-          if ($(this).attr("id") === "nutrientTab") {
-            categoryArr = ingredientObjArr;
-          } else {
-            categoryArr = functionObjArr;
-          }
-          addNutrientsCategory(categoryArr);
-        });
-      });
-
       function addNutrientsCategory(categoryArr) {
-        const nutrientsDiv = $("#nutrients-category-box");
-        nutrientsDiv.empty();
-        $.each(categoryArr, function (index, object) {
-          var $div = $("<div>").addClass("nutrient");
-          var $box = $("<div>").addClass("circle-box");
-          var $img = $("<img>")
-            .attr("src", object.img)
-            .addClass("nutrient-category");
-          var $text = $("<div>").addClass("nutrient-text").text(object.name);
-          $box.append($img);
-          $div.append($box);
-          $div.append($text);
-          $div.on("click", function () {
-            $(".category-active").removeClass("category-active");
-            $(this).addClass("category-active");
-          });
-          nutrientsDiv.append($div);
-        });
-      }
+    	    const nutrientsDiv = $("#nutrients-category-box");
+    	    nutrientsDiv.empty();
+    	    $.each(categoryArr, function (index, object) {
+    	      var $div = $("<div>").addClass("nutrient");
+    	      var $box = $("<div>").addClass("circle-box");
+    	      var $img = $("<img>")
+    	        .attr("src", object.img)
+    	        .addClass("nutrient-category");
+    	      var $text = $("<div>").addClass("nutrient-text").text(object.name);
+    	      $box.append($img);
+    	      $div.append($box);
+    	      $div.append($text);
+    	      $div.on("click", function () {
+    	        $(".category-active").removeClass("category-active");
+    	        $(this).addClass("category-active");
+    	        let searchValue = $(this).find(".nutrient-text").text().trim();
+    	        searchValue = encodeURIComponent(searchValue);
+    	        window.location.href = `/nutrients-list-page?searchValue=${searchValue}&curPage=1`;
+    	      });
+    	      nutrientsDiv.append($div);
+    	    });
+    	  }
 
-      function goToDetail() {
-        location.href = "/nutrients-detail-page";
-      }
-      $(document).ready(function(){
-    	 $("#writeBtn").on("click", function(){
-    		 location.href="/nutrients-write";
-    	 });   
-    	 });
+    	  function goToDetail(element) {
+    	    const suppleSeq = $(element).attr("data-suppleseq");
+    	    location.href = "/nutrients-detail-page?id=" + suppleSeq;
+    	  }
+
+    	  $(document).ready(function () {
+    	    $("#search-icon").click(function () {
+    	      search();
+    	    });
+
+    	    // 페이지 로딩 후 실행할 초기 로직
+    	    const defaultArr = functionObjArr;
+    	    addNutrientsCategory(defaultArr);
+
+    	    $(".tab").click(function () {
+    	      $(".tab-active").removeClass("tab-active");
+    	      $(this).addClass("tab-active");
+    	      let categoryArr = [];
+    	      if ($(this).attr("id") === "nutrientTab") {
+    	        categoryArr = ingredientObjArr;
+    	      } else {
+    	        categoryArr = functionObjArr;
+    	      }
+    	      addNutrientsCategory(categoryArr);
+    	    });
+    	  });
+
+    	  $(document).ready(function () {
+    	    // 영양제 카테고리 클릭 시
+    	    $(".nutrient").click(function () {
+    	      let searchValue = $(this).find(".nutrient-text").text().trim();
+    	      searchValue = encodeURIComponent(searchValue); // 검색어 인코딩
+    	      window.location.href = `/nutrients-list-page?searchValue=${searchValue}&curPage=1`;
+    	    });
+
+    	    // 탭 클릭 시
+    	    $(".tab").click(function () {
+    	      $(".tab-active").removeClass("tab-active");
+    	      $(this).addClass("tab-active");
+    	      let categoryArr = [];
+    	      if ($(this).attr("id") === "nutrientTab") {
+    	        categoryArr = ingredientObjArr;
+    	      } else {
+    	        categoryArr = functionObjArr;
+    	      }
+    	      addNutrientsCategory(categoryArr);
+    	    });
+
+    	    // 검색 아이콘 클릭 시
+    	    $("#search-icon").click(function () {
+    	      search();
+    	    });
+
+    	    // 초기 로딩 시 실행할 기본 카테고리 설정
+    	    const defaultArr = functionObjArr;
+    	    addNutrientsCategory(defaultArr);
+
+    	    function search() {
+    	      const searchValue = $('#search-input').val();
+    	      window.location.href = `/nutrients-list-page?searchValue=${searchValue}&curPage=1`;
+    	    }
+
+    	    // 글 작성 버튼 클릭 시
+    	    $("#writeBtn").on("click", function () {
+    	      location.href = "/nutrients-write";
+    	    });
+    	  });
+
    </script> 	
   </head>
   <div layout:fragment="content" class="nutrients-list-container">
@@ -292,7 +327,7 @@
                 style="border: none"
                 placeholder="궁금한 영양제, 증상, 성분을 검색해보세요!"
               />
-              <div id="search-icon" style="padding: 0px 8px">
+              <div id="search-icon" style="padding: 0px 8px"  onclick="search()">
                 <svg
                   width="16"
                   height="16"
@@ -338,99 +373,75 @@
 			              float: right;
 			              border:none;
 			            "
-			            id="writeBtn"
-			          >
+			            id="writeBtn">
 			            글작성
 			          </button>
-			          <button
-			            style="
-			              background-color: #0d6efd;
-			              padding: 5px 6px;
-			              border-radius: 8px;
-			              color: #fff;
-			              margin:3px;
-			              text-align: center;
-			              cursor: pointer;
-			              width:100px;
-			              float: right;
-			              border:none;
-			            "
-			            onclick="edit()"
-			            id="writeBtn"
-			          >
-			            편집
-			          </button><br>
-		</div>	          
-        <div id="nutrients-list-box" style="padding: 4px 0px;">	          
-          
-          <div class="nutrients-list-box" style="gap: 16px">
-            <div th:each="supple: ${list}">
-            <div th:if="${supple.suppleStatus == 'Y'}">
-            <div class="each-nutrient">
-              <div class="each-nutrient-image-box">
-               
-               <div th:each="suppleFile, i: ${supple.suppleFile}">
-               <th:block th:if="${not #stings.listIsEmpty(supple.suppleFile)}"> 
-                <img
-                  src="image/upload/suppleFolder/${suppleFile.index.fileName}"
-                  class="each-nutrient-image"
-                  onclick="goToDetail()"
-                />
-                </th:block>
-                
-               <th:block th:if="${#stings.listIsEmpty(supple.suppleFile)}"> 
-                <img
-                  src="image/kakao.png"
-                  class="each-nutrient-image"
-                  onclick="goToDetail()"
-                />
-                </th:block>
-                </div>
-                
-                <div> 
-                  <i class="fa-regular fa-heart like"></i>
-                </div>
-              </div>
-              <div class="each-nutrient-text" style="float:center; " onclick="goToDetail()">
-                [[${supple.suppleCompany}]] :: [[${supple.suppleName}]]
-              </div>
-            </div>
-          </div>
-          </div>
-          
-          <div class="row d-flex" style="gap: 16px">
-          </div>
-          
-          </div>
-          
-          <div class="spacing-height-16"></div>
-          <br><br>
-          
-          <!-- 페이징 -->
- 		  <div class="page_wrap">
-               <div class="page_nation">
-               <a class="arrow prev" href="#">
-               <span class="material-symbols-outlined">chevron_left</span></a>
-               <a href="#" class="active">1</a>
-               <a href="#">2</a>
-               <a href="#">3</a>
-               <a href="#">4</a>
-               <a href="#">5</a>
-               <a class="arrow next" href="#">
-               <span class="material-symbols-outlined">chevron_right</span></a>
-            </div>
-         </div>
-         
-         
-        </div>
+		</div><br><br>       
+		<div id="nutrients-list-box" style="padding: 4px 0px;">
+			<div class="nutrients-list-box" style="gap: 16px">
+			    <div th:each="supple: ${list}">
+			        <div th:if="${supple.suppleStatus == 'Y'}">
+			            <div class="each-nutrient">
+			                <div class="each-nutrient-image-box">
+
+							<img th:if="${not #lists.isEmpty(supple.suppleFile)}"
+							     th:src="@{upload/suppleFolder/{fileName}(fileName=${supple.suppleFile[0].fileName})}"
+							     class="each-nutrient-image"
+							     th:data-suppleseq="${supple.suppleSeq}"
+							     onclick="goToDetail(this)" />
+							
+							<img th:unless="${not #lists.isEmpty(supple.suppleFile)}"
+							     src="/image/kakao.png"
+							     class="each-nutrient-image"
+							     th:data-suppleseq="${supple.suppleSeq}"
+							     onclick="goToDetail(this)" />
+
+			                </div>
+			                <div class="each-nutrient-text" style="text-align: center;" onclick="goToDetail()">
+			                    <span id="t">[[${supple.suppleCompany}]]</span><br>
+			                    <span id="t2">[[${supple.suppleName}]]</span>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+			</div>
+
+			<br><br><br>
+			
+			<div th:if="${not #lists.isEmpty(list)}">
+		    <!-- 페이징 부분 -->
+			<div class="page_wrap">
+			    <div class="page_nation">
+			    
+		        <a th:if="${curPage > 1}" class="arrow prev" th:href="@{|/nutrients-list-page?curPage=${curPage - 1}&pageSize=${pageSize}&searchValue=${searchValue}|}">
+		            <span class="material-symbols-outlined">chevron_left</span>
+		        </a>
+		        
+		        <span th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
+		            <a th:href="@{|/nutrients-list-page?curPage=${pageNum}&pageSize=${pageSize}&searchValue=${searchValue}|}" 
+		               th:classappend="${curPage == pageNum} ? 'active'" 
+		               th:text="${pageNum}">[[${curPage}]]</a>
+		        </span>
+		        
+		        <a th:if="${curPage < totalPages}" class="arrow next" th:href="@{|/nutrients-list-page?curPage=${curPage + 1}&pageSize=${pageSize}&searchValue=${searchValue}|}">
+		            <span class="material-symbols-outlined">chevron_right</span>
+		        </a>
+		        
+			    </div>
+			</div>
+			</div>
+			
+			<div th:if="${#lists.isEmpty(list)}" style="color:gray; text-align:center;">
+			게시물이 존재하지 않습니다.
+			</div>
+	        <br>
         <div class="spacing-height-16"></div>
         <div class="spacing-height-16"></div>
       </div>
     </div>
   </div>
-  
+  </div>
   <form name="suppleForm" id="suppleForm" method="post">
-  	<input type="hidden" id="searchType" value="" />
   	<input type="hidden" id="searchValue" value="" />
   	<input type="hidden" id="suppleSeq" value="" />
   	<input type="hidden" id="curPage" value="" />

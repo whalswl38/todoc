@@ -89,6 +89,7 @@
       }
     </style>
     <script>
+    var payPage;
 		$(document).ready(function () {
 			$(".next-btn").on("click", function () {
 				if ($("#kakao").is(":checked")) {
@@ -97,8 +98,7 @@
 						url:"/kakaoPay",
 						type: "post",
 				        success:function(response){
-				        window.open(response,'kakaoPopUp','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=540,height=700,left=100,top=100');
-				        
+				        	payPage= window.open(response,'kakaoPopUp','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=540,height=700,left=100,top=100');
 				        },
 				        error:function(error){
 				        }
@@ -106,6 +106,15 @@
 				}
 			});
       });
+		
+		
+	function paySuccess(tid){
+		payPage.close();
+		
+		$("#tid").val(tid);
+		$("#kakaoPayResult").submit();
+	}
+	
     </script>
   </head>
   <div
@@ -168,22 +177,14 @@
 		        <input type="hidden" name="tId" id="tId" value=""/>
 		        <input type="hidden" name="pcUrl" id="pcUrl" value=""/>
 			</form>
+			
+			<form id="kakaoPayResult" action="/kakaoPayResult" method="get">
+				<input type="hidden" name="userEmail" id="userEmail" th:value="${payLog.userEmail}"/>
+				<input type="hidden" name="untactSeq" id="untactSeq" th:value="${payLog.untactSeq}"/>
+				<input type="hidden" name="tid" id="tid"/>
+ 			</form>
+			
           </div>
-<!--           <div class="spacing-height-16"></div>
-          <div class="spacing-height-16"></div> -->
-<!--           <div class="swiper-cotainer-box">
-            <div class="swiper-container">
-              <div class="swiper-wrapper">
-                <div class="swiper-slide">Slide 1</div>
-                <div class="swiper-slide">Slide 2</div>
-                <div class="swiper-slide">Slide 3</div>
-              </div>
-              <div class="swiper-button-prev"></div>
-              <div class="swiper-button-next"></div>
-              <div class="swiper-pagination"></div>
-            </div>
-          </div> -->
-
           <script>
             var swiper = new Swiper(".swiper-container", {
               pagination: {

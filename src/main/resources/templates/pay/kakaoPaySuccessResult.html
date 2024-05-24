@@ -125,7 +125,8 @@
             </ul>
         </div>
         <div style="padding: 8px; width: 450px">
-            <div class="reservation-details">
+            <div class="reservation-details" th:if="${count >= 1}">
+            <div th:if="${payLog}">
                 <h4>결제가 완료되었습니다.</h4>
                 <p style="color: rgb(141, 146, 151)">
                     곧 처방전 교부가 시작됩니다. 잠시만 기다려주세요.
@@ -176,7 +177,7 @@
                     <div class="d-flex justify-content-between align-items-center p-1">
                         <div style="font-size: 18px; font-weight: 500">결제날짜</div>
                         <div style="color: rgb(141, 146, 151); cursor: pointer">
-                            <p>2024-05-23</p>
+                            <p th:text="${payDate}"></p>
                         </div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center p-1">
@@ -188,13 +189,13 @@
                     <div class="d-flex justify-content-between align-items-center p-1">
                         <div style="font-size: 18px; font-weight: 500">결제수단</div>
                         <div style="color: rgb(141, 146, 151); cursor: pointer">
-                            <p>카카오페이</p>
+                            <p>[[${payLog.payMethod}]]</p>
                         </div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center p-1">
                         <div style="font-size: 18px; font-weight: 500">결제금액</div>
                         <div style="color: rgb(141, 146, 151); cursor: pointer">
-                            <p>5,500원</p>
+                            <p>[[${payLog.payPrice}]]원</p>
                         </div>
                     </div>
                     <div class="d-flex justify-content-between p-1">
@@ -214,6 +215,7 @@
                 </a>
             </div>
             <br/>
+            </div>
         </div>
     </div>
 </div>

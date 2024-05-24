@@ -2,8 +2,13 @@ package com.todoc.web.service;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import com.todoc.web.dao.KakaoPayDao;
 import com.todoc.web.dto.KakaoPayApprovalVO;
 import com.todoc.web.dto.KakaoPayReadyVO;
+import com.todoc.web.dto.PayLog;
+import com.todoc.web.dto.Reserve;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -24,6 +29,9 @@ public class KakaoPayService {
     private KakaoPayReadyVO kakaoPayReadyVO;
     private KakaoPayApprovalVO kakaoPayApprovalVO;
     
+    @Autowired
+    private KakaoPayDao kakaoPayDao;
+    
     
     public String kakaoPayReady() {
  
@@ -40,7 +48,7 @@ public class KakaoPayService {
         params.add("cid", "TC0ONETIME");
         params.add("partner_order_id", "1001");
         params.add("partner_user_id", "todoc");
-        params.add("item_name", "갤럭시S9");
+        params.add("item_name", "진료비");
         params.add("quantity", "1");
         params.add("total_amount", "5500");
         params.add("tax_free_amount", "100");
@@ -106,5 +114,10 @@ public class KakaoPayService {
         
         return null;
     }
+    
+	public int insertPayLog(PayLog payLog) {
+		return kakaoPayDao.insertPayLog(payLog);
+	}
+    
 }
    
